@@ -2,7 +2,7 @@
 FROM golang:1.20-alpine
 
 # Set the working directory inside the container
-WORKDIR /ecommerce-go-server
+WORKDIR /server
 
 # Copy the Go module files to the working directory
 COPY . ./

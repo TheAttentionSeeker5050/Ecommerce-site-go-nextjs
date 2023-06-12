@@ -44,5 +44,5 @@ func main() {
 	})
 
 	// Run the server
-	router.Run(":8081")
+	router.Run(":8080")
 }
