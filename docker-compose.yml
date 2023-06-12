@@ -1,6 +1,6 @@
 version: '1.0'
 services:
-  web:
+  server:
     build:
       context: ./ecommerce-go-server
       dockerfile: Dockerfile
@@ -22,16 +22,16 @@ services:
       - MYSQL_PASSWORD=mysecurepassword
     
     ports:
-      - 3306:3306
+      - 3307:3306
     volumes:
       - ./dbdata:/var/lib/mysql
-  # ecommerce-next-js-client:
-  #   build:
-  #     context: ./client
-  #     dockerfile: Dockerfile
-  #   ports:
-  #     - 3000:3000
-  #   depends_on:
-  #     - server
+  client:
+    build:
+      context: ./ecommerce-next-js-client
+      dockerfile: Dockerfile
+    ports:
+      - 3001:3000
+    depends_on:
+      - server
 volumes:
   dbdata:
