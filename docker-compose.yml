@@ -8,8 +8,10 @@ services:
       - 8081:8081
     depends_on: 
       - db
-    # env_file:
-    #   - .env
+    env_file:
+      - ecommerce-go-server/.env
+      - ecommerce-go-server/development.env
+      - ecommerce-go-server/production.env
   db:
     image: mysql:8.0
     restart: always
@@ -23,7 +25,13 @@ services:
       - 3306:3306
     volumes:
       - ./dbdata:/var/lib/mysql
-    # external_links:
-    #   - pg-golang1
+  # ecommerce-next-js-client:
+  #   build:
+  #     context: ./client
+  #     dockerfile: Dockerfile
+  #   ports:
+  #     - 3000:3000
+  #   depends_on:
+  #     - server
 volumes:
   dbdata:
