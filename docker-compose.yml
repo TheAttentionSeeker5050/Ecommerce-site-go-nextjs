@@ -1,0 +1,29 @@
+version: '1.0'
+services:
+  web:
+    build:
+      context: ./ecommerce-go-server
+      dockerfile: Dockerfile
+    ports:
+      - 8081:8081
+    depends_on: 
+      - db
+    # env_file:
+    #   - .env
+  db:
+    image: mysql:8.0
+    restart: always
+    environment:
+      - MYSQL_ROOT_PASSWORD=mysecurepassword
+      - MYSQL_DATABASE=ecommerce_db
+      - MYSQL_USER=nicolas
+      - MYSQL_PASSWORD=mysecurepassword
+    
+    ports:
+      - 3306:3306
+    volumes:
+      - ./dbdata:/var/lib/mysql
+    # external_links:
+    #   - pg-golang1
+volumes:
+  dbdata:
