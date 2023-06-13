@@ -26,15 +26,15 @@ The e-commerce project consists of a client-side application built with Next.js 
     * (client configuration files)
     
 * server
-    * common
-        * auth
-        * utils
-        * validators
+    * auth
     * config
-    * controllers
+    * repositories
     * models
     * routers
+    * scripts
     * tests
+    * utils
+    * validators
     * (other server configuration files)
 * (docker image setup and other files)
 
@@ -45,13 +45,29 @@ The client folder contains the client-side application developed with Next.js. T
 ### Server
 
 The server folder contains the server-side application developed with Golang Gin. It follows a modular structure to separate concerns and promote code organization. Here's a brief explanation of the subdirectories:
+    * auth
+    * config
+    * controllers
+    * models
+    * repositories
+    * routers
+    * scripts
+    * tests
+    * utils
+    * validators
+    * (other server configuration files)
 
-- common: Contains common utilities, authentication-related files, and validation logic.
+- auth: This directory holds the authentication-related functionalities, such as authentication and authorization logic.
 - config: Includes configuration files for the server application.
 - controllers: Contains the handler functions for different API routes and controllers.
 - models: Includes data models or structures representing the entities used in the application.
+- repositories: This directory contains the database repository implementations for performing CRUD operations on the corresponding models/entities.
 - routers: Contains the routing logic to map incoming requests to the appropriate handlers.
+- scripts: This directory can contain any custom scripts or helper tools specific to your application.
 - tests: Includes test files for unit testing and integration testing the server application.
+- utils: This directory holds utility functions or modules that are used throughout the application, such as JWT authentication and validation helpers.
+
+**Note:** other folders can be db migrations, public (or static), etc, but we will see.
 
 ### Docker Image Setup
 
