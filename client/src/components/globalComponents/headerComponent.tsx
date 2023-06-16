@@ -5,6 +5,7 @@ import { faPaw } from '@fortawesome/free-solid-svg-icons';
 import {faMagnifyingGlass} from '@fortawesome/free-solid-svg-icons';
 import {faShoppingCart} from '@fortawesome/free-solid-svg-icons';
 import React from 'react';
+import ShoppingCartWidgetComponent from './shoppingCartWidgetComponent';
 
 // import fontawesome js and css
 // import '@fortawesome/fontawesome-free/js/all.js';
@@ -15,10 +16,10 @@ export default function HeaderComponent() {
         <header className='w-screen'>
             <div id='search-logo-section' className='columns-3 px-2 py-3 flex-nowrap gap-3 flex justify-evenly'>
                 {/* here goes the search bar, the logo and a few contact methods, and shopping cart (and prob. currency selector) */}
-                <form id='search-bar-form' className='border-2 px-3 py-2 rounded-full'>
+                <form id='search-bar-form' className='border-2 px-3 py-2 rounded-full border-gray'>
                     <input id='search-bar-input' className='w-40'  type='text' placeholder='Search for products' />
                     <button id='search-bar-button' type='submit'>
-                        <FontAwesomeIcon icon={faMagnifyingGlass}  style={{color: "#000000",width:20,}} />
+                        <FontAwesomeIcon icon={faMagnifyingGlass} color='gray' style={{width:20,}} />
                     </button>
                 </form>
 
@@ -41,10 +42,9 @@ export default function HeaderComponent() {
                         <li >Training Utils</li>
                     </ul>
                 </div>
-                <div id="header-shopping-cart" className='my-auto'>
-                    {/* shopping cart here, you could also add a number stating the number of items in cart */}
-                    <FontAwesomeIcon icon={faShoppingCart}  style={{color: "#000000", width:32,}} />
-                </div>
+
+                <ShoppingCartWidgetComponent />
+                
             </div>
         </header>
     )
