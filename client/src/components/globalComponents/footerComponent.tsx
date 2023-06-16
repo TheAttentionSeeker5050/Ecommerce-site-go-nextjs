@@ -5,7 +5,7 @@ import React from 'react';
 export default function FooterComponent() {
 
     return (
-        <footer className=''>
+        <footer className='w-screen'>
             <div className='container-lg flex flex-wrap px-2 py-6 gap-3 justify-evenly text-base'>
                 <div>
                     <p className='font-semibold text-lg'>Our Store</p>
@@ -41,7 +41,8 @@ export default function FooterComponent() {
             </div>
             <div className='text-center'>
                 <p>This website was made by Nicolas Castellano</p>
-                <p className='text-lg font-bold text-red-500'>This is not a real shop. It is just for showing my web developer skills only. Shop somewhere else.</p>
+                <p className='text-lg font-bold text-red-500'>This is not a real shop. It is just for showing my web developer skills only. Shop somewhere else.</p> 
+                {/* will change the style of the disclaimer later */}
             </div>
         </footer>
     )
