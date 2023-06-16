@@ -3,8 +3,8 @@
 import React from 'react';
 
 // import fontawesome js and css
-import '@fortawesome/fontawesome-free/js/all.js';
-import '@fortawesome/fontawesome-free/css/all.css';
+// import '@fortawesome/fontawesome-free/js/all.js';
+// import '@fortawesome/fontawesome-free/css/all.css';
 
 export default function HeaderComponent() {
     return (
@@ -17,7 +17,7 @@ export default function HeaderComponent() {
                 <form id='search-bar-form' className='border-2 px-3 py-2 rounded-full'>
                     <input id='search-bar-input' type='text' placeholder='Search for products' />
                     <button id='search-bar-button' type='submit'>
-                        <i className="fa-solid fa-magnifying-glass"></i>
+                        {/* <i className="fa-solid fa-magnifying-glass"></i> */}
                     </button>
                 </form>
 
