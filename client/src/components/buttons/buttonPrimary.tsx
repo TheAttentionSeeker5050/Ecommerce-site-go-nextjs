@@ -15,7 +15,7 @@ export function ButtonRedirectPrimary({
         className={`bg-primary text-white py-2 px-4 m-2 rounded-full ${
             disabled ? 'opacity-50 cursor-not-allowed' : ''
         }
-        hover:bg-primary-hover
+        hover:bg-primary-hoverdark
         `}
         href={href}
         >
