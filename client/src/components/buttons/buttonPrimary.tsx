@@ -14,7 +14,9 @@ export function ButtonRedirectPrimary({
         <a
         className={`bg-primary text-white py-2 px-4 m-2 rounded-full ${
             disabled ? 'opacity-50 cursor-not-allowed' : ''
-        }`}
+        }
+        hover:bg-primary-hover
+        `}
         href={href}
         >
             {text}
@@ -37,7 +39,9 @@ export function ButtonWithActionPrimary(props: ButtonPrimaryProps) {
         <button
         className={`bg-primary text-white py-2 px-4 m-2 rounded-full ${
             props.disabled ? 'opacity-50 cursor-not-allowed' : ''
-        }`}
+        }
+        hover:bg-primary-hover
+        `}
         onClick={props.onClick}
         >
             {props.text}

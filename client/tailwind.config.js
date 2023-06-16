@@ -20,12 +20,14 @@ module.exports = {
           light: '#3a86ff',
           DEFAULT: '#3a86ff',
           dark: '#415a77',
+          hover: '#5d92e7',
 
         },
         secondary: {
           light: '#8338ec',
           DEFAULT: '#8338ec',
           dark: '#1d3557',
+          hover: '#9b60ed',
         },
         neutral: {
           light: '#6c757d',

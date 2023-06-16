@@ -2,18 +2,21 @@
 
 import React from 'react';
 
-interface ButtonPrimaryWithRedirectProps {
+interface ButtonSecondaryWithRedirectProps {
     text: string;
     href: string;
     disabled?: boolean;
 }
 
-export function ButtonRedirectSecondary(props: ButtonPrimaryWithRedirectProps) {
+
+export function ButtonRedirectSecondary(props: ButtonSecondaryWithRedirectProps) {
     return (
         <a
             className={`bg-secondary text-white py-2 px-4 m-2 rounded-full ${
                 props.disabled ? 'opacity-50 cursor-not-allowed' : ''
-            }`}
+            }
+            hover:bg-secondary-hover
+            `}
             href={props.href}
         >
             {props.text}
@@ -24,7 +27,7 @@ export function ButtonRedirectSecondary(props: ButtonPrimaryWithRedirectProps) {
 
 // this button will execute a function when clicked withouth passing handlers as props
 // needs to be on pages with use client
-interface ButtonPrimaryWithActionProps {
+interface ButtonSecondaryWithActionProps {
     text: string
     onClick: () => void
     disabled?: boolean
@@ -33,12 +36,14 @@ interface ButtonPrimaryWithActionProps {
 }
 
 
-export function ButtonWithActionPrimary(props: ButtonPrimaryWithActionProps) {
+export function ButtonWithActionSecondary(props: ButtonSecondaryWithActionProps) {
     return (
         <button
-        className={`bg-primary text-white py-2 px-4 m-2 rounded-full ${
+        className={`bg-secondary text-white py-2 px-4 m-2 rounded-full ${
             props.disabled ? 'opacity-50 cursor-not-allowed' : ''
-        }`}
+        }
+        hover:bg-secondary-hover
+        `}
         onClick={props.onClick}
         >
             {props.text}
