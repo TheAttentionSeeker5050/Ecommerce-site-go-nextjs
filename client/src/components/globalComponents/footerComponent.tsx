@@ -1,8 +1,21 @@
 // create footer component using tsx next react
+'use client'
 
 import React from 'react';
+import { ToggleSwitch } from '../buttons/toggleSwitch';
+import { themeReducer, initialThemeState } from '@/data/reducers/themeReducer';
+import { useReducer } from 'react';
+import { init } from 'next/dist/compiled/@vercel/og/satori';
 
 export default function FooterComponent() {
+
+    // reducer for toggling between light and dark theme
+    // -----------------------------------------------------------------------
+    const [themeState, dispatch] = useReducer(themeReducer, initialThemeState);
+
+    const handleToggleTheme = () => {
+        dispatch({ type: 'toggleTheme' });
+    }
 
     return (
         <footer className='w-screen'>
@@ -38,11 +51,15 @@ export default function FooterComponent() {
                     <p>Privacy Policy</p>
                     <p>Terms of Service</p>
                 </div>
+                    <div>
+                        Enable night mode <ToggleSwitch handleContext={handleToggleTheme}/>
+                    </div>
             </div>
             <div className='text-center'>
-                <p>This website was made by Nicolas Castellano</p>
+                <p>This website was made by Nicolas Castellano.  
+                    
+                </p>
                 <p className='text-lg font-bold text-danger text-center'>This is not a real shop. It is just for showing my web developer skills only. Please purchase your pet products somewhere else.</p> 
-                {/* will change the style of the disclaimer later */}
             </div>
         </footer>
     )

@@ -15,8 +15,9 @@ export default function RootLayout({
 }: {
   children: React.ReactNode
 }) {
+  
   return (
-    <html lang="en">
+    <html lang="en" >
       <body className={inter.className}>
         <p className='text-lg font-bold text-danger text-center'>This is not a real shop. It is just for showing my web developer skills only. Please purchase your pet products somewhere else.</p> 
         <HeaderComponent />
