@@ -3,19 +3,16 @@
 
 import React from 'react';
 import { ToggleSwitch } from '../buttons/toggleSwitch';
-import { themeReducer, initialThemeState } from '@/data/reducers/themeReducer';
+// import { themeReducer, initialThemeState } from '@/data/reducers/themeReducer';
 import { useReducer } from 'react';
 import { init } from 'next/dist/compiled/@vercel/og/satori';
+import { ToggleThemeSwitch } from './toggleThemeSwitch';
 
 export default function FooterComponent() {
 
     // reducer for toggling between light and dark theme
     // -----------------------------------------------------------------------
-    const [themeState, dispatch] = useReducer(themeReducer, initialThemeState);
-
-    const handleToggleTheme = () => {
-        dispatch({ type: 'toggleTheme' });
-    }
+    
 
     return (
         <footer className='w-screen'>
@@ -52,7 +49,7 @@ export default function FooterComponent() {
                     <p>Terms of Service</p>
                 </div>
                     <div>
-                        Enable night mode <ToggleSwitch handleContext={handleToggleTheme}/>
+                        Enable night mode <ToggleThemeSwitch />
                     </div>
             </div>
             <div className='text-center'>
