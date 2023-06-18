@@ -8,14 +8,14 @@ import { useReducer } from 'react';
 import { init } from 'next/dist/compiled/@vercel/og/satori';
 import { ToggleThemeSwitch } from './toggleThemeSwitch';
 
-export default function FooterComponent() {
+export default function FooterComponent(toggleDarkMode: any, isDarkMode: any) {
 
     // reducer for toggling between light and dark theme
     // -----------------------------------------------------------------------
     
 
     return (
-        <footer className='w-screen'>
+        <footer className={isDarkMode ? 'dark w-screen' : 'w-screen'}>
             <div className='container-lg flex flex-wrap px-2 py-6 gap-3 justify-evenly text-base'>
                 <div>
                     <p className='font-semibold text-lg'>Our Store</p>
@@ -49,7 +49,7 @@ export default function FooterComponent() {
                     <p>Terms of Service</p>
                 </div>
                     <div>
-                        Enable night mode <ToggleThemeSwitch />
+                        Dark mode: <ToggleThemeSwitch />
                     </div>
             </div>
             <div className='text-center'>

@@ -2,7 +2,7 @@
 import { ButtonRedirectPrimary, ButtonWithActionPrimary} from "@/components/buttons/buttonPrimary";
 import { ButtonRedirectSecondary, ButtonWithActionSecondary } from "@/components/buttons/buttonSecondary";
 import { ToggleSwitch } from "@/components/buttons/toggleSwitch";
-
+import {useTheme} from 'next-themes'
 
 export default function Page() {
     return <div>

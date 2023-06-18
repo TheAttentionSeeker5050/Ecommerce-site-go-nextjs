@@ -11,9 +11,9 @@ import ShoppingCartWidgetComponent from './shoppingCartWidgetComponent';
 // import '@fortawesome/fontawesome-free/js/all.js';
 // import '@fortawesome/fontawesome-free/css/all.css';
 
-export default function HeaderComponent() {
+export default function HeaderComponent(toggleDarkMode: any, isDarkMode: any) {
     return (
-        <header className='w-screen'>
+        <header className={isDarkMode ? 'dark w-screen' : 'w-screen'} >
             <div id='search-logo-section' className='columns-3 px-2 py-3 flex-nowrap gap-3 flex justify-evenly'>
                 {/* here goes the search bar, the logo and a few contact methods, and shopping cart (and prob. currency selector) */}
                 <form id='search-bar-form' className='border-2 px-3 py-2 rounded-full border-gray'>

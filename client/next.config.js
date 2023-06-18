@@ -1,13 +1,24 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-    // server: {
-    //   port: 3001,
-    // },
-    // other configuration options...
-    // fontawesome
-    // 'fontawesome-svg-core': {
-    //   'license': 'free'
-    // },
-  };
+  reactStrictMode: true,
+  
+};
   
 module.exports = nextConfig;
+
+// const withPlugins = require('next-compose-plugins');
+// const withTM = require('next-transpile-modules')(['@tailwindcss/typography']);
+
+// module.exports = withPlugins([withTM], {
+//   reactStrictMode: true,
+//   future: {
+//     webpack5: true,
+//   },
+//   webpack: (config, { isServer }) => {
+//     if (isServer) {
+//       require('./scripts/generate-sitemap');
+//     }
+
+//     return config;
+//   },
+// });

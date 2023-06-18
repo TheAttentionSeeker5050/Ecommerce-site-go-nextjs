@@ -1,3 +1,4 @@
+import React, { useState } from 'react';
 
 
 
@@ -14,16 +15,17 @@ export function shouldUseDarkTheme() {
 
 }
 
-export function toggleDarkTheme() {
+export function toggleDarkTheme(darkModeChecked: boolean) {
     // this function is used to toggle between dark and light theme
 
-    if (window.localStorage.theme === "dark") {
+    if (darkModeChecked === true) {
         window.localStorage.theme = "light";
         // document.documentElement.classList.remove("dark");
-    } else if (window.localStorage.theme === "light") {
+    } else if (darkModeChecked === false) {
         window.localStorage.theme = "dark";
         // document.documentElement.classList.add("dark");
     } 
+    
     useDarkTheme();
 
 }
