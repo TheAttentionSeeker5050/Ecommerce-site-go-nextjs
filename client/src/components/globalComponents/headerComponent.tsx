@@ -43,8 +43,9 @@ export default function HeaderComponent(toggleDarkMode: any, isDarkMode: any) {
                     </ul>
                 </div>
 
-                <ShoppingCartWidgetComponent />
+                {/* <ShoppingCartWidgetComponent cartSize={3}/> */}
                 
+                <ShoppingCartWidgetComponent cartSize={3}/>
             </div>
         </header>
     )

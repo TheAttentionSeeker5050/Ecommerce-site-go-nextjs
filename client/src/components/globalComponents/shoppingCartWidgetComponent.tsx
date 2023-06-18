@@ -4,17 +4,15 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faShoppingCart } from '@fortawesome/free-solid-svg-icons';
 import React from 'react';
 
-export default function ShoppingCartWidgetComponent() {
-
-    
+export default function ShoppingCartWidgetComponent({cartSize}: any) {
 
     return (
-        <div id="header-shopping-cart" className='my-auto flex flex-row'>
+        <button id="header-shopping-cart" className='my-auto flex flex-row'>
             {/* shopping cart here, you could also add a number stating the number of items in cart */}
             {/* the cart contents globe should be conditional if the cart is full */}
-            <div className='text-xs rounded-full bg-danger flex p-1.5 text-white text-center'>123</div>
 
+            {cartSize > 0 ? <div className='text-xs rounded-full bg-danger flex p-1.5 text-white text-center'>{cartSize}</div> : <div>  </div>}
             <FontAwesomeIcon icon={faShoppingCart} />
-        </div>
+        </button>
     )
 }
