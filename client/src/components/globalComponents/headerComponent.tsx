@@ -13,8 +13,8 @@ import ShoppingCartWidgetComponent from './shoppingCartWidgetComponent';
 
 export default function HeaderComponent(toggleDarkMode: any, isDarkMode: any) {
     return (
-        <header className={isDarkMode ? 'dark w-screen' : 'w-screen'} >
-            <div id='search-logo-section' className='columns-3 px-2 py-3 flex-nowrap gap-3 flex justify-evenly'>
+        <header className={isDarkMode ? 'dark w-full' : 'w-full'} >
+            <div id='search-logo-section' className=' py-3 flex-nowrap gap-3 flex justify-around'>
                 {/* here goes the search bar, the logo and a few contact methods, and shopping cart (and prob. currency selector) */}
                 <form id='search-bar-form' className='border-2 px-3 py-2 rounded-full border-gray hover:bg-slate-400  text-inherit'>
                     <input id='search-bar-input' className='w-40 dark:bg-inherit focus:outline-none border:border-0'  type='text' placeholder='Search for products' />
@@ -30,7 +30,7 @@ export default function HeaderComponent(toggleDarkMode: any, isDarkMode: any) {
 
             </div>
 
-            <div id='browse-categories-section' className='flex flex-row flex-nowrap justify-between p-3'>
+            <div id='browse-categories-section' className='flex flex-row flex-nowrap justify-between px-4 gap-2'>
                 {/* here goes the categories of the shop, like shop for clothes, food, toys, etc. or by animal (metadata and other labels for categorizing the products) */}
                 <div id="header-product-categories">
                     {/* product categories here */}

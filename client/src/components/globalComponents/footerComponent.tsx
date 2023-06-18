@@ -15,8 +15,8 @@ export default function FooterComponent({ isDarkMode, toggleDarkMode }) {
     
 
     return (
-        <footer className={isDarkMode ? 'dark w-screen' : 'w-screen'}>
-            <div className='container-lg flex flex-wrap px-2 py-6 gap-3 justify-evenly text-base'>
+        <footer className={isDarkMode ? 'dark w-full' : 'w-full'}>
+            <div className='container-lg flex flex-wrap  py-6 gap-3 justify-evenly '>
                 <div>
                     <p className='font-semibold text-lg'>Our Store</p>
                     {/* have a fake address here */}
@@ -53,10 +53,10 @@ export default function FooterComponent({ isDarkMode, toggleDarkMode }) {
                         />
                     </div>
             </div>
-            <div className='text-center'>
-                <p>This website was made by Nicolas Castellano.  
+            {/* <div className='text-center'> */}
+                <p className='text-center my-3'>This website was made by Nicolas Castellano.  
                 </p>
-            </div>
+            {/* </div> */}
         </footer>
     )
 }
