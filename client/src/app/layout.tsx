@@ -47,7 +47,7 @@ export default function RootLayout({
   
   return (
     <html lang="en" className={isDarkMode ? 'dark' : ''}>
-      <body className='dark:bg-gray-dark'>
+      <body className='dark:bg-gray-dark bg-gray-light'>
         <p className='text-lg font-bold text-danger text-center'>This is not a real shop. It is just for showing my web developer skills only. Please purchase your pet products somewhere else.</p> 
         <HeaderComponent toggleDarkMode={toggleDarkMode} isDarkMode={isDarkMode}
         />

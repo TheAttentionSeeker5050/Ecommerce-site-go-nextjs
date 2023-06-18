@@ -8,7 +8,7 @@ import { useReducer } from 'react';
 import { init } from 'next/dist/compiled/@vercel/og/satori';
 import { ToggleThemeSwitch } from './toggleThemeSwitch';
 
-export default function FooterComponent(toggleDarkMode: any, isDarkMode: any) {
+export default function FooterComponent({ isDarkMode, toggleDarkMode }) {
 
     // reducer for toggling between light and dark theme
     // -----------------------------------------------------------------------
@@ -49,7 +49,8 @@ export default function FooterComponent(toggleDarkMode: any, isDarkMode: any) {
                     <p>Terms of Service</p>
                 </div>
                     <div>
-                        Dark mode: <ToggleThemeSwitch />
+                        Dark mode: <ToggleThemeSwitch darkMode={isDarkMode} toggleDarkMode={toggleDarkMode} 
+                        />
                     </div>
             </div>
             <div className='text-center'>
