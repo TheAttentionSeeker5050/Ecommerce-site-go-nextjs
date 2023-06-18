@@ -40,6 +40,11 @@ module.exports = {
           DEFAULT: '#d3d3d3',
           dark: '#a9a9a9',
         },
+        orange: {
+          light: '#ff8c00',
+          DEFAULT: '#ff8c00',
+          dark: '#ff4500',
+        },
       },
       fontFamily: {
         sans: ['Roboto', 'sans-serif'],

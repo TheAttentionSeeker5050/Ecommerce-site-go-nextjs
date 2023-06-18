@@ -55,9 +55,7 @@ export default function FooterComponent({ isDarkMode, toggleDarkMode }) {
             </div>
             <div className='text-center'>
                 <p>This website was made by Nicolas Castellano.  
-                    
                 </p>
-                <p className='text-lg font-bold text-danger text-center'>This is not a real shop. It is just for showing my web developer skills only. Please purchase your pet products somewhere else.</p> 
             </div>
         </footer>
     )
