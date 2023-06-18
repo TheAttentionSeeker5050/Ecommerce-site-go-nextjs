@@ -12,8 +12,8 @@ export default function ListStyleProductCardComponent(
     const priceAscurrency = formatCurrency(product.price);
     
     return (
-        <div className='m-3 p-4 bg-slate-200 dark:bg-slate-300 border-2 dark:border-slate-300 rounded-lg flex flex-row gap-3'>
-            <img className='w-64' src={product.thumbnailSrc} alt={product.thumbnailAlt} />
+        <div className='m-3 p-4 bg-slate-200 dark:bg-slate-300 border-2 dark:border-slate-300 rounded-lg flex flex-row max-[420px]:flex-col gap-3'>
+            <img className='w-64 max-[420px]:mx-auto' src={product.thumbnailSrc} alt={product.thumbnailAlt} />
             <div className='flex flex-col gap-2 justify-evenly'>
 
                 <p className='font-bold  text-black text-xl'> {product.name}</p>
