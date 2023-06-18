@@ -1,5 +1,7 @@
 /** @type {import('tailwindcss').Config} */
+
 module.exports = {
+  mode: "jit",
   darkMode: 'class',
   content: [
     './src/pages/**/*.{js,ts,jsx,tsx,mdx}',
@@ -7,25 +9,20 @@ module.exports = {
     './src/app/**/*.{js,ts,jsx,tsx,mdx}',
   ],
   theme: {
-    // extend: {
-    //   backgroundImage: {
-    //     'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
-    //     'gradient-conic':
-    //       'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
-    //   },
-    // },
-    colors: {
-      // extend: {
+    extend: {
+      colors: {
+        // extend: {
         primary: {
           light: '#3a86ff',
           DEFAULT: '#3a86ff',
           dark: '#415a77',
-
+          hover: '#5d92e7',
         },
         secondary: {
           light: '#8338ec',
           DEFAULT: '#8338ec',
           dark: '#1d3557',
+          hover: '#9b60ed',
         },
         neutral: {
           light: '#6c757d',
@@ -43,14 +40,18 @@ module.exports = {
           DEFAULT: '#d3d3d3',
           dark: '#a9a9a9',
         },
+        orange: {
+          light: '#ff8c00',
+          DEFAULT: '#ff8c00',
+          dark: '#ff4500',
+        },
+      },
+      fontFamily: {
+        sans: ['Roboto', 'sans-serif'],
+        serif: ['Roboto Slab', 'serif'],
+        mono: ['Roboto Mono', 'monospace'],
       },
     },
-    fontFamily: {
-      sans: ['Roboto', 'sans-serif'],
-      serif: ['Roboto Slab', 'serif'],
-      mono: ['Roboto Mono', 'monospace'],
-
-    },
-  // },
+  },
   plugins: [],
 }
