@@ -48,13 +48,13 @@ export default function RootLayout({
   return (
     <html lang="en" className={isDarkMode ? 'dark' : ''}>
       <body className='dark:bg-primary-dark w-screen box-border bg-gray-light dark:text-white'>
-        {/* <p className='text-lg font-bold text-danger text-center dark:text-orange-400'>This is not a real shop. It is just for showing my web developer skills only. Please purchase your pet products somewhere else.</p>  */}
+        <p className='text-lg font-bold text-danger text-center dark:text-orange-400'>This is not a real shop. It is just for showing my web developer skills only. Please purchase your pet products somewhere else.</p> 
         <HeaderComponent toggleDarkMode={toggleDarkMode} isDarkMode={isDarkMode}
         />
-        
+
         {children}
         <FooterComponent toggleDarkMode={toggleDarkMode} isDarkMode={isDarkMode}/>
-        {/* <p className='text-lg font-bold text-danger text-center dark:text-orange-400'>This is not a real shop. It is just for showing my web developer skills only. Please purchase your pet products somewhere else.</p>  */}
+        <p className='text-lg font-bold text-danger text-center dark:text-orange-400'>This is not a real shop. It is just for showing my web developer skills only. Please purchase your pet products somewhere else.</p> 
       </body>
     </html>
   )
