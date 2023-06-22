@@ -1,7 +1,10 @@
 package models
 
+import "gorm.io/gorm"
+
 // create address model struct
 type AddressModel struct {
+	gorm.Model
 	ID           uint64 `gorm:"primary_key;auto_increment" json:"id"`
 	Street       string `gorm:"size:255;not null" json:"street"`
 	City         string `gorm:"size:255;not null" json:"city"`
