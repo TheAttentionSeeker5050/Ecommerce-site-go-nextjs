@@ -18,7 +18,7 @@ func ConnectDB() (*gorm.DB, error) {
 	var connectionString string = "user=" + os.Getenv("MYSQL_USER") + " password=" + os.Getenv("MYSQL_PASSWORD") + " dbname=" + os.Getenv("MYSQL_DATABASE") + " port=" + os.Getenv("MYSQL_DATABASE_PORT") + " sslmode=disable"
 
 	// print the connection string
-	fmt.Println("connstring", connectionString)
+	fmt.Println("connstring: ", connectionString)
 
 	// open the connection to the database
 	db, err := gorm.Open(mysql.Open(connectionString), &gorm.Config{})
