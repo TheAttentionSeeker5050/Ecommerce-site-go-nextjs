@@ -28,7 +28,20 @@ func ConnectDB() (*gorm.DB, error) {
 	fmt.Println("db: ", db, "err: ", err)
 
 	// run the migrations
-	db.AutoMigrate(&models.UserModel{}, &models.AddressModel{}, &models.ProductModel{}, &models.ProductCategoryModel{})
+	db.AutoMigrate(
+		&models.Address{},
+		&models.User{},
+		&models.ProductCategory{},
+		&models.Product{},
+		&models.Wishlist{},
+		&models.ProductUnit{},
+		&models.ShoppingCartItem{},
+		&models.OnSalePromo{},
+		&models.OnSalePromoItem{},
+		&models.Order{},
+		&models.OrderItem{},
+		&models.Metadata{},
+	)
 
 	// return the database connection
 	return db, err
