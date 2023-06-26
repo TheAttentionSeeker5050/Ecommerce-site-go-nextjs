@@ -5,6 +5,7 @@ import (
 	"net/http"
 	"os"
 	"workspace/config"
+	"workspace/routers"
 
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
@@ -56,6 +57,9 @@ func main() {
 			"message": "Hello, World!",
 		})
 	})
+
+	// define the user router
+	routers.UserRouter(router)
 
 	// Run the server
 	router.Run(":8080")
