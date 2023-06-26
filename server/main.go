@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"net/http"
 	"os"
+	"workspace/config"
 
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
@@ -26,13 +27,26 @@ func main() {
 		gin.SetMode(gin.ReleaseMode)
 
 	}
+
 	// load the environment file
 	err := godotenv.Load(fmt.Sprintf("%s.env", environmentString))
-
 	// check for errors
 	if err != nil {
 		panic(err)
 	}
+
+	// run the database connection
+	db, err := config.ConnectDB()
+
+	// close the database connection
+	if err != nil {
+		panic(err)
+	} else {
+		fmt.Println("Successfully connected to database")
+		mysqlDB, _ := db.DB()
+		defer mysqlDB.Close()
+	}
+
 	// Create a new Gin router
 	router := gin.Default()
 

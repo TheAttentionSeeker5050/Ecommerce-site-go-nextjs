@@ -7,7 +7,9 @@ import React, { useState, useEffect } from 'react';
 
 
 
-export function ToggleThemeSwitch({ darkMode, toggleDarkMode }) {
+export function ToggleThemeSwitch(
+    { darkMode, toggleDarkMode }: { darkMode: boolean, toggleDarkMode: () => void}
+) {
     
 
 

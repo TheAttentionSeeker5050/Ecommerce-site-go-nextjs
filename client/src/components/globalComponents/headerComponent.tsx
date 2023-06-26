@@ -11,7 +11,7 @@ import ShoppingCartWidgetComponent from './shoppingCartWidgetComponent';
 // import '@fortawesome/fontawesome-free/js/all.js';
 // import '@fortawesome/fontawesome-free/css/all.css';
 
-export default function HeaderComponent(toggleDarkMode: any, isDarkMode: any) {
+export default function HeaderComponent(ToggleDarkMode: any, isDarkMode: any) {
     return (
         <header className={isDarkMode ? 'dark w-full' : 'w-full'} >
             <div id='search-logo-section' className=' py-3 flex-nowrap gap-3 flex justify-around'>
