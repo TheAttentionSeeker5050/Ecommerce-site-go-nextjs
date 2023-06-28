@@ -1,5 +1,10 @@
 'use client';
 import { handleRegister } from "@/api/handlers/handleRegister"
+
+import dotenv from 'dotenv';
+dotenv.config();
+
+
 export default function RegisterPage() {
     // this will handle the register page form using axios
     function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
@@ -20,6 +25,12 @@ export default function RegisterPage() {
             password2: formData.get('password2'),
         }
 
+        // print the type of newUser
+        console.log('type of user form data:',typeof newUser)
+        console.log('user from form:', newUser)
+
+        // const apiUrl = process.env.API_URL;
+        // console.log('env variable', apiUrl)
         // handle register handler function
         handleRegister(newUser)
         // console.log(newUser)
