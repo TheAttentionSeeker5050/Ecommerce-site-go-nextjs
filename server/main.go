@@ -54,6 +54,8 @@ func main() {
 
 	// add cors configuration
 	router.Use(cors.New(config.ConfigureCors()))
+	fmt.Println("Successfully loaded CORS configuration")
+	fmt.Println(config.ConfigureCors())
 
 	// Define routes
 	router.GET("/", func(c *gin.Context) {

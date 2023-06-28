@@ -24,29 +24,28 @@ export default function RegisterPage() {
         e.preventDefault();
         // handle the register form here
 
-        // encode the data to raw json
-        const newUserData = {
-            username: username,
-            email: email,
-            first_name: first_name,
-            last_name: last_name,
-            phone: phone,
-            middle_name: middle_name,
-            password: password,
-            password2: password2,
-        };
-
-        // console.log('NEW USER DATA:', newUserData);
-
-        // prepare the url to send the post register request to
-        // const requestURL = process.env.API_URL +'/' + process.env.API_USER_SUBDIR +'/register';
-        const requestURL = String(process.env.API_URL);
-        console.log('URL:', requestURL);
-        console.log('type of url:', typeof requestURL);
 
         try {
+            // encode the data to raw json
+            const newUserData = {
+                'username': username,
+                'email': email,
+                'first_name': first_name,
+                'last_name': last_name,
+                'phone': phone,
+                'middle_name': middle_name,
+                'password': password,
+                'password2': password2,
+            };
+
+            console.log('NEW USER DATA:', newUserData);
+        
+
+            // prepare the url to send the post register request to
+            const requestURL = process.env.API_URL +'/' + process.env.API_USER_SUBDIR +'/register';
+
             // Send the post request using axios and the URL above
-            const response = await axios.post(requestURL, newUserData, {
+            const response = await axios.post(requestURL, JSON.stringify(newUserData), {
                 headers: {
                   'Content-Type': 'application/json',
                   'Accept': 'application/json',
@@ -54,7 +53,7 @@ export default function RegisterPage() {
             });
         
             // Handle success
-            console.log(response);
+            console.log("RESPONSE", response.data);
             alert('Registration successful');
         } catch (error) {
             // Handle error
@@ -62,27 +61,6 @@ export default function RegisterPage() {
             alert('Registration failed');
         }
         
-        // // send the post request using axios and the url above
-        // axios.post(requestURL, newUserData, {
-        //     headers: {
-        //         'Content-Type': 'application/json',
-        //         'Accept': 'application/json',
-        //         }
-        //     })
-        // // axios.get(requestURL)
-        // .then((res) => {
-        //     // handle success
-        //     console.log(res);
-        //     alert('Registration successful');
-        // })
-        // .catch((err) => {
-        //     // handle error
-        //     console.log('ERROR:', err);
-        //     alert('Registration failed');
-        // })
-
-
-
     }
 
     // handler for input change
@@ -122,32 +100,33 @@ export default function RegisterPage() {
         <div id="p-content" className="">
             <h1 className="text-center">Register</h1>
 
-            <form method="POST" className=" flex flex-col max-w-xl px-3 mx-auto" onSubmit={(e) => handleSubmit(e)}>
+            <form method="POST" className=" flex flex-col max-w-xl px-3 mx-auto" onSubmit={handleSubmit}>
                 <label htmlFor="username">Username</label>
-                <input type="text" id="username" name="username" onChange={(e) => handleChange(e)} />
+                <input type="text" id="username" name="username" onChange={handleChange} />
 
                 <label htmlFor="email">Email</label>
-                <input type="email" id="email" name="email" onChange={(e) => handleChange(e)} />
+                <input type="email" id="email" name="email" onChange={handleChange} />
 
                 <label htmlFor="firstName">First Name</label>
-                <input type="text" id="firstName" name="first_name" onChange={(e) => handleChange(e)} />
+                <input type="text" id="firstName" name="first_name" onChange={handleChange} />
 
                 <label htmlFor="lastName">Last Name</label>
-                <input type="text" id="lastName" name="last_name" onChange={(e) => handleChange(e)} />
+                <input type="text" id="lastName" name="last_name" onChange={handleChange} />
 
                 <label htmlFor="phone">Phone</label>
-                <input type="text" id="phone" name="phone" onChange={(e) => handleChange(e)} />
+                <input type="text" id="phone" name="phone" onChange={handleChange} />
 
                 <label htmlFor="middleName">Middle Name</label>
-                <input type="text" id="middleName" name="middle_name" onChange={(e) => handleChange(e)} />
+                <input type="text" id="middleName" name="middle_name" onChange={handleChange} />
 
                 <label htmlFor="password">Password</label>
-                <input type="password" id="password" name="password" onChange={(e) => handleChange(e)} />
+                <input type="password" id="password" name="password" onChange={handleChange} />
 
                 <label htmlFor="password2">Confirm Password</label>
-                <input type="password" id="password2" name="password2" onChange={(e) => handleChange(e)} />
+                <input type="password" id="password2" name="password2" onChange={handleChange} />
 
                 <input type="submit" value="Register" className="bg-primary text-white py-2 px-4 m-2 rounded-full" />
+                
             </form>
 
         </div>
