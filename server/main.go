@@ -7,6 +7,7 @@ import (
 	"workspace/config"
 	"workspace/routers"
 
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
 )
@@ -50,6 +51,9 @@ func main() {
 
 	// Create a new Gin router
 	router := gin.Default()
+
+	// add cors configuration
+	router.Use(cors.New(config.ConfigureCors()))
 
 	// Define routes
 	router.GET("/", func(c *gin.Context) {
