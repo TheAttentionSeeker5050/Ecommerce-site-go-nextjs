@@ -39,24 +39,47 @@ export default function RegisterPage() {
         // console.log('NEW USER DATA:', newUserData);
 
         // prepare the url to send the post register request to
-        const requestURL = process.env.API_URL +'/' + process.env.API_USER_SUBDIR +'/register';
-        // const requestURL = String(process.env.API_URL);
+        // const requestURL = process.env.API_URL +'/' + process.env.API_USER_SUBDIR +'/register';
+        const requestURL = String(process.env.API_URL);
         console.log('URL:', requestURL);
         console.log('type of url:', typeof requestURL);
 
+        try {
+            // Send the post request using axios and the URL above
+            const response = await axios.post(requestURL, newUserData, {
+                headers: {
+                  'Content-Type': 'application/json',
+                  'Accept': 'application/json',
+                },
+            });
         
-        // send the post request using axios and the url above
-        axios.post(requestURL, newUserData)
-        .then((res) => {
-            // handle success
-            console.log(res);
+            // Handle success
+            console.log(response);
             alert('Registration successful');
-        })
-        .catch((err) => {
-            // handle error
-            console.log('ERROR:', err);
+        } catch (error) {
+            // Handle error
+            console.log('ERROR:', error);
             alert('Registration failed');
-        })
+        }
+        
+        // // send the post request using axios and the url above
+        // axios.post(requestURL, newUserData, {
+        //     headers: {
+        //         'Content-Type': 'application/json',
+        //         'Accept': 'application/json',
+        //         }
+        //     })
+        // // axios.get(requestURL)
+        // .then((res) => {
+        //     // handle success
+        //     console.log(res);
+        //     alert('Registration successful');
+        // })
+        // .catch((err) => {
+        //     // handle error
+        //     console.log('ERROR:', err);
+        //     alert('Registration failed');
+        // })
 
 
 
@@ -99,7 +122,7 @@ export default function RegisterPage() {
         <div id="p-content" className="">
             <h1 className="text-center">Register</h1>
 
-            <form method="post" className=" flex flex-col max-w-xl px-3 mx-auto" onSubmit={(e) => handleSubmit(e)}>
+            <form method="POST" className=" flex flex-col max-w-xl px-3 mx-auto" onSubmit={(e) => handleSubmit(e)}>
                 <label htmlFor="username">Username</label>
                 <input type="text" id="username" name="username" onChange={(e) => handleChange(e)} />
 
