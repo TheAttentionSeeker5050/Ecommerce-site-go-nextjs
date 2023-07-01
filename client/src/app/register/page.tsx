@@ -4,6 +4,8 @@ import axios from "axios";
 
 import React, {useState} from "react";
 
+import { handleRegister } from "@/api/handlers/handleRegister";
+
 
 export default function RegisterPage() {
     // delcare state variables
@@ -19,65 +21,24 @@ export default function RegisterPage() {
     // state for the error messages
     const [errorMessages, setErrorMessages] = useState<string[]>([]);
     
-    
-    // this will handle the register page form using fetch
-    const handleSubmit = async (
-        e: React.FormEvent<HTMLFormElement>
-        ): Promise<void> => {
-            e.preventDefault();
+    // handle user registration from form in api/handlers/handleRegister.tsx
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         // handle the register form here
-
-
-        try {
-            // encode the data to raw json
-            const newUserData = {
-                // 'username': username,
-                'email': email,
-                'first_name': first_name,
-                'last_name': last_name,
-                'phone': phone,
-                'middle_name': middle_name,
-                'password': password,
-                'password2': password2,
-            };
-
-
-            // create an url request string using environment variables
-            const url = `${process.env.API_URL}/user/register`;
-
-            // make a post request using fetch, the new user data var and cors headers
-            const response = await fetch('http://127.0.0.1:8081/user/register', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Accept': 'application/json',
-                },
-                body: JSON.stringify(newUserData),
-            });
-
-            // get the response data
-            const responseData = await response.json();
-            console.log('RESPONSE DATA:', responseData);
-
-            // check if the response is ok
-            if (response.ok) {
-                // do something afer the user is created
-
-                // window.location.replace('/login');
-                alert('User created successfully!');
-            } else {
-                // do something if the response is not ok
-                // alert('Something went wrong!');
-                setErrorMessages([...errorMessages, responseData['error']]);
-            }
-        } catch (err) {
-            
-            setErrorMessages([...errorMessages, "Something went wrong!"]);
-        }
-        
-    }
-
-    
+        await handleRegister(
+            e,
+            // username,
+            email,
+            first_name,
+            last_name,
+            phone,
+            middle_name,
+            password,
+            password2,
+            setErrorMessages,
+            errorMessages,
+        );
+    };
+           
 
     // handler for input change
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -116,7 +77,6 @@ export default function RegisterPage() {
         <div id="p-content" className="">
             <h1 className="text-center">Register</h1>
 
-            {/* create an alert widget with disable state */}
             <div className="px-3 py-3 max-w-xl mx-auto my-5 text-white bg-danger rounded-lg" role="alert" 
             hidden
             >
