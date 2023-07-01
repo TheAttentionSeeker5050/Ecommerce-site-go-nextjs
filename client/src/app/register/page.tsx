@@ -17,11 +17,11 @@ export default function RegisterPage() {
     const [password2, setPassword2] = useState<string | null | undefined>(null);
     
     
-    // this will handle the register page form using axios
+    // this will handle the register page form using fetch
     const handleSubmit = async (
         e: React.FormEvent<HTMLFormElement>
-    ): Promise<void> => {
-        e.preventDefault();
+        ): Promise<void> => {
+            e.preventDefault();
         // handle the register form here
 
 
@@ -40,25 +40,28 @@ export default function RegisterPage() {
 
             console.log('NEW USER DATA:', newUserData);
         
-
-            // prepare the url to send the post register request to
-            const requestURL = process.env.API_URL +'/' + process.env.API_USER_SUBDIR +'/register';
-
-            // Send the post request using axios and the URL above
-            const response = await axios.post(requestURL, JSON.stringify(newUserData), {
+            // make a post request using fetch, the new user data var and cors headers
+            const response = await fetch('http://127.0.0.1:8081/user/register', {
+                method: 'POST',
                 headers: {
-                  'Content-Type': 'application/json',
-                  'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
                 },
+                body: JSON.stringify(newUserData),
             });
-        
-            // Handle success
-            console.log("RESPONSE", response.data);
-            alert('Registration successful');
-        } catch (error) {
-            // Handle error
-            console.log('ERROR:', error);
-            alert('Registration failed');
+
+            // get the response data
+            const responseData = await response.json();
+            console.log('RESPONSE DATA:', responseData);
+
+            // check if the response is ok
+            if (response.ok) {
+                // redirect to the login page
+                // window.location.replace('/login');
+                alert('User created successfully!');
+            }
+        } catch (err) {
+            console.error(err);
         }
         
     }
