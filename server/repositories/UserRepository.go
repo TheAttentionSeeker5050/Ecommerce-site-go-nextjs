@@ -31,6 +31,11 @@ func (userRepo *UserRepository) CreateUser(user *models.User) (*models.User, err
 
 	// assign the hashed password to the user password
 	user.Password = string(hashedPassword)
+	user.Role = "customer"
+	// nullify the preferred address, addresses, and wishlists
+	user.PreferredAddress = nil
+	user.Addresses = nil
+	user.Wishlists = nil
 
 	// create the user
 	result := userRepo.DB.Create(&user)

@@ -28,7 +28,7 @@ export default function RegisterPage() {
         try {
             // encode the data to raw json
             const newUserData = {
-                'username': username,
+                // 'username': username,
                 'email': email,
                 'first_name': first_name,
                 'last_name': last_name,
@@ -38,8 +38,10 @@ export default function RegisterPage() {
                 'password2': password2,
             };
 
-            console.log('NEW USER DATA:', newUserData);
-        
+
+            // create an url request string using environment variables
+            const url = `${process.env.API_URL}/user/register`;
+
             // make a post request using fetch, the new user data var and cors headers
             const response = await fetch('http://127.0.0.1:8081/user/register', {
                 method: 'POST',
@@ -56,7 +58,7 @@ export default function RegisterPage() {
 
             // check if the response is ok
             if (response.ok) {
-                // redirect to the login page
+                // do something afer the user is created
                 // window.location.replace('/login');
                 alert('User created successfully!');
             }

@@ -65,7 +65,7 @@ func main() {
 	})
 
 	// define the user router
-	routers.UserRouter(router)
+	routers.UserRouter(router, db)
 
 	// Run the server
 	router.Run(":8080")
