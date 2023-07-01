@@ -31,16 +31,16 @@ func ConnectDB() (*gorm.DB, error) {
 	db.AutoMigrate(
 		&models.Address{},
 		&models.User{},
-		&models.ProductCategory{},
-		&models.Product{},
-		&models.Wishlist{},
-		&models.ProductUnit{},
-		&models.ShoppingCartItem{},
-		&models.OnSalePromo{},
-		&models.OnSalePromoItem{},
-		&models.Order{},
-		&models.OrderItem{},
-		&models.Metadata{},
+		// &models.Wishlist{},
+		// &models.ProductCategory{},
+		// &models.Product{},
+		// &models.ProductUnit{},
+		// &models.ShoppingCartItem{},
+		// &models.OnSalePromo{},
+		// &models.OnSalePromoItem{},
+		// &models.Order{},
+		// &models.OrderItem{},
+		// &models.Metadata{},
 	)
 
 	// return the database connection

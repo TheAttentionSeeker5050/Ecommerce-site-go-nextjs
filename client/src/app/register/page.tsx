@@ -15,6 +15,9 @@ export default function RegisterPage() {
     const [middle_name, setMiddleName] = useState<string | null | undefined>(null);
     const [password, setPassword] = useState<string | null | undefined>(null);
     const [password2, setPassword2] = useState<string | null | undefined>(null);
+
+    // state for the error messages
+    const [errorMessages, setErrorMessages] = useState<string[]>([]);
     
     
     // this will handle the register page form using fetch
@@ -59,14 +62,22 @@ export default function RegisterPage() {
             // check if the response is ok
             if (response.ok) {
                 // do something afer the user is created
+
                 // window.location.replace('/login');
                 alert('User created successfully!');
+            } else {
+                // do something if the response is not ok
+                // alert('Something went wrong!');
+                setErrorMessages([...errorMessages, responseData['error']]);
             }
         } catch (err) {
-            console.error(err);
+            
+            setErrorMessages([...errorMessages, "Something went wrong!"]);
         }
         
     }
+
+    
 
     // handler for input change
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -104,6 +115,18 @@ export default function RegisterPage() {
     return (
         <div id="p-content" className="">
             <h1 className="text-center">Register</h1>
+
+            {/* create an alert widget with disable state */}
+            <div className="px-3 py-3 max-w-xl mx-auto my-5 text-white bg-danger rounded-lg" role="alert" 
+            hidden
+            >
+                {/* display all error messages usign react list rendering  */}
+                <ul>
+                    {errorMessages.map((message, index) => (
+                        <li key={index}>{message}</li>
+                    ))}
+                </ul>
+            </div>
 
             <form method="POST" className=" flex flex-col max-w-xl px-3 mx-auto" onSubmit={handleSubmit}>
                 <label htmlFor="username">Username</label>
