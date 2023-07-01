@@ -44,7 +44,7 @@ export default function RootLayout({
   
   
   const [isDarkMode, ToggleDarkMode] = useDarkMode();
-  console.log(isDarkMode, typeof isDarkMode);
+  // console.log(isDarkMode, typeof isDarkMode);
   
   return (
     <html lang="en" className={isDarkMode ? 'dark' : ''}>
