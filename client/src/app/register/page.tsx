@@ -8,8 +8,7 @@ import { handleRegister } from "@/api/handlers/handleRegister";
 
 
 export default function RegisterPage() {
-    // delcare state variables
-    const [username, setUsername] = useState<string | null | undefined>(null);
+    
     const [email, setEmail] = useState<string | null | undefined>(null);
     const [first_name, setFirstName] = useState<string | null | undefined>(null);
     const [last_name, setLastName] = useState<string | null | undefined>(null);
@@ -47,9 +46,6 @@ export default function RegisterPage() {
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         // change the state of the input
         switch (e.target.name) {
-            case 'username':
-                setUsername(e.target.value);
-                break;
             case 'email':
                 setEmail(e.target.value);
                 break;

@@ -117,7 +117,7 @@ export const handleRegister = async (
             // check if the response is ok
             if (response.ok) {
                 // do something afer the user is created
-                // window.location.replace('/login');
+                window.location.replace('/login');
                 alert('User created successfully!');
             } else {
                 // do something if the response is not ok
