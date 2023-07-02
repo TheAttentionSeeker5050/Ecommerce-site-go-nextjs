@@ -101,8 +101,13 @@ export const handleRegister = async (
                 'password2': password2,
             };
             // create an url request string using environment variables
-            const url = `${process.env.API_URL}/user/register`;
-            
+            // declare the url variable as string
+            var url: string;
+            if (process.env.NODE_ENV === 'development') {
+                url = `${process.env.API_URL}/user/register`;
+            } else {
+                url = `${process.env.API_URL_REMOTE}/user/register`;
+            }
             // make a post request using fetch, the new user data var and cors headers
             const response = await fetch(url, {
                 method: 'POST',
