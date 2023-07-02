@@ -8,6 +8,8 @@ import dotenv from 'dotenv';
 import { validateEmail } from '@/api/validators/validateEmail';
 import { validateInputText } from '@/api/validators/validateInputText';
 import { formatPhone, validatePhone } from '@/api/validators/validatePhone';
+import { error } from 'console';
+import { validatePassword } from '../validators/validatePassword';
 
 dotenv.config();
 // this will handle the register page form using fetch
@@ -25,74 +27,67 @@ export const handleRegister = async (
     ): Promise<void> => {
     e.preventDefault();
     
-
+    var errorsArray: string[] = [];
 
     // validate fields
     // if email is not valid
     var emailIsValid, emailError;
     var passwordIsValid, passwordError;
-    var anyErrors = false;
+    
     [emailIsValid, emailError] = validateEmail(email);
-    [passwordIsValid, passwordError] = validateEmail(password);
+    [passwordIsValid, passwordError] = validatePassword(password);
     
     // add error messages on top of the previous error messages
     if (emailIsValid === false) {
-        setErrorMessages([...errorMessages, emailError]);
-        anyErrors = true;
-        // return;
+        errorsArray.push(emailError);
+        
     }
 
     if (password !== password2) {
-        setErrorMessages([...errorMessages, 'Passwords do not match!']);
-        anyErrors = true;
-
-        // return;
+        errorsArray.push('Passwords do not match!');
+        
     }
 
     if (passwordIsValid === false) {
-        setErrorMessages([...errorMessages, passwordError]);
-        anyErrors = true;
-        // return;
-
+        errorsArray.push(passwordError);
+        
     }
 
     // validate first name
     if (validateInputText(first_name) === false) {
-        setErrorMessages([...errorMessages, 'First name is not valid or empty!']);
-        anyErrors = true;
-        // return;
-
+        errorsArray.push('First name is not valid or empty!');
+        
     }
 
     // validate last name
     if (validateInputText(last_name) === false) {
-        setErrorMessages([...errorMessages, 'Last name is not valid or empty!']);
-        anyErrors = true;
-        // return;
+        errorsArray.push('Last name is not valid or empty!');
 
     }
 
     // validate middle name
-    if (validateInputText(middle_name) === false) {
-        setErrorMessages([...errorMessages, 'Middle name is not valid or empty!']);
-        anyErrors = true;
-        // return;
+    if (validateInputText(middle_name) === false && middle_name !== null && middle_name !== undefined && middle_name !== '') {
+        errorsArray.push('Middle name is not valid!');
+        
     }
 
     // validate phone
     if (validatePhone(phone) === false) {
-        setErrorMessages([...errorMessages, 'Phone is not valid or empty!']);
-        anyErrors = true;
-        // return;
+        errorsArray.push('Phone is not valid or empty!');
+
     } else {
         // convert the phone number to a valid one
         var formattedPhone = formatPhone(phone);
-        // console.log('FORMATTED PHONE:', formattedPhone);
+        console.log('FORMATTED PHONE:', formattedPhone);
     }
     
-    console.log('ERROR MESSAGES:', errorMessages);
     
-    if (errorMessages.length === 0) {
+    
+    if (errorsArray.length > 0) {
+        setErrorMessages(errorsArray);
+        return;
+
+    } else {
         try {
             // encode the data to raw json
             const newUserData = {
@@ -137,7 +132,3 @@ export const handleRegister = async (
     
 }
 
-function formatPhoneNumber(phone: string | null | undefined) {
-    throw new Error('Function not implemented.');
-}
-    

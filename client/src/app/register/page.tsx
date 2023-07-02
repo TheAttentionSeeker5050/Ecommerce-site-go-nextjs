@@ -19,15 +19,16 @@ export default function RegisterPage() {
     const [password2, setPassword2] = useState<string | null | undefined>(null);
 
     // state for the error messages
-    const [errorMessages, setErrorMessages] = useState<string[]>([]);
+    const initialErrorMessages: string[] = [];
+    const [errorMessages, setErrorMessages] = useState<string[]>(initialErrorMessages);
     
     // handle user registration from form in api/handlers/handleRegister.tsx
-    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit =  (e: React.FormEvent<HTMLFormElement>) => {
         // clear the error messages
-        setErrorMessages([]);
+        setErrorMessages(initialErrorMessages);
 
         // handle the register form here
-        await handleRegister(
+        handleRegister(
             e,
             email,
             first_name,
@@ -95,9 +96,7 @@ export default function RegisterPage() {
             : null}
 
             <form method="POST" className=" flex flex-col max-w-xl px-3 mx-auto" onSubmit={handleSubmit}>
-                {/* <label htmlFor="username">Username</label>
-                <input type="text" id="username" name="username" onChange={handleChange} /> */}
-
+                
                 <label htmlFor="email">Email</label>
                 <input type="text" id="email" name="email" autoComplete="email" onChange={handleChange} />
 
