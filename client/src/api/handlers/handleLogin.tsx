@@ -60,8 +60,8 @@ export const handleLogin = async (
                 headers: {
                     'Content-Type': 'application/json',
                     'Accept': 'application/json',
-                    // 'Access-Control-Allow-Origin': 'http://159.65.225.127:3001',
-                    'Access-Control-Allow-Origin': 'http://127.0.0.1:3000',
+                    'Access-Control-Allow-Origin': 'http://159.65.225.127:3001',
+                    // 'Access-Control-Allow-Origin': 'http://127.0.0.1:3000',
                     'no-cors': 'true',
                 },
                 body: JSON.stringify(loginData),
