@@ -20,7 +20,6 @@ services:
       - MYSQL_DATABASE=ecommerce_db
       - MYSQL_USER=nicolas
       - MYSQL_PASSWORD=mysecurepassword
-    
     ports:
       - 3307:3306
     volumes:
