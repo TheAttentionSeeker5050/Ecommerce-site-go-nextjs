@@ -4,6 +4,8 @@ import axios from "axios";
 
 import React, {useState} from "react";
 
+import { handleRegister } from "@/api/handlers/handleRegister";
+
 
 export default function RegisterPage() {
     // delcare state variables
@@ -17,67 +19,29 @@ export default function RegisterPage() {
     const [password2, setPassword2] = useState<string | null | undefined>(null);
 
     // state for the error messages
-    const [errorMessages, setErrorMessages] = useState<string[]>([]);
+    const initialErrorMessages: string[] = [];
+    const [errorMessages, setErrorMessages] = useState<string[]>(initialErrorMessages);
     
-    
-    // this will handle the register page form using fetch
-    const handleSubmit = async (
-        e: React.FormEvent<HTMLFormElement>
-        ): Promise<void> => {
-            e.preventDefault();
+    // handle user registration from form in api/handlers/handleRegister.tsx
+    const handleSubmit =  (e: React.FormEvent<HTMLFormElement>) => {
+        // clear the error messages
+        setErrorMessages(initialErrorMessages);
+
         // handle the register form here
-
-
-        try {
-            // encode the data to raw json
-            const newUserData = {
-                // 'username': username,
-                'email': email,
-                'first_name': first_name,
-                'last_name': last_name,
-                'phone': phone,
-                'middle_name': middle_name,
-                'password': password,
-                'password2': password2,
-            };
-
-
-            // create an url request string using environment variables
-            const url = `${process.env.API_URL}/user/register`;
-
-            // make a post request using fetch, the new user data var and cors headers
-            const response = await fetch('http://127.0.0.1:8081/user/register', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Accept': 'application/json',
-                },
-                body: JSON.stringify(newUserData),
-            });
-
-            // get the response data
-            const responseData = await response.json();
-            console.log('RESPONSE DATA:', responseData);
-
-            // check if the response is ok
-            if (response.ok) {
-                // do something afer the user is created
-
-                // window.location.replace('/login');
-                alert('User created successfully!');
-            } else {
-                // do something if the response is not ok
-                // alert('Something went wrong!');
-                setErrorMessages([...errorMessages, responseData['error']]);
-            }
-        } catch (err) {
-            
-            setErrorMessages([...errorMessages, "Something went wrong!"]);
-        }
-        
-    }
-
-    
+        handleRegister(
+            e,
+            email,
+            first_name,
+            last_name,
+            phone,
+            middle_name,
+            password,
+            password2,
+            setErrorMessages,
+            errorMessages,
+        );
+    };
+           
 
     // handler for input change
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -116,24 +80,25 @@ export default function RegisterPage() {
         <div id="p-content" className="">
             <h1 className="text-center">Register</h1>
 
-            {/* create an alert widget with disable state */}
-            <div className="px-3 py-3 max-w-xl mx-auto my-5 text-white bg-danger rounded-lg" role="alert" 
-            hidden
+            {/* only display errors if the errors array is not empty */}
+            {errorMessages.length > 0 ? (
+
+            <div className=" max-w-xl mx-auto my-5 text-white bg-danger rounded-lg" role="alert" 
+            // hidden
             >
-                {/* display all error messages usign react list rendering  */}
-                <ul>
+                <ul className="list-disc p-2 mx-4 my-1">
                     {errorMessages.map((message, index) => (
                         <li key={index}>{message}</li>
                     ))}
                 </ul>
             </div>
+            )
+            : null}
 
             <form method="POST" className=" flex flex-col max-w-xl px-3 mx-auto" onSubmit={handleSubmit}>
-                <label htmlFor="username">Username</label>
-                <input type="text" id="username" name="username" onChange={handleChange} />
-
+                
                 <label htmlFor="email">Email</label>
-                <input type="email" id="email" name="email" onChange={handleChange} />
+                <input type="text" id="email" name="email" autoComplete="email" onChange={handleChange} />
 
                 <label htmlFor="firstName">First Name</label>
                 <input type="text" id="firstName" name="first_name" onChange={handleChange} />
