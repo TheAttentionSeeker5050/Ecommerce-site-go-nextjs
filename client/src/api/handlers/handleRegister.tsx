@@ -102,8 +102,9 @@ export const handleRegister = async (
             };
             // create an url request string using environment variables
             const url = `${process.env.API_URL}/user/register`;
+            
             // make a post request using fetch, the new user data var and cors headers
-            const response = await fetch('http://127.0.0.1:8081/user/register', {
+            const response = await fetch(url, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -113,12 +114,10 @@ export const handleRegister = async (
             });
             // get the response data
             const responseData = await response.json();
-            console.log('RESPONSE DATA:', responseData);
             // check if the response is ok
             if (response.ok) {
                 // do something afer the user is created
                 window.location.replace('/login');
-                alert('User created successfully!');
             } else {
                 // do something if the response is not ok
                 // alert('Something went wrong!');
