@@ -3,10 +3,16 @@
 package controllers
 
 import (
+	"net/http"
+	"workspace/config"
 	"workspace/models"
 	"workspace/repositories"
 
 	"github.com/gin-gonic/gin"
+	"github.com/google/go-github/github"
+	"golang.org/x/oauth2"
+
+	// "golang.org/x/oauth2/github"
 	"gorm.io/gorm"
 )
 
@@ -50,4 +56,88 @@ func RegisterController(
 		"email":   user.Email,
 	})
 
+}
+
+func LoginController(
+	c *gin.Context,
+	db *gorm.DB,
+) {
+	// declare the login struct
+	var loginData struct {
+		Email    string `json:"email"`
+		Password string `json:"password"`
+	}
+
+	// parse the request body into the login struct
+	err := c.ShouldBindJSON(&loginData)
+	// check for errors
+	if err != nil {
+		c.JSON(400, gin.H{
+			"error": "Invalid login Data",
+		})
+		return
+	}
+
+	// Perform your login logic here with the email and password
+
+	// make sure to escape the login data to prevent SQL injection
+
+	// get the user email and password from the database and compare it with the login data
+	userRepo := repositories.NewUserRepository(db)
+
+	// get the user from the database
+	user, err := userRepo.GetUserByEmail(loginData.Email)
+	// check for errors
+	if err != nil {
+		c.JSON(404, gin.H{
+			"error": "User not found",
+		})
+		return
+	}
+
+	// compare the password
+	err = userRepo.ComparePassword(user.Password, loginData.Password)
+
+	// check for errors
+	if err != nil {
+		c.JSON(401, gin.H{
+			"error": "Invalid login credentials",
+		})
+		return
+	}
+
+	// If login is successful, redirect the user to GitHub OAuth
+	url := config.GithubOauthConfig.AuthCodeURL("state", oauth2.AccessTypeOffline)
+
+	c.Redirect(http.StatusTemporaryRedirect, url)
+
+}
+
+func AuthCallbackController(c *gin.Context) {
+	// Retrieve the authorization code from the query parameters
+	code := c.Query("code")
+
+	// Exchange the authorization code for an access token
+	token, err := config.GithubOauthConfig.Exchange(oauth2.NoContext, code)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to exchange code for token"})
+		return
+	}
+
+	// Create a GitHub client using the access token
+	client := github.NewClient(config.GithubOauthConfig.Client(oauth2.NoContext, token))
+
+	// Fetch user information using the GitHub client
+	user, _, err := client.Users.Get(oauth2.NoContext, "")
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to fetch user information"})
+		return
+	}
+
+	user = user
+
+	// Perform further actions with the user information or store it as needed
+
+	// Redirect or respond with the appropriate success message
+	c.JSON(http.StatusOK, gin.H{"message": "Login successful"})
 }

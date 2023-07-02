@@ -4,6 +4,7 @@ import (
 	"os"
 
 	"golang.org/x/oauth2"
+	// "golang.org/x/oauth2/github"
 )
 
 var (
@@ -15,5 +16,6 @@ var (
 			AuthURL:  "https://github.com/login/oauth/authorize",
 			TokenURL: "https://github.com/login/oauth/access_token",
 		},
+		// Endpoint:     github.Endpoint,
 	}
 )

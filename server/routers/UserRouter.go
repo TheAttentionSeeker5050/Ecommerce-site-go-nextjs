@@ -21,9 +21,11 @@ func UserRouter(
 	})
 
 	userRouter.POST("/login", func(c *gin.Context) {
-		c.JSON(http.StatusOK, gin.H{
-			"message": "Hello, login!",
-		})
+		controllers.LoginController(c, db)
+	})
+
+	userRouter.GET("/auth/callback", func(c *gin.Context) {
+		controllers.AuthCallbackController(c)
 	})
 
 	userRouter.POST("/logout", func(c *gin.Context) {

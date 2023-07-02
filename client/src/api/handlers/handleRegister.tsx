@@ -25,7 +25,6 @@ export const handleRegister = async (
     setErrorMessages: React.Dispatch<React.SetStateAction<string[]>>,
     errorMessages: string[],
     ): Promise<void> => {
-    e.preventDefault();
     
     var errorsArray: string[] = [];
 
