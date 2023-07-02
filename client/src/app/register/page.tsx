@@ -23,10 +23,12 @@ export default function RegisterPage() {
     
     // handle user registration from form in api/handlers/handleRegister.tsx
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+        // clear the error messages
+        setErrorMessages([]);
+
         // handle the register form here
         await handleRegister(
             e,
-            // username,
             email,
             first_name,
             last_name,
@@ -77,23 +79,27 @@ export default function RegisterPage() {
         <div id="p-content" className="">
             <h1 className="text-center">Register</h1>
 
-            <div className="px-3 py-3 max-w-xl mx-auto my-5 text-white bg-danger rounded-lg" role="alert" 
-            hidden
+            {/* only display errors if the errors array is not empty */}
+            {errorMessages.length > 0 ? (
+
+            <div className=" max-w-xl mx-auto my-5 text-white bg-danger rounded-lg" role="alert" 
+            // hidden
             >
-                {/* display all error messages usign react list rendering  */}
-                <ul>
+                <ul className="list-disc p-2 mx-4 my-1">
                     {errorMessages.map((message, index) => (
                         <li key={index}>{message}</li>
                     ))}
                 </ul>
             </div>
+            )
+            : null}
 
             <form method="POST" className=" flex flex-col max-w-xl px-3 mx-auto" onSubmit={handleSubmit}>
-                <label htmlFor="username">Username</label>
-                <input type="text" id="username" name="username" onChange={handleChange} />
+                {/* <label htmlFor="username">Username</label>
+                <input type="text" id="username" name="username" onChange={handleChange} /> */}
 
                 <label htmlFor="email">Email</label>
-                <input type="email" id="email" name="email" onChange={handleChange} />
+                <input type="text" id="email" name="email" autoComplete="email" onChange={handleChange} />
 
                 <label htmlFor="firstName">First Name</label>
                 <input type="text" id="firstName" name="first_name" onChange={handleChange} />
