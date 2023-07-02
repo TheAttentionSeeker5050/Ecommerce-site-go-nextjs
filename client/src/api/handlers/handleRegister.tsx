@@ -113,6 +113,8 @@ export const handleRegister = async (
                 headers: {
                     'Content-Type': 'application/json',
                     'Accept': 'application/json',
+                    'Access-Control-Allow-Origin': 'http://159.65.225.127:3001',
+
                 },
                 body: JSON.stringify(newUserData),
             });
