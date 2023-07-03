@@ -118,7 +118,10 @@ func LoginController(
 	// print the url
 	fmt.Println(url)
 
-	c.Redirect(http.StatusTemporaryRedirect, url)
+	c.JSON(200, gin.H{
+		"message":     "Successfully logged in",
+		"callbackURL": url,
+	})
 
 }
 
