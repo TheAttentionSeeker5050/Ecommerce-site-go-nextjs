@@ -2,3 +2,4 @@ dbdata/
 */*.env
 */node_modules/
 design
+*/Dockerfile

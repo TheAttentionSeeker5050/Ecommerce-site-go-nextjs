@@ -3,6 +3,7 @@
 package controllers
 
 import (
+	"fmt"
 	"net/http"
 	"workspace/config"
 	"workspace/models"
@@ -106,8 +107,16 @@ func LoginController(
 		return
 	}
 
+	// c.JSON(200, gin.H{
+	// 	"message": "Successfully logged in",
+	// 	"email":   user.Email,
+	// })
+
 	// If login is successful, redirect the user to GitHub OAuth
 	url := config.GithubOauthConfig.AuthCodeURL("state", oauth2.AccessTypeOffline)
+
+	// print the url
+	fmt.Println(url)
 
 	c.Redirect(http.StatusTemporaryRedirect, url)
 
@@ -128,13 +137,14 @@ func AuthCallbackController(c *gin.Context) {
 	client := github.NewClient(config.GithubOauthConfig.Client(oauth2.NoContext, token))
 
 	// Fetch user information using the GitHub client
-	user, _, err := client.Users.Get(oauth2.NoContext, "")
+	user, callbackResponse, err := client.Users.Get(oauth2.NoContext, "")
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to fetch user information"})
 		return
 	}
 
 	user = user
+	callbackResponse = callbackResponse
 
 	// Perform further actions with the user information or store it as needed
 

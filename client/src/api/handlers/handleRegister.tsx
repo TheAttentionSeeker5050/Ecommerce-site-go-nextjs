@@ -112,8 +112,10 @@ export const handleRegister = async (
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Accept': 'application/json',
-                    'Access-Control-Allow-Origin': 'http://159.65.225.127:3001',
+                    'Access-Control-Allow-Origin': 'https://ecommerce-x.alligatorcode.pro',
+                    // 'Accept': 'application/json',
+                    // 'Access-Control-Allow-Origin': 'http://159.65.225.127:3001',
+                    // "no-cors": "true",
 
                 },
                 body: JSON.stringify(newUserData),

@@ -24,9 +24,18 @@ func UserRouter(
 		controllers.LoginController(c, db)
 	})
 
-	userRouter.GET("/auth/callback", func(c *gin.Context) {
-		controllers.AuthCallbackController(c)
-	})
+	userRouter.GET("/auth/callback",
+		// cors.New(
+		// 	cors.Config{
+		// 		AllowAllOrigins:  true,
+		// 		AllowMethods:     []string{"GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"},
+		// 		AllowHeaders:     []string{"no-cors", "Origin", "Authorization", "Content-Type", "Content-Length", "Access-Control-Allow-Origin"},
+		// 		AllowCredentials: true,
+		// 		MaxAge:           12,
+		// 	}),
+		func(c *gin.Context) {
+			controllers.AuthCallbackController(c)
+		})
 
 	userRouter.POST("/logout", func(c *gin.Context) {
 		c.JSON(http.StatusOK, gin.H{
