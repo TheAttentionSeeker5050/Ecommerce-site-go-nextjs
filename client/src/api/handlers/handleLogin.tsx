@@ -46,11 +46,8 @@ export const handleLogin = async (
             // declare the url variable as string
             var url: string;
             if (process.env.NODE_ENV === 'development') {
-                console.log('development');
-                console.log(process.env.API_URL);
                 url = `${process.env.API_URL}/user/login`;
             } else {
-                console.log('production');
                 url = `${process.env.API_URL_REMOTE}/user/login`;
             }
             
@@ -62,7 +59,6 @@ export const handleLogin = async (
                     'Accept': 'application/json',
                     'Access-Control-Allow-Origin': 'https://ecommerce-x.alligatorcode.pro',
                     // 'Access-Control-Allow-Origin': 'http://127.0.0.1:3000',
-                    // 'no-cors': 'true',
                 },
                 body: JSON.stringify(loginData),
             });
@@ -82,7 +78,6 @@ export const handleLogin = async (
             }
         
         } catch (fetchError) {
-            // console.log(fetchError);
             setErrorMessages(["Something went wrong. Could not login. Please try again."]);
         }
     }

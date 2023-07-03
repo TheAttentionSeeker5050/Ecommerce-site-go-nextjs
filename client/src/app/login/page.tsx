@@ -75,7 +75,7 @@ export default function LoginPage() {
 
                 
 
-                <input type="submit" value="login" className="bg-primary text-white py-2 px-4 m-2 rounded-full" />
+                <input type="submit" value="Login" className="bg-primary text-white py-2 px-4 m-2 rounded-full" />
                 
             </form>
 

@@ -112,7 +112,7 @@ func LoginController(
 	// 	"email":   user.Email,
 	// })
 
-	// If login is successful, redirect the user to GitHub OAuth
+	// If login is successful, redirect the user to GitHub OAuth, do it in a way that doesnt affect cors
 	url := config.GithubOauthConfig.AuthCodeURL("state", oauth2.AccessTypeOffline)
 
 	// print the url
