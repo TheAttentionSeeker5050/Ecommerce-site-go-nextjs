@@ -9,6 +9,8 @@ services:
       - db
     env_file:
       - server/.env
+      - server/production.env
+      - server/development.env
   db:
     image: mysql:8.0
     restart: always
