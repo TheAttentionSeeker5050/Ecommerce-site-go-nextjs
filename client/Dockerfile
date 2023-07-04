@@ -35,7 +35,7 @@ RUN npm prune --production
 
 # Set environment variables
 # ENV NODE_ENV=production
-ENV NODE_ENV=development
+ENV NODE_ENV=production
 
 # Expose the desired port
 EXPOSE 3001
