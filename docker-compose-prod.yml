@@ -11,7 +11,7 @@ services:
       - server/.env
       - server/production.env
       - server/development.env
-    env_type: development
+    env_type: production
   db:
     image: mysql:8.0
     restart: always
@@ -32,6 +32,6 @@ services:
       - 3001:3000
     depends_on:
       - server
-    env_type: development
+    env_type: production
 volumes:
   dbdata:

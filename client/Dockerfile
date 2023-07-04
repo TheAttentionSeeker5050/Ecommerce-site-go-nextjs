@@ -34,7 +34,7 @@ RUN npm prune --production
 # COPY --from=builder /client/node_modules ./node_modules
 
 # Set environment variables
-ENV NODE_ENV=production
+# ENV NODE_ENV=production
 # ENV NODE_ENV=development
 
 # Expose the desired port
