@@ -25,9 +25,11 @@ func main() {
 	if environmentString == "development" {
 		gin.SetMode(gin.DebugMode)
 
-	} else {
+	} else if environmentString == "production" {
 		gin.SetMode(gin.ReleaseMode)
 
+	} else {
+		panic("Invalid environment string")
 	}
 
 	// load the environment file
