@@ -15,6 +15,10 @@ COPY . ./
 RUN go mod tidy
 RUN go mod download
 
+# define the environment type
+# ENV ENV_TYPE=development
+ENV ENV_TYPE=production
+
 # Build the Go application to make executable binary
 RUN go build -o myWebServer
 
