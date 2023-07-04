@@ -9,10 +9,7 @@ const nextConfig = {
     API_USER_SUBDIR:'user',
     MAINTENANCE_MODE: 'false',
     // MAINTENANCE_MODE: 'true',
-    // NODE_ENV: 'development',
-    // NODE_ENV: 'production',
   },
-  
 };
 
 module.exports = nextConfig;

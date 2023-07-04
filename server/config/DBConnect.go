@@ -31,6 +31,7 @@ func ConnectDB() (*gorm.DB, error) {
 	db.AutoMigrate(
 		&models.Address{},
 		&models.User{},
+		&models.UserSession{},
 		// &models.Wishlist{},
 		// &models.ProductCategory{},
 		// &models.Product{},

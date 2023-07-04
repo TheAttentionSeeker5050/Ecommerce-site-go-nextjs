@@ -25,7 +25,7 @@ func UserRouter(
 	})
 
 	userRouter.GET("/auth/callback", func(c *gin.Context) {
-		controllers.AuthCallbackController(c)
+		controllers.AuthCallbackController(c, db)
 	})
 
 	userRouter.POST("/logout", func(c *gin.Context) {
