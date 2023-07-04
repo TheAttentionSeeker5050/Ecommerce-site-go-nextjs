@@ -141,7 +141,7 @@ func AuthCallbackController(
 	// Exchange the authorization code for an access token
 	token, err := config.GithubOauthConfig.Exchange(oauth2.NoContext, code)
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to exchange code for token"})
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Failed to exchange code for token"})
 		return
 	}
 
@@ -151,11 +151,9 @@ func AuthCallbackController(
 	// Fetch user information using the GitHub client
 	user, _, err := client.Users.Get(oauth2.NoContext, "")
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to fetch user information"})
+		c.JSON(http.StatusUnauthorized, gin.H{"error": "Failed to fetch user information"})
 		return
 	}
-
-	// user = user
 
 	// Perform further actions with the user information or store it as needed
 	// save the user information to the database using the user session model repository
