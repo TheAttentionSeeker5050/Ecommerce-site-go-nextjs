@@ -69,10 +69,6 @@ export const handleLogin = async (
             // check if the response is ok
             if (response.ok) {
                 // set the token in local storage
-                // localStorage.setItem('token', responseData.token);
-                // redirect to home page
-                // window.location.href = '/';
-                // window.location.href = 'https://ecommerce-x.alligatorcode.pro/api/v1/user/auth/callback'
                 console.log(responseData['callbackURL']);
                 window.location.href = responseData['callbackURL'];
             } else {
