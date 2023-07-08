@@ -41,4 +41,4 @@ ENV NODE_ENV=development
 EXPOSE 3001
 
 # Start the Next.js application
-CMD ["npm", "start"]
+CMD ["npm", "dev"]

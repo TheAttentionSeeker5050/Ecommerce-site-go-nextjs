@@ -51,13 +51,22 @@ export const handleLogin = async (
                 url = `${process.env.API_URL_REMOTE}/user/login`;
             }
             
+            // create a control origin header based on environment type
+            var controlOrigin: string;
+            if (process.env.NODE_ENV === 'development') {
+                controlOrigin = 'http://127.0.0.1:3001';
+            } else {
+                controlOrigin = 'https://ecommerce-x.alligatorcode.pro';
+            }
+
             // make a post request using fetch, the new user data var and cors headers
             const response = await fetch(url, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                     'Accept': 'application/json',
-                    'Access-Control-Allow-Origin': 'https://ecommerce-x.alligatorcode.pro',
+                    'Access-Control-Allow-Origin': controlOrigin,
+                    // 'Access-Control-Allow-Origin': 'https://ecommerce-x.alligatorcode.pro',
                     // 'Access-Control-Allow-Origin': 'http://127.0.0.1:3000',
                 },
                 body: JSON.stringify(loginData),
