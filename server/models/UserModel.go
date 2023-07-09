@@ -15,6 +15,8 @@ type User struct {
 	Email            string `gorm:"size:100;not null;unique" json:"email"`
 	Password         string `gorm:"size:100;not null;" json:"password"`
 	Phone            string `gorm:"size:100;not null;" json:"phone"`
+	Provider         string `gorm:"size:100;" json:"provider"`
+	Photo            string `gorm:"size:100;" json:"photo"`
 	Role             string `gorm:"size:100;not null;default:customer" json:"role"`
 	UpdatedAt        int64  `gorm:"autoUpdateTime" json:"updated_at"`
 	CreatedAt        int64  `gorm:"autoCreateTime" json:"created_at"`

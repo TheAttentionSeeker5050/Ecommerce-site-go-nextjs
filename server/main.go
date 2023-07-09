@@ -32,6 +32,8 @@ func main() {
 		panic("Invalid environment string")
 	}
 
+	println("----------------------\n", "Server running on", environmentString, "mode", "\n -------------------------------")
+
 	// load the environment file
 	err := godotenv.Load(fmt.Sprintf("%s.env", environmentString))
 	// check for errors
@@ -68,6 +70,7 @@ func main() {
 
 	// define the user router
 	routers.UserRouter(router, db)
+	routers.SessionRouter(router, db)
 
 	// Run the server
 	router.Run(":8080")
