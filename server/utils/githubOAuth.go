@@ -115,12 +115,14 @@ func GetGithubOAuthUser(token string) (*GithubOAuthUserResult, error) {
 		return nil, err
 	}
 
+	// parse the response body
 	var githubUser GithubOAuthUserResult
 
 	if err := json.Unmarshal(resBody, &githubUser); err != nil {
 		return nil, err
 	}
 
+	// create a new user body
 	userBody := &GithubOAuthUserResult{
 		Name:  githubUser.Name,
 		Email: githubUser.Email,
