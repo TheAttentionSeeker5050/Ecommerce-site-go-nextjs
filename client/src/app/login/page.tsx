@@ -28,6 +28,8 @@ export default function LoginPage() {
     const initialErrorMessages: string[] = [];
     const [errorMessages, setErrorMessages] = useState<string[]>(initialErrorMessages);
 
+    
+
     // handle login from form in api/handlers/handleLogin.tsx
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
