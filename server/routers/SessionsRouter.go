@@ -19,6 +19,7 @@ func SessionRouter(
 
 	userRouter.GET("/oauth/github", func(c *gin.Context) {
 		controllers.GitHubAuthController(c, db)
+		// controllers.AuthCallbackController(c, db)
 	})
 
 	userRouter.POST("/logout", func(c *gin.Context) {

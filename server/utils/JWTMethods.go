@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/golang-jwt/jwt/v5"
+	"github.com/golang-jwt/jwt/v4"
 )
 
 func CreateJWT(
@@ -14,42 +14,73 @@ func CreateJWT(
 	privateKey string,
 ) (string, error, string) {
 
-	// // decode the private key from base64
-	// decodedPrivateKey, _ := base64.StdEncoding.DecodeString(privateKey)
+	var sampleSecretKey = []byte("SecretYouShouldHide")
 
-	// fmt.Println("decoded private key:", decodedPrivateKey)
-
-	// // parse the private key from pem file
-	// key, err := jwt.ParseRSAPrivateKeyFromPEM([]byte(privateKey))
+	// formattedSecretKey, err := jwt.ParseRSAPrivateKeyFromPEM(sampleSecretKey)
 	// if err != nil {
 	// 	return "", err, "error on parsing private key"
 	// }
-	var (
-		privateKeyBytes []byte = []byte(privateKey)
-		token           *jwt.Token
-		signedToken     string
-	)
 
-	// get current time and add ttl to it
+	// use a pkcs8 formatted private key
+	token := jwt.New(jwt.SigningMethodES256)
+
+	// current time and store it in a variable
 	currentTime := time.Now().UTC()
 
 	// encode the payload and the claims
-	claims := make(jwt.MapClaims)
+	claims := token.Claims.(jwt.MapClaims)
 	claims["sub"] = payload
 	claims["exp"] = currentTime.Add(ttl).Unix()
 	claims["iat"] = currentTime.Unix()
 	claims["nbf"] = currentTime.Unix()
 
 	// create the token with the claims and payload
-	token = jwt.NewWithClaims(jwt.SigningMethodRS256, claims)
-
-	signedToken, err := token.SignedString(privateKeyBytes)
+	signedToken, err := token.SignedString(sampleSecretKey)
 	if err != nil {
 		return "", err, "error on creating token"
 	}
 
-	// return the signed token
 	return signedToken, nil, ""
+
+	// // -------------------------------------
+	// var (
+	// 	privateKeyRSA *rsa.PrivateKey
+	// 	token         *jwt.Token
+	// 	signedToken   string
+	// )
+
+	// // decode the private key from base64
+	// privateKeyBytes, err := base64.URLEncoding.DecodeString(privateKey)
+	// if err != nil {
+	// 	return "", err, "error on decoding private key"
+	// }
+
+	// // parse the private key from pem file
+	// privateKeyRSA, err = jwt.ParseRSAPrivateKeyFromPEM(privateKeyBytes)
+	// if err != nil {
+	// 	return "", err, "error on parsing private key"
+	// }
+
+	// // get current time and add ttl to it
+	// currentTime := time.Now().UTC()
+
+	// // encode the payload and the claims
+	// claims := make(jwt.MapClaims)
+	// claims["sub"] = payload
+	// claims["exp"] = currentTime.Add(ttl).Unix()
+	// claims["iat"] = currentTime.Unix()
+	// claims["nbf"] = currentTime.Unix()
+
+	// // create the token with the claims and payload
+	// token = jwt.NewWithClaims(jwt.SigningMethodRS256, claims)
+
+	// signedToken, err = token.SignedString(privateKeyRSA)
+	// if err != nil {
+	// 	return "", err, "error on creating token"
+	// }
+
+	// // return the signed token
+	// return signedToken, nil, ""
 }
 
 func ValidateJWT(

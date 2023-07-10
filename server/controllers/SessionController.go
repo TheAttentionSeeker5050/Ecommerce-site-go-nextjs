@@ -108,7 +108,7 @@ func GitHubAuthController(ctx *gin.Context, db *gorm.DB) {
 	// print type of private key
 
 	// generate token
-	access_token, err, errorType := utils.CreateJWT(tokenExpiration, resBody.ID, "secret")
+	access_token, err, errorType := utils.CreateJWT(tokenExpiration, resBody, "55748031673b8827ca1a8d905a68baf3118fcfc7")
 	if err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{
 			"message": "Failed to generate access token!",
@@ -122,7 +122,7 @@ func GitHubAuthController(ctx *gin.Context, db *gorm.DB) {
 	// secretKey = os.Getenv("REFRESH_TOKEN_PRIVATE_KEY")
 
 	// generate the refresh token
-	refresh_token, err, errorType := utils.CreateJWT(time.Duration(tokenExpiration), resBody.ID, "secret")
+	refresh_token, err, errorType := utils.CreateJWT(time.Duration(tokenExpiration), resBody, "55748031673b8827ca1a8d905a68baf3118fcfc7")
 	if err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{
 			"message": "Failed to generate refresh token!",

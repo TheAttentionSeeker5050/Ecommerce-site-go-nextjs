@@ -145,15 +145,20 @@ func AuthCallbackController(
 		return
 	}
 
+	fmt.Println("token:", token)
+
 	// Create a GitHub client using the access token
 	client := github.NewClient(config.GithubOauthConfig.Client(oauth2.NoContext, token))
 
 	// Fetch user information using the GitHub client
 	user, _, err := client.Users.Get(oauth2.NoContext, "")
 	if err != nil {
+		fmt.Println("error:", err)
 		c.JSON(http.StatusUnauthorized, gin.H{"error": "Failed to fetch user information"})
 		return
 	}
+
+	fmt.Println("user:", user)
 
 	// Perform further actions with the user information or store it as needed
 	// save the user information to the database using the user session model repository
@@ -163,7 +168,11 @@ func AuthCallbackController(
 		token.AccessToken,
 	)
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to save user session"})
+		fmt.Println("error:", err)
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error":    "Failed to save user session",
+			"errorMsg": err.Error(),
+		})
 		return
 	}
 
@@ -199,6 +208,6 @@ func AuthCallbackController(
 	c.SetCookie("sessionID", sessionID, maxAge, "/", "localhost", false, true)
 
 	// redirect to main page
-	c.Redirect(http.StatusFound, "https://ecommerce-x.alligatorcode.pro/")
+	c.Redirect(http.StatusFound, "http://127.0.0.1:3001/")
 
 }
