@@ -8,3 +8,8 @@ server/Dockerfile
 client/Dockerfile
 /server/jwtRS256
 /server/jwtRS256.pub
+/server/*.key
+/server/*.key.pub
+/server/*.pem
+/server/*.pem.pub
+/server/*.pub

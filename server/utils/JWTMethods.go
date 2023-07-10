@@ -14,7 +14,7 @@ func CreateJWT(
 ) (string, error) {
 
 	// read file using the file utils
-	key, err := ReadContentsOfFile("/jwtRS256")
+	key, err := ReadContentsOfFile("/jwtRS256.key")
 	if err != nil {
 		return "", err
 	}
@@ -47,7 +47,7 @@ func ValidateJWT(
 	publicKey string,
 ) (interface{}, error) {
 	// read file using the file utils
-	key, err := ReadContentsOfFile("/jwtRS256.pub")
+	key, err := ReadContentsOfFile("/jwtRS256.key.pub")
 	if err != nil {
 		return "", err
 	}

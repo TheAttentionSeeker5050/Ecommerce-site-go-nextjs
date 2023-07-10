@@ -25,5 +25,4 @@ func ReadContentsOfFile(filePath string) (string, error) {
 
 	// return the contents as bit array
 	return string(fileContents), nil
-
 }
