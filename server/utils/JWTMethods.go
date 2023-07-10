@@ -3,6 +3,7 @@ package utils
 import (
 	"encoding/base64"
 	"fmt"
+	"os"
 	"time"
 
 	"github.com/golang-jwt/jwt/v4"
@@ -12,75 +13,58 @@ func CreateJWT(
 	ttl time.Duration,
 	payload interface{},
 	privateKey string,
-) (string, error, string) {
+) (string, error) {
 
-	var sampleSecretKey = []byte("SecretYouShouldHide")
-
-	// formattedSecretKey, err := jwt.ParseRSAPrivateKeyFromPEM(sampleSecretKey)
-	// if err != nil {
-	// 	return "", err, "error on parsing private key"
-	// }
-
-	// use a pkcs8 formatted private key
-	token := jwt.New(jwt.SigningMethodES256)
-
-	// current time and store it in a variable
-	currentTime := time.Now().UTC()
-
-	// encode the payload and the claims
-	claims := token.Claims.(jwt.MapClaims)
-	claims["sub"] = payload
-	claims["exp"] = currentTime.Add(ttl).Unix()
-	claims["iat"] = currentTime.Unix()
-	claims["nbf"] = currentTime.Unix()
-
-	// create the token with the claims and payload
-	signedToken, err := token.SignedString(sampleSecretKey)
+	// get current working directory
+	cwd, err := os.Getwd()
 	if err != nil {
-		return "", err, "error on creating token"
+		return "", fmt.Errorf("could not get current working directory: %w", err)
 	}
+	fmt.Println("current working directory:", cwd)
 
-	return signedToken, nil, ""
+	// join current directory with private key file name and save it to screen
+	privateKeyPath := cwd + "/jwtRS256"
+	// privateKeyPath := cwd + "/private_key"
+	fmt.Println("private key path:", privateKeyPath)
 
-	// // -------------------------------------
-	// var (
-	// 	privateKeyRSA *rsa.PrivateKey
-	// 	token         *jwt.Token
-	// 	signedToken   string
-	// )
+	// read file and decode the private key
 
-	// // decode the private key from base64
-	// privateKeyBytes, err := base64.URLEncoding.DecodeString(privateKey)
+	key, err := os.ReadFile(privateKeyPath)
+	if err != nil {
+		return "", fmt.Errorf("could not read key from file: %w", err)
+	}
+	fmt.Println("raw private key:", key[0:25])
+
+	// decodedPrivateKey, err := base64.StdEncoding.DecodeString(string(key))
 	// if err != nil {
-	// 	return "", err, "error on decoding private key"
+	// 	return "", fmt.Errorf("could not decode key: %w", err)
 	// }
+	// fmt.Println("decoded private key:", decodedPrivateKey[0:25])
 
-	// // parse the private key from pem file
-	// privateKeyRSA, err = jwt.ParseRSAPrivateKeyFromPEM(privateKeyBytes)
-	// if err != nil {
-	// 	return "", err, "error on parsing private key"
-	// }
+	// // parse the private key
+	// parsedPrivateKey, err := jwt.ParseRSAPrivateKeyFromPEM(decodedPrivateKey)
+	parsedPrivateKey, err := jwt.ParseRSAPrivateKeyFromPEM(key)
+	if err != nil {
+		return "", fmt.Errorf("could not parse key: %w", err)
+	}
+	// fmt.Println("parsed private key:", parsedPrivateKey)
 
-	// // get current time and add ttl to it
-	// currentTime := time.Now().UTC()
+	now := time.Now().UTC()
 
-	// // encode the payload and the claims
-	// claims := make(jwt.MapClaims)
-	// claims["sub"] = payload
-	// claims["exp"] = currentTime.Add(ttl).Unix()
-	// claims["iat"] = currentTime.Unix()
-	// claims["nbf"] = currentTime.Unix()
+	claims := make(jwt.MapClaims)
+	claims["sub"] = payload
+	claims["exp"] = now.Add(ttl).Unix()
+	claims["iat"] = now.Unix()
+	claims["nbf"] = now.Unix()
 
-	// // create the token with the claims and payload
-	// token = jwt.NewWithClaims(jwt.SigningMethodRS256, claims)
+	token, err := jwt.NewWithClaims(jwt.SigningMethodRS256, claims).SignedString(parsedPrivateKey)
+	if err != nil {
+		return "", fmt.Errorf("create: sign token: %w", err)
+	}
+	fmt.Println("token:", token)
 
-	// signedToken, err = token.SignedString(privateKeyRSA)
-	// if err != nil {
-	// 	return "", err, "error on creating token"
-	// }
+	return token, nil
 
-	// // return the signed token
-	// return signedToken, nil, ""
 }
 
 func ValidateJWT(

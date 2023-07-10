@@ -108,13 +108,13 @@ func GitHubAuthController(ctx *gin.Context, db *gorm.DB) {
 	// print type of private key
 
 	// generate token
-	access_token, err, errorType := utils.CreateJWT(tokenExpiration, resBody, "55748031673b8827ca1a8d905a68baf3118fcfc7")
+	access_token, err := utils.CreateJWT(tokenExpiration, resBody.ID, "55748031673b8827ca1a8d905a68baf3118fcfc7")
 	if err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{
 			"message": "Failed to generate access token!",
 			// display error message if debug mode is true using conditional operator
 			"error": utils.ReturnErrorMessageOnDevMode(err),
-			"type":  errorType,
+			// "type":  errorType,
 		})
 		return
 	}
@@ -122,21 +122,24 @@ func GitHubAuthController(ctx *gin.Context, db *gorm.DB) {
 	// secretKey = os.Getenv("REFRESH_TOKEN_PRIVATE_KEY")
 
 	// generate the refresh token
-	refresh_token, err, errorType := utils.CreateJWT(time.Duration(tokenExpiration), resBody, "55748031673b8827ca1a8d905a68baf3118fcfc7")
+	refresh_token, err := utils.CreateJWT(tokenExpiration, resBody, "55748031673b8827ca1a8d905a68baf3118fcfc7")
 	if err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{
 			"message": "Failed to generate refresh token!",
 			// display error message if debug mode is true using conditional operator
 			"error": utils.ReturnErrorMessageOnDevMode(err),
-			"type":  errorType,
+			// "type":  errorType,
 		})
 		return
 	}
 
+	// add the client domain name to a variable from environment variables
+	var domainName string = os.Getenv("CLIENT_ORIGIN_URL")
+
 	// set cookies
-	ctx.SetCookie("access_token", access_token, tokenExpirationHours*60*60, "/", "localhost", false, true)
-	ctx.SetCookie("refresh_token", refresh_token, tokenExpirationHours*60*60, "/", "localhost", false, true)
-	ctx.SetCookie("logged_in", "true", tokenExpirationHours*60*60, "/", "localhost", false, true)
+	ctx.SetCookie("access_token", access_token, tokenExpirationHours*60*60, "/", domainName, false, true)
+	ctx.SetCookie("refresh_token", refresh_token, tokenExpirationHours*60*60, "/", domainName, false, true)
+	ctx.SetCookie("logged_in", "true", tokenExpirationHours*60*60, "/", domainName, false, true)
 
 	// redirect to the client url path
 	ctx.Redirect(http.StatusTemporaryRedirect, fmt.Sprint(os.Getenv("CLIENT_ORIGIN_URL")+pathUrl))
