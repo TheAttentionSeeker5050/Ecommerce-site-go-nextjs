@@ -103,10 +103,6 @@ func GitHubAuthController(ctx *gin.Context, db *gorm.DB) {
 	tokenExpiration := time.Duration(tokenExpirationHours) * time.Hour
 	fmt.Println("token expiration:", tokenExpiration)
 
-	// get private key from env and convert it to string
-	// var secretKey string = os.Getenv("ACCESS_TOKEN_PRIVATE_KEY")
-	// print type of private key
-
 	// generate token
 	access_token, err := utils.CreateJWT(tokenExpiration, resBody.ID, "55748031673b8827ca1a8d905a68baf3118fcfc7")
 	if err != nil {
