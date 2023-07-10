@@ -3,7 +3,6 @@ package utils
 import (
 	"encoding/base64"
 	"fmt"
-	"os"
 	"time"
 
 	"github.com/golang-jwt/jwt/v4"
@@ -15,23 +14,29 @@ func CreateJWT(
 	privateKeyFileName string,
 ) (string, error) {
 
-	// get current working directory
-	cwd, err := os.Getwd()
+	// // get current working directory
+	// cwd, err := os.Getwd()
+	// if err != nil {
+	// 	return "", fmt.Errorf("could not get current working directory: %w", err)
+	// }
+
+	// // join current directory with private key file name and save it to screen
+	// privateKeyPath := cwd + "/jwtRS256"
+
+	// // read file and decode the private key
+
+	// key, err := os.ReadFile(privateKeyPath)
+	// if err != nil {
+	// 	return "", fmt.Errorf("could not read key from file: %w", err)
+	// }
+
+	// read file using the file utils
+	key, err := ReadContentsOfFile("/jwtRS256")
 	if err != nil {
-		return "", fmt.Errorf("could not get current working directory: %w", err)
+		return "", err
 	}
 
-	// join current directory with private key file name and save it to screen
-	privateKeyPath := cwd + "/jwtRS256"
-
-	// read file and decode the private key
-
-	key, err := os.ReadFile(privateKeyPath)
-	if err != nil {
-		return "", fmt.Errorf("could not read key from file: %w", err)
-	}
-
-	parsedPrivateKey, err := jwt.ParseRSAPrivateKeyFromPEM(key)
+	parsedPrivateKey, err := jwt.ParseRSAPrivateKeyFromPEM([]byte(key))
 	if err != nil {
 		return "", fmt.Errorf("could not parse key: %w", err)
 	}
