@@ -109,7 +109,7 @@ func (userRepo *UserRepository) UpdateUser(newUserData *models.User) (*models.Us
 	// result := userRepo.DB.Model(&models.User{}).Where("id = ?", userID).Updates(newUserData)
 
 	// update the user
-	result := userRepo.DB.Model(&newUserData).Where("id = ?", newUserData.ID).Updates(newUserData)
+	result := userRepo.DB.Model(&newUserData).Where("email = ID", newUserData.ID).Updates(newUserData)
 
 	// check for errors
 	if result.Error != nil {

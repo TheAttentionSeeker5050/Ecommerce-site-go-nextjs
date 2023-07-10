@@ -25,10 +25,14 @@ func main() {
 	if environmentString == "development" {
 		gin.SetMode(gin.DebugMode)
 
-	} else {
+	} else if environmentString == "production" {
 		gin.SetMode(gin.ReleaseMode)
 
+	} else {
+		panic("Invalid environment string")
 	}
+
+	println("----------------------\n", "Server running on", environmentString, "mode", "\n -------------------------------")
 
 	// load the environment file
 	err := godotenv.Load(fmt.Sprintf("%s.env", environmentString))
@@ -54,8 +58,8 @@ func main() {
 
 	// add cors configuration
 	router.Use(cors.New(config.ConfigureCors()))
-	fmt.Println("Successfully loaded CORS configuration")
-	fmt.Println(config.ConfigureCors())
+	// fmt.Println("Successfully loaded CORS configuration")
+	// fmt.Println(config.ConfigureCors())
 
 	// Define routes
 	router.GET("/", func(c *gin.Context) {
@@ -66,6 +70,7 @@ func main() {
 
 	// define the user router
 	routers.UserRouter(router, db)
+	routers.SessionRouter(router, db)
 
 	// Run the server
 	router.Run(":8080")

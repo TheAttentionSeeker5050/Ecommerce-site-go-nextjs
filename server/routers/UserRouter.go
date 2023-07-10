@@ -1,7 +1,6 @@
 package routers
 
 import (
-	"net/http"
 	"workspace/controllers"
 
 	"github.com/gin-gonic/gin"
@@ -21,16 +20,18 @@ func UserRouter(
 	})
 
 	userRouter.POST("/login", func(c *gin.Context) {
-		c.JSON(http.StatusOK, gin.H{
-			"message": "Hello, login!",
-		})
+		controllers.LoginController(c, db)
 	})
 
-	userRouter.POST("/logout", func(c *gin.Context) {
-		c.JSON(http.StatusOK, gin.H{
-			"message": "Hello, logout!",
-		})
-	})
+	// userRouter.GET("/auth/callback", func(c *gin.Context) {
+	// 	controllers.AuthCallbackController(c, db)
+	// })
+
+	// userRouter.POST("/logout", func(c *gin.Context) {
+	// 	c.JSON(http.StatusOK, gin.H{
+	// 		"message": "Hello, logout!",
+	// 	})
+	// })
 
 	return userRouter
 }

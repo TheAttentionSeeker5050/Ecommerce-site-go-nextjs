@@ -23,6 +23,8 @@ export default function RegisterPage() {
     
     // handle user registration from form in api/handlers/handleRegister.tsx
     const handleSubmit =  (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        
         // clear the error messages
         setErrorMessages(initialErrorMessages);
 
