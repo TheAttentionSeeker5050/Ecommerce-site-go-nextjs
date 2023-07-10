@@ -5,6 +5,7 @@ import axios from "axios";
 import React, {useState} from "react";
 
 import { handleRegister } from "@/api/handlers/handleRegister";
+import Link from "next/link";
 
 
 export default function RegisterPage() {
@@ -119,6 +120,11 @@ export default function RegisterPage() {
                 <input type="submit" value="Register" className="bg-primary text-white py-2 px-4 m-2 rounded-full" />
                 
             </form>
+
+            {/* if you need to register instead */}
+            <div className="flex max-w-xl gap-2 mx-auto  my-5">
+                Already have an account? <Link href="/register">Sign In here</Link>
+            </div>
 
         </div>
     )
