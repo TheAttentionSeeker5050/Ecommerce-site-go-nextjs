@@ -5,24 +5,30 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/golang-jwt/jwt"
+	"github.com/golang-jwt/jwt/v5"
 )
 
 func CreateJWT(
 	ttl time.Duration,
 	payload interface{},
 	privateKey string,
-) (string, error) {
-	decodedPrivateKey, err := base64.StdEncoding.DecodeString(privateKey)
-	if err != nil {
-		return "", err
-	}
+) (string, error, string) {
 
-	// parse the private key
-	key, err := jwt.ParseRSAPrivateKeyFromPEM(decodedPrivateKey)
-	if err != nil {
-		return "", err
-	}
+	// // decode the private key from base64
+	// decodedPrivateKey, _ := base64.StdEncoding.DecodeString(privateKey)
+
+	// fmt.Println("decoded private key:", decodedPrivateKey)
+
+	// // parse the private key from pem file
+	// key, err := jwt.ParseRSAPrivateKeyFromPEM([]byte(privateKey))
+	// if err != nil {
+	// 	return "", err, "error on parsing private key"
+	// }
+	var (
+		privateKeyBytes []byte = []byte(privateKey)
+		token           *jwt.Token
+		signedToken     string
+	)
 
 	// get current time and add ttl to it
 	currentTime := time.Now().UTC()
@@ -35,13 +41,15 @@ func CreateJWT(
 	claims["nbf"] = currentTime.Unix()
 
 	// create the token with the claims and payload
-	token, err := jwt.NewWithClaims(jwt.SigningMethodRS256, claims)
+	token = jwt.NewWithClaims(jwt.SigningMethodRS256, claims)
+
+	signedToken, err := token.SignedString(privateKeyBytes)
 	if err != nil {
-		return "", err
+		return "", err, "error on creating token"
 	}
 
 	// return the signed token
-	return token.SignedString(key), nil
+	return signedToken, nil, ""
 }
 
 func ValidateJWT(
