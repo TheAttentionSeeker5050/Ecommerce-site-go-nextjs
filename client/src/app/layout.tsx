@@ -6,7 +6,7 @@ import FooterComponent from '@/components/globalComponents/footerComponent'
 import { useEffect, useState } from 'react'
 import MaintenanceModePage from '@/components/pageComponents/maintenanceModePage'
 const inter = Inter({ subsets: ['latin'] })
-import DisclaimerComponent from '@/components/globalComponents/pageDisclaimerComponent'
+import PageDisclaimerComponent from '@/components/globalComponents/pageDisclaimerComponent'
 
 // export const metadata = {
 //   title: 'Ecommerce-x: Pet Shop',
@@ -53,8 +53,8 @@ export default function RootLayout({
       
 
 
-        <body className='dark:bg-primary-dark w-screen box-border bg-gray-light dark:text-white'>
-          <DisclaimerComponent ToggleDarkMode={ToggleDarkMode} isDarkMode={isDarkMode} />
+        <body className='dark:bg-primary-dark w-full   bg-gray-light dark:text-white p-0'>
+          <PageDisclaimerComponent ToggleDarkMode={ToggleDarkMode} isDarkMode={isDarkMode} />
 
           <HeaderComponent ToggleDarkMode={ToggleDarkMode} isDarkMode={isDarkMode}
           />
@@ -65,8 +65,8 @@ export default function RootLayout({
             ToggleDarkMode={ToggleDarkMode} 
             />
           
-          <DisclaimerComponent ToggleDarkMode={ToggleDarkMode} isDarkMode={isDarkMode} />
-
+          <PageDisclaimerComponent ToggleDarkMode={ToggleDarkMode} isDarkMode={isDarkMode} />
+          
         </body>
       }
     </html>
