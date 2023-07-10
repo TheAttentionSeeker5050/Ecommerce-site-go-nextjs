@@ -1,7 +1,6 @@
 package utils
 
 import (
-	"encoding/base64"
 	"fmt"
 	"time"
 
@@ -47,14 +46,14 @@ func ValidateJWT(
 	tokenString string,
 	publicKey string,
 ) (interface{}, error) {
-	// decode the public key
-	decodedPublicKey, err := base64.StdEncoding.DecodeString(publicKey)
+	// read file using the file utils
+	key, err := ReadContentsOfFile("/jwtRS256.pub")
 	if err != nil {
-		return nil, err
+		return "", err
 	}
 
 	// parse the public key
-	parsedPublicKey, err := jwt.ParseRSAPublicKeyFromPEM(decodedPublicKey)
+	parsedPublicKey, err := jwt.ParseRSAPublicKeyFromPEM([]byte(key))
 	if err != nil {
 		return nil, err
 	}
