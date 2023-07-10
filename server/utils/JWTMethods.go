@@ -12,7 +12,7 @@ import (
 func CreateJWT(
 	ttl time.Duration,
 	payload interface{},
-	privateKey string,
+	privateKeyFileName string,
 ) (string, error) {
 
 	// get current working directory
@@ -20,12 +20,9 @@ func CreateJWT(
 	if err != nil {
 		return "", fmt.Errorf("could not get current working directory: %w", err)
 	}
-	fmt.Println("current working directory:", cwd)
 
 	// join current directory with private key file name and save it to screen
 	privateKeyPath := cwd + "/jwtRS256"
-	// privateKeyPath := cwd + "/private_key"
-	fmt.Println("private key path:", privateKeyPath)
 
 	// read file and decode the private key
 
@@ -33,21 +30,11 @@ func CreateJWT(
 	if err != nil {
 		return "", fmt.Errorf("could not read key from file: %w", err)
 	}
-	fmt.Println("raw private key:", key[0:25])
 
-	// decodedPrivateKey, err := base64.StdEncoding.DecodeString(string(key))
-	// if err != nil {
-	// 	return "", fmt.Errorf("could not decode key: %w", err)
-	// }
-	// fmt.Println("decoded private key:", decodedPrivateKey[0:25])
-
-	// // parse the private key
-	// parsedPrivateKey, err := jwt.ParseRSAPrivateKeyFromPEM(decodedPrivateKey)
 	parsedPrivateKey, err := jwt.ParseRSAPrivateKeyFromPEM(key)
 	if err != nil {
 		return "", fmt.Errorf("could not parse key: %w", err)
 	}
-	// fmt.Println("parsed private key:", parsedPrivateKey)
 
 	now := time.Now().UTC()
 
