@@ -6,3 +6,5 @@ client/Dockerfile
 server/Dockerfile
 
 client/Dockerfile
+/server/jwtRS256
+/server/jwtRS256.pub
