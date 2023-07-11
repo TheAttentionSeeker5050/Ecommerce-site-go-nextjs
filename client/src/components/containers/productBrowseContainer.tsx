@@ -11,7 +11,7 @@ import ProductFilterContainer from "./productFilterContainer";
 export default function ProductBrowseContainer(
 
 ) {
-    
+    // the sorting and pagination logic will be handled here
     return (
         <div id="content-wrapper" className="flex flex-row gap-3 flex-wrap justify-evenly">
             
@@ -21,7 +21,7 @@ export default function ProductBrowseContainer(
                 <div id="products-container-upper-view-opts " className="bg-primary-light dark:bg-primary-dark dark:text-black text-white p-4 rounded-t-xl border-2 border-black dark:border-white flex flex-col flex-wrap  gap-3 ">
                     <ul id="sorting" className="flex flex-row gap-3 justify-center">
                         <li>
-                            <FontAwesomeIcon icon={faArrowUp} />
+                            <FontAwesomeIcon icon={faArrowUp}/>
                             <FontAwesomeIcon icon={faArrowDown} />
                             <FontAwesomeIcon icon={faDollarSign} />
                         </li>
