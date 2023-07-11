@@ -1,17 +1,10 @@
 import { ButtonRedirectPrimary } from "@/components/buttons/buttonPrimary";
-
+import { product as productData } from "@/data/dummyData/productsDummyData";
 
 
 
 export default function ProductHighlightedContainer(
-    productData: {
-        productName: string,
-        price: number,
-        productImageSrc: string,
-        productDescription: string,
-        productHighlight: string,
-        productLink: string,
-    }
+    
 ) {
 
     return (

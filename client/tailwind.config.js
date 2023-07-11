@@ -11,7 +11,6 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        // extend: {
         primary: {
           light: '#3a86ff',
           DEFAULT: '#3a86ff',
@@ -50,6 +49,12 @@ module.exports = {
           DEFAULT: '#f8f9fa',
           dark: '#415a77',
         },
+        pagetitle: {
+          light: '#3a86ff',
+          DEFAULT: '#343a40',
+          dark: '#ff4500',
+        },
+        
       },
       fontFamily: {
         sans: ['Roboto', 'sans-serif'],
