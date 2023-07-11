@@ -1,3 +1,4 @@
+"use client"
 
 import ProductBrowseContainer from "@/components/containers/productBrowseContainer"
 import { styleConstants } from "@/styles/constants/styleConstants"
