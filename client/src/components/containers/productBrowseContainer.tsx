@@ -1,4 +1,5 @@
 
+
 // import dummy data
 import { productsArray } from "@/data/dummyData/productsDummyData"
 
@@ -9,63 +10,62 @@ import ProductFilterContainer from "./productFilterContainer";
 import { useState } from "react";
 
 
-
 export default function ProductBrowseContainer(
-
-) {
+    
+    ) {
     // get the query params from the url
     const urlSearchParams = new URLSearchParams(window.location.search)
-    
-
+        
+        
     // the sorting and pagination logic will be handled here
-    // ---------------------------------------------
-    // first add the state for the sorting and pagination
-    const [sortedBy, setSortedBy] = useState(urlSearchParams.get("sort") || "popularity")
-    const [ascending, setAscending] = useState(urlSearchParams.get("ascending") === "true" || false)
-    // get page as a number
-    const [pagination, setPagination] = useState(parseInt(urlSearchParams.get("page") || "0"))
+        
+    // first get the sorting and pagination state from the url
+    // i am using variables and the url search params object because i want to be able to change the sorting and pagination state without reloading the page and not dealing with async execution
+    // i may change to somethign else later
+    let sortedBy = urlSearchParams.get("sort") || "popularity"
+    let ascending = urlSearchParams.get("ascending") === "true" || false
+    let pagination = parseInt(urlSearchParams.get("page") || "1")
 
-
+    // the getter for the new location to redirect to
+    const getNewLocation = () => window.location.href.split("?")[0] + "?page=" + pagination + "&sort=" + sortedBy+ "&ascending=" + ascending
+    
     // the handler for the sorting and pagination
     function handleSorting(
         event: React.MouseEvent<HTMLAnchorElement, MouseEvent>,
         newSortedBy: string,
     ) {
         event.preventDefault()
-        // set the sorting state
+        // change the sorting state if needed
         // if the sorting is already set to the same value, then change the sorting order
-        new Promise((resolve, reject) => {
-            if (newSortedBy === sortedBy) {
-                setAscending(!ascending)
-            } else {
-                setSortedBy(newSortedBy)
-                setAscending(false)
-            }
-            resolve(null)
-        })
-        .then(() => {
-            // now get the base url from current location
-            const currentLocation = window.location.href .split("?")[0]
-            const isSearch = window.location.href.includes("?")
+        if (newSortedBy === sortedBy) {
+            ascending = !ascending
+        } else {
+            sortedBy = newSortedBy
+            ascending = false
+        }
 
-            let newLocation = currentLocation + "?"
-
-            // if pagination, then add the pagination query to the url
-            if (pagination !== 0) {
-                newLocation += "page=" + pagination
-            }
-            // if sorting, then add the sorting query to the url
-            // if (isSearch) {
-                newLocation += "&sort=" + sortedBy+ "&ascending=" + ascending
-            // }
-            return newLocation
-        })
-        .then((newLocation) => {
-
-            // redirect to the new url
-            window.location.href = newLocation
-        })
+        // redirect to the new url
+        window.location.href = getNewLocation()
     }
+
+
+    function handlePagination(
+        event: React.MouseEvent<HTMLAnchorElement, MouseEvent>,
+        newPagination: number,
+    ) {
+        event.preventDefault()
+        // change the pagination state if needed
+        if (newPagination < 1) {
+            newPagination = 1
+        } else {
+            pagination = newPagination
+        }
+
+        // redirect to the new url
+        window.location.href = getNewLocation()
+    }
+                
+
 
 
     const ArrowIconComponent = (
@@ -81,9 +81,7 @@ export default function ProductBrowseContainer(
                 <FontAwesomeIcon icon={faArrowDown} />
             )
         } 
-            
-        return <></>
-        
+
     }
 
     console.log("sorted by: ", sortedBy, "ascending: ", ascending, "pagination: ", pagination)
@@ -108,22 +106,17 @@ export default function ProductBrowseContainer(
                             <ArrowIconComponent sortByInput="popularity" />
                             <FontAwesomeIcon icon={faFire} />
                         </a>
-                        <a href="">
+                        <a href="" className="ml-auto">
                             <FontAwesomeIcon icon={faList} />
                         </a>
                         <a href="">
                             <FontAwesomeIcon icon={faTableCells} />
                         </a>
                     </div>
-                    <ul id="pagination" className="flex flex-row gap-3 justify-center">
-                        <li>Start</li>
-                        <li>Previous</li>
-                        <li>1</li>
-                        <li>2</li>
-                        <li>3</li>
-                        <li>Next</li>
-                        <li>End</li>
-                    </ul>
+                    <div id="pagination" className="flex flex-row gap-3 justify-center">
+                        <a href="" onClick={(e) => handlePagination(e, pagination-1)}>Previous</a>
+                        <a href="" onClick={(e) => handlePagination(e, pagination+1)}>Next</a>
+                    </div>
                 </div>
                 <div id="products-container-grid" className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4  gap-3 px-3 py-5  border-black dark:border-primary-dark border-2 border-t-0 rounded-b-xl">
                     {productsArray.map((productData) => {
