@@ -53,7 +53,7 @@ export default function RootLayout({
       
 
 
-        <body className='dark:bg-primary-dark w-full   bg-gray-light dark:text-white p-0'>
+        <body className='dark:bg-background-dark w-full   bg-background-light dark:text-white p-0'>
           <PageDisclaimerComponent ToggleDarkMode={ToggleDarkMode} isDarkMode={isDarkMode} />
 
           <HeaderComponent ToggleDarkMode={ToggleDarkMode} isDarkMode={isDarkMode}
@@ -66,7 +66,7 @@ export default function RootLayout({
             />
           
           <PageDisclaimerComponent ToggleDarkMode={ToggleDarkMode} isDarkMode={isDarkMode} />
-          
+
         </body>
       }
     </html>

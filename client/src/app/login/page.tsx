@@ -16,6 +16,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGithub, faGoogle } from "@fortawesome/free-brands-svg-icons";
 import { getGitHubURL } from "@/utils/getGitHubURL";
 import Link from "next/link";
+import { SubmitButtonPrimary } from "@/components/buttons/buttonPrimary";
 
 
 
@@ -87,18 +88,18 @@ export default function LoginPage() {
             )
             : null}
 
-            <form method="POST" className=" flex flex-col max-w-xl px-3 mx-auto" onSubmit={handleSubmit}>
+            <form method="POST" className=" flex flex-col max-w-xl px-3 mx-auto gap-1.5" onSubmit={handleSubmit}>
                 
                 <label htmlFor="email">Email</label>
-                <input type="text" id="email" name="email" autoComplete="email" onChange={handleChange} />
+                <input type="text" id="email" className="p-1 px-2 text-black rounded-md" name="email" autoComplete="email" onChange={handleChange} />
             
                 <label htmlFor="password">Password</label>
-                <input type="password" id="password" name="password" onChange={handleChange} />
+                <input type="password" className="p-1 px-2 text-black rounded-md" id="password" name="password" onChange={handleChange} />
             
                 <a href="">Forgot Password?</a>
             
-                <input type="submit" value="Login" className="bg-primary text-white py-2 px-4 m-2 rounded-full" />
-                
+                {/* <input type="submit" value="Login" className="bg-primary text-white py-2 px-4 m-2 rounded-full" /> */}
+                <SubmitButtonPrimary text="Login" />
             </form> 
 
             {/* if need to sign up */}

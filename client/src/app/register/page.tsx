@@ -94,30 +94,30 @@ export default function RegisterPage() {
             )
             : null}
 
-            <form method="POST" className=" flex flex-col max-w-xl px-3 mx-auto" onSubmit={handleSubmit}>
+            <form method="POST" className=" flex flex-col max-w-xl px-3 mx-auto gap-1.5" onSubmit={handleSubmit}>
                 
                 <label htmlFor="email">Email</label>
-                <input type="text" id="email" name="email" autoComplete="email" onChange={handleChange} />
+                <input type="text" id="email" name="email" className="p-1 px-2 text-black rounded-md" autoComplete="email" onChange={handleChange} />
 
                 <label htmlFor="firstName">First Name</label>
-                <input type="text" id="firstName" name="first_name" onChange={handleChange} />
+                <input type="text" id="firstName" className="p-1 px-2 text-black rounded-md" name="first_name" onChange={handleChange} />
 
                 <label htmlFor="lastName">Last Name</label>
-                <input type="text" id="lastName" name="last_name" onChange={handleChange} />
+                <input type="text" className="p-1 px-2 text-black rounded-md" id="lastName" name="last_name" onChange={handleChange} />
 
                 <label htmlFor="phone">Phone</label>
-                <input type="text" id="phone" name="phone" onChange={handleChange} />
+                <input type="text" className="p-1 px-2 text-black rounded-md" id="phone" name="phone" onChange={handleChange} />
 
                 <label htmlFor="middleName">Middle Name</label>
-                <input type="text" id="middleName" name="middle_name" onChange={handleChange} />
+                <input type="text" className="p-1 px-2 text-black rounded-md" id="middleName" name="middle_name" onChange={handleChange} />
 
                 <label htmlFor="password">Password</label>
-                <input type="password" id="password" name="password" onChange={handleChange} />
+                <input type="password" className="p-1 px-2 text-black rounded-md" id="password" name="password" onChange={handleChange} />
 
                 <label htmlFor="password2">Confirm Password</label>
-                <input type="password" id="password2" name="password2" onChange={handleChange} />
+                <input type="password" className="p-1 px-2 text-black rounded-md" id="password2" name="password2" onChange={handleChange} />
 
-                <input type="submit" value="Register" className="bg-primary text-white py-2 px-4 m-2 rounded-full" />
+                <input type="submit"  value="Register" className="bg-primary text-white py-2 px-4 m-2 rounded-full" />
                 
             </form>
 

@@ -1,4 +1,5 @@
 // buttons with secondary color scheme
+// this is no longer used and will be remade completely with a new color scheme adjusted to the new design I am working on
 
 import React from 'react';
 
@@ -39,7 +40,7 @@ interface ButtonSecondaryWithActionProps {
 export function ButtonWithActionSecondary(props: ButtonSecondaryWithActionProps) {
     return (
         <button
-        className={`bg-secondary text-white py-2 px-4 m-2 rounded-full ${
+        className={`bg-secondary dark:bg-neutral-light text-white py-2 px-4 m-2 rounded-full ${
             props.disabled ? 'opacity-50 cursor-not-allowed' : ''
         }
         hover:bg-secondary-hover
