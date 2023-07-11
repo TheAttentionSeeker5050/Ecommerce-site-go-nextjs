@@ -6,6 +6,7 @@ import React, {useState} from "react";
 
 import { handleRegister } from "@/api/handlers/handleRegister";
 import Link from "next/link";
+import { SubmitButtonPrimary } from "@/components/buttons/buttonPrimary";
 
 
 export default function RegisterPage() {
@@ -117,7 +118,7 @@ export default function RegisterPage() {
                 <label htmlFor="password2">Confirm Password</label>
                 <input type="password" className="p-1 px-2 text-black rounded-md" id="password2" name="password2" onChange={handleChange} />
 
-                <input type="submit"  value="Register" className="bg-primary text-white py-2 px-4 m-2 rounded-full" />
+                <SubmitButtonPrimary text="Register" />
                 
             </form>
 
