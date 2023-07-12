@@ -49,6 +49,21 @@ export function ButtonWithActionPrimary(props: ButtonPrimaryProps) {
     )
 }
 
+export function ButtonWithActionPrimaryRoundedSm(props: ButtonPrimaryProps) {
+    return (
+        <button
+        className={`bg-primary text-white py-2 px-4 m-2 rounded-sm ${
+            props.disabled ? 'opacity-50 cursor-not-allowed' : ''
+        }
+        hover:bg-primary-hover
+        `}
+        onClick={props.onClick}
+        >
+            {props.text}
+        </button>
+    )
+}
+
 export function SubmitButtonPrimary(
     props: ButtonPrimaryProps,
 ) {

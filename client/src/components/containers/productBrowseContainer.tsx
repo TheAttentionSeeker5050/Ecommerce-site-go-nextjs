@@ -1,20 +1,19 @@
 
 
 // import dummy data
-import { productsArray } from "@/data/dummyData/productsDummyData"
+import { productsArray, dummyProductSearchFilters } from "@/data/dummyData/productsDummyData";
 
 // import icons
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowDown, faArrowUp, faDollarSign, faFire, faList, faStar, faTableCells } from "@fortawesome/free-solid-svg-icons";
 import ProductFilterContainer from "./productFilterContainer";
-import { useState } from "react";
 
 
 export default function ProductBrowseContainer(
     
     ) {
     // get the query params from the url
-    const urlSearchParams = new URLSearchParams(window.location.search)
+    const urlSearchParams = new URLSearchParams(window.location.search);
         
         
     // the sorting and pagination logic will be handled here
@@ -22,30 +21,34 @@ export default function ProductBrowseContainer(
     // first get the sorting and pagination state from the url
     // i am using variables and the url search params object because i want to be able to change the sorting and pagination state without reloading the page and not dealing with async execution
     // i may change to somethign else later
-    let sortedBy = urlSearchParams.get("sort") || "popularity"
-    let ascending = urlSearchParams.get("ascending") === "true" || false
-    let pagination = parseInt(urlSearchParams.get("page") || "1")
+    let sortedBy = urlSearchParams.get("sort") || "popularity";
+    let ascending = urlSearchParams.get("ascending") === "true" || false;
+    let pagination = parseInt(urlSearchParams.get("page") || "1");
+
+    // create a filter object to store the filter state
+    const searchFilters = dummyProductSearchFilters;
+
 
     // the getter for the new location to redirect to
-    const getNewLocation = () => window.location.href.split("?")[0] + "?page=" + pagination + "&sort=" + sortedBy+ "&ascending=" + ascending
+    const getNewLocation = () => window.location.href.split("?")[0] + "?page=" + pagination + "&sort=" + sortedBy+ "&ascending=" + ascending;
     
     // the handler for the sorting and pagination
     function handleSorting(
         event: React.MouseEvent<HTMLAnchorElement, MouseEvent>,
         newSortedBy: string,
     ) {
-        event.preventDefault()
+        event.preventDefault();
         // change the sorting state if needed
         // if the sorting is already set to the same value, then change the sorting order
         if (newSortedBy === sortedBy) {
-            ascending = !ascending
+            ascending = !ascending;
         } else {
-            sortedBy = newSortedBy
-            ascending = false
+            sortedBy = newSortedBy;
+            ascending = false;
         }
 
         // redirect to the new url
-        window.location.href = getNewLocation()
+        window.location.href = getNewLocation();
     }
 
 
@@ -53,16 +56,16 @@ export default function ProductBrowseContainer(
         event: React.MouseEvent<HTMLAnchorElement, MouseEvent>,
         newPagination: number,
     ) {
-        event.preventDefault()
+        event.preventDefault();
         // change the pagination state if needed
         if (newPagination < 1) {
-            newPagination = 1
+            newPagination = 1;
         } else {
-            pagination = newPagination
+            pagination = newPagination;
         }
 
         // redirect to the new url
-        window.location.href = getNewLocation()
+        window.location.href = getNewLocation();
     }
                 
 
@@ -84,13 +87,12 @@ export default function ProductBrowseContainer(
 
     }
 
-    console.log("sorted by: ", sortedBy, "ascending: ", ascending, "pagination: ", pagination)
 
     return (
-        <div id="content-wrapper" className="flex flex-row gap-3 flex-wrap justify-evenly">
-            
-            <ProductFilterContainer />
+        <div id="content-wrapper" className="flex flex-row gap-2 flex-wrap justify-evenly">
+            {/* only show this filter container if not on small device */}
 
+            <ProductFilterContainer />
             <div id="products-container-wrapper" className="flex flex-col my-5 w-auto mx-4">
                 <div id="products-container-upper-view-opts " className="bg-primary-light dark:bg-primary-dark dark:text-black text-white p-4 rounded-t-xl border-2 border-black dark:border-white flex flex-col flex-wrap  gap-3 ">
                     <div id="sorting" className="flex flex-row gap-3 justify-center">
@@ -136,6 +138,7 @@ export default function ProductBrowseContainer(
                     )}
                 </div>
             </div>
+
         </div>
     )
 }

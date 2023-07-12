@@ -1,7 +1,7 @@
 export const product = {
     productName: "Product Name",
     price: 100,
-    productImageSrc: "https://pixabay.com/get/g24cd529966d1ead6a9aed659f85893f6f4ce048e667aede16e4c0af0a7201b4ca5830dd12ca55c6620b97044a11dbacf_1280.jpg",
+    productImageSrc: "https://cdn.pixabay.com/photo/2016/03/03/13/38/mouse-1234199_1280.jpg",
     productDescription: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Distinctio provident maxime adipisci nemo cumque sint quia blanditiis minus, inventore rerum necessitatibus nisi fugit doloremque itaque",
     productHighlight: "taste this delicious product",
     productLink: "https://www.google.com",
@@ -34,3 +34,86 @@ export const productsArray = [
     product,
     product,
 ]
+
+// the product filter object
+// create a filter object to store the filter state
+export const dummyProductSearchFilters = {
+    price: {
+        min: undefined,
+        max: undefined,
+    },
+    maxRating: {
+        min: undefined,
+        max: undefined,
+    },
+    features: {
+        feature1: {
+            name: "feature-1",
+            options: [
+                {
+                    name: "option-1",
+                    selected: false,
+                },
+                {
+                    name: "option-2",
+                    selected: false,
+                },
+                {
+                    name: "option-3",
+                    selected: false,
+                },
+            ],
+        },
+        feature2: {
+            name: "feature-2",
+            options: [
+                {
+                    name: "option-1",
+                    selected: false,
+                },
+                {
+                    name: "option-2",
+                    selected: false,
+                },
+                {
+                    name: "option-3",
+                    selected: false,
+                },
+            ],
+        },
+        feature3: {
+            name: "feature-3",
+            options: [
+                {
+                    name: "option-1",
+                    selected: false,
+                },
+                {
+                    name: "option-2",
+                    selected: false,
+                },
+                {
+                    name: "option-3",
+                    selected: false,
+                },
+            ],
+        },
+        feature4: {
+            name: "feature-4",
+            options: [
+                {
+                    name: "option-1",
+                    selected: false,
+                },
+                {
+                    name: "option-2",
+                    selected: false,
+                },
+                {
+                    name: "option-3",
+                    selected: false,
+                },
+            ],
+        },
+    },
+}
