@@ -44,24 +44,21 @@ export default function ProductFilterContainer(
                 
                 {/* list all the contents of the contents of the dummy search filters object structure dinamically and use checkboxes to allow to select feature options, as well as adding a submit button */}
                 <div className="flex flex-col gap-1">
-                    {Object.keys(dummyProductSearchFilters.features).map((featureName) => {
-                            return (
-                                <div className="flex flex-col gap-1">
-                                    <span>{dummyProductSearchFilters.features[featureName].name}</span>
-                                    {
-                                        dummyProductSearchFilters.features[featureName].options.map((option) => {
-                                            return (
-                                                <div className="flex flex-row gap-2">
-                                                    <input type="checkbox" checked={option.selected} />
-                                                    <span>{option.name}</span>
-                                                </div>
-                                            )
-                                        })
-                                    }
-                                </div>
-                            )
-                        }
-                    )}
+                    {dummyProductSearchFilters.features.map((feature) => {
+                        return (
+                            <div className="flex flex-col gap-1">
+                                <span>{feature.name}</span>
+                                {feature.options.map((option) => {
+                                    return (
+                                        <div className="flex flex-row gap-2">
+                                            <input type="checkbox" checked={option.selected} />
+                                            <span>{option.name}</span>
+                                        </div>
+                                    )
+                                })}
+                            </div>
+                        )
+                    })}
                 </div>
 
 

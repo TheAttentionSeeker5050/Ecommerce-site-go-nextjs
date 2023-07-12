@@ -46,8 +46,8 @@ export const dummyProductSearchFilters = {
         min: undefined,
         max: undefined,
     },
-    features: {
-        feature1: {
+    features: [
+        {
             name: "feature-1",
             options: [
                 {
@@ -64,7 +64,7 @@ export const dummyProductSearchFilters = {
                 },
             ],
         },
-        feature2: {
+        {
             name: "feature-2",
             options: [
                 {
@@ -81,7 +81,7 @@ export const dummyProductSearchFilters = {
                 },
             ],
         },
-        feature3: {
+        {
             name: "feature-3",
             options: [
                 {
@@ -98,7 +98,7 @@ export const dummyProductSearchFilters = {
                 },
             ],
         },
-        feature4: {
+        {
             name: "feature-4",
             options: [
                 {
@@ -115,5 +115,5 @@ export const dummyProductSearchFilters = {
                 },
             ],
         },
-    },
+    ],
 }
