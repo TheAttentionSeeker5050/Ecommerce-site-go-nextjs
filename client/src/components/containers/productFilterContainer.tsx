@@ -42,21 +42,34 @@ export default function ProductFilterContainer(
 
                 </div>
                 
-                {/* list all the contents of the contents of the dummy search filters object structure dinamically and use select boxes to allow to select feature options, as well as adding a submit button */}
+                {/* list all the contents of the contents of the dummy search filters object structure dinamically and use checkboxes to allow to select feature options, as well as adding a submit button */}
+                <div className="flex flex-col gap-1">
+                    {Object.keys(dummyProductSearchFilters.features).map((featureName) => {
+                            return (
+                                <div className="flex flex-col gap-1">
+                                    <span>{dummyProductSearchFilters.features[featureName].name}</span>
+                                    {
+                                        dummyProductSearchFilters.features[featureName].options.map((option) => {
+                                            return (
+                                                <div className="flex flex-row gap-2">
+                                                    <input type="checkbox" checked={option.selected} />
+                                                    <span>{option.name}</span>
+                                                </div>
+                                            )
+                                        })
+                                    }
+                                </div>
+                            )
+                        }
+                    )}
+                </div>
+
 
 
                 {/* the submit button */}
                 <ButtonWithActionPrimary text="Apply filters" onClick={() => alert("Ring Ring")}/>
 
                 
-                {/* <ul>
-                    <li>Your</li>
-                    <li>Products</li>
-                    <li>Filters</li>
-                    <li>Will</li>
-                    <li>Go</li>
-                    <li>Here</li>
-                </ul> */}
             </div>
         </div>
     )
