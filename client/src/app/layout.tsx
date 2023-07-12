@@ -6,14 +6,12 @@ import FooterComponent from '@/components/globalComponents/footerComponent'
 import { useEffect, useState } from 'react'
 import MaintenanceModePage from '@/components/pageComponents/maintenanceModePage'
 const inter = Inter({ subsets: ['latin'] })
+import PageDisclaimerComponent from '@/components/globalComponents/pageDisclaimerComponent'
 
 // export const metadata = {
 //   title: 'Ecommerce-x: Pet Shop',
 //   description: 'Pet shop made by Nick Castellano',
 // }
-
-// stringify the following variable to use it in the html tag
-// const htmlClassnames = localStorage.theme === 'dark' ? 'dark' : ''
 
 const useDarkMode = () => {
   
@@ -45,10 +43,6 @@ export default function RootLayout({
   
   
   const [isDarkMode, ToggleDarkMode] = useDarkMode();
-  // console.log(isDarkMode, typeof isDarkMode);
-
-  console.log('maintenance mode: ', process.env.MAINTENANCE_MODE);
-  console.log('maintenance mode type: ', typeof process.env.MAINTENANCE_MODE);
   
   return (
     <html lang="en" className={isDarkMode ? 'dark' : ''}>
@@ -59,8 +53,9 @@ export default function RootLayout({
       
 
 
-        <body className='dark:bg-primary-dark w-screen box-border bg-gray-light dark:text-white'>
-          <p className='text-lg font-bold text-danger text-center dark:text-orange-400'>This is not a real shop. It is just for showing my web developer skills only. Please purchase your pet products somewhere else.</p> 
+        <body className='dark:bg-background-dark w-full   bg-background-light dark:text-white p-0'>
+          <PageDisclaimerComponent ToggleDarkMode={ToggleDarkMode} isDarkMode={isDarkMode} />
+
           <HeaderComponent ToggleDarkMode={ToggleDarkMode} isDarkMode={isDarkMode}
           />
 
@@ -69,7 +64,9 @@ export default function RootLayout({
             isDarkMode={isDarkMode}
             ToggleDarkMode={ToggleDarkMode} 
             />
-          <p className='text-lg font-bold text-danger text-center dark:text-orange-400'>This is not a real shop. It is just for showing my web developer skills only. Please purchase your pet products somewhere else.</p> 
+          
+          <PageDisclaimerComponent ToggleDarkMode={ToggleDarkMode} isDarkMode={isDarkMode} />
+
         </body>
       }
     </html>

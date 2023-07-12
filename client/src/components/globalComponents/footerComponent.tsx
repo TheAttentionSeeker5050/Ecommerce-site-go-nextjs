@@ -7,6 +7,7 @@ import { ToggleSwitch } from '../buttons/toggleSwitch';
 import { useReducer } from 'react';
 import { init } from 'next/dist/compiled/@vercel/og/satori';
 import { ToggleThemeSwitch } from './toggleThemeSwitch';
+import PageDisclaimerComponent from './pageDisclaimerComponent';
 
 export default function FooterComponent(
     { isDarkMode, ToggleDarkMode }: { isDarkMode: any, ToggleDarkMode: any }
@@ -55,10 +56,7 @@ export default function FooterComponent(
                         />
                     </div>
             </div>
-            {/* <div className='text-center'> */}
-                <p className='text-center my-3'>This website was made by Nicolas Castellano.  
-                </p>
-            {/* </div> */}
+            <p className='text-center my-3'>This website was made by Nicolas Castellano.</p>
         </footer>
     )
 }

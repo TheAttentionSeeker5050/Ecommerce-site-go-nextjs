@@ -1,20 +1,32 @@
 'use client'
 
 import { ButtonRedirectPrimary } from "@/components/buttons/buttonPrimary"
-
+import { ButtonRedirectSecondary } from "@/components/buttons/buttonSecondary"
+import ProductHighlightedContainer from "@/components/containers/productHighlightedContainer"
+import TrendingProductsContainer from "@/components/containers/trendingProductsContainer"
 
 
 export default function Page() {
 
+    
+
+
     return (
         <div id="p-content" className="">
-            <h1 >hello home page</h1>
+            <h1></h1>
+            <ProductHighlightedContainer />
+            <TrendingProductsContainer containerTitle="Trending Products" />
+            {/* container for the trending products */}
+            
+            {/* <h1 >hello home page</h1>
             <br />
             <br />
 
-            {/* create redirect buttons to login and register */}
             <ButtonRedirectPrimary text="Login" href="/login" />
-            <ButtonRedirectPrimary text="Register" href="/register" />
+            <ButtonRedirectPrimary text="Register" href="/register" /> */}
+
+            
+
     
         </div>
     )

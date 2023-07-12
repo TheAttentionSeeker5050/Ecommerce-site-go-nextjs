@@ -11,11 +11,10 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        // extend: {
         primary: {
           light: '#3a86ff',
           DEFAULT: '#3a86ff',
-          dark: '#415a77',
+          dark: '#ced4da',
           hover: '#5d92e7',
         },
         secondary: {
@@ -36,15 +35,26 @@ module.exports = {
         warning: '#ffff00',
         info: '#00ffff',
         gray: {
-          light: '#f5f5f5',
+          light: '#ced4da',
           DEFAULT: '#d3d3d3',
-          dark: '#a9a9a9',
+          dark: '#343a40',
         },
         orange: {
           light: '#ff8c00',
           DEFAULT: '#ff8c00',
           dark: '#ff4500',
         },
+        background: {
+          light: '#f8f9fa',
+          DEFAULT: '#f8f9fa',
+          dark: '#415a77',
+        },
+        pagetitle: {
+          light: '#3a86ff',
+          DEFAULT: '#343a40',
+          dark: '#ff4500',
+        },
+        
       },
       fontFamily: {
         sans: ['Roboto', 'sans-serif'],
