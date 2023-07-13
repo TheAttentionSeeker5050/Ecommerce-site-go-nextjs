@@ -5,15 +5,16 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { ButtonWithActionPrimary } from "../buttons/buttonPrimary";
 import { productFilterSlice } from "@/data/redux/productFilterStore";
 import { reduxStore } from "@/data/redux/reduxStore";
-import { render } from "react-dom";
-import { use, useEffect } from "react";
+import { useState } from "react";
+import DisplayStarRatingButtons from "../buttons/RatingStarFilterButtons";
 
 // the container for the product filters
 export default function ProductFilterContainer(
     // add the sorting and pagination state as props
     {sortedBy, ascending, pagination} : {sortedBy: string, ascending: boolean, pagination: number}
 ) {
-    
+    // this is a weird implementation but I need to force a rerender of the star rating buttons when the redux state changes
+    const [renderSW, setRenderSW] = useState(false);
 
     // we are going to use the redux store to store the filter state
     // the filter state handler function below
@@ -29,43 +30,6 @@ export default function ProductFilterContainer(
             reduxStore.dispatch(productFilterSlice.actions.changePriceMax(event.target.value));
         } 
     }
-
-    function handleClickFilterStateChange(
-        event: React.MouseEvent<HTMLButtonElement, MouseEvent>,
-        newNumValue?: number,
-    ) {
-        // get the current state of the filter object from  the redux reducer
-        if (event.currentTarget.parentElement?.id === "rating-filter-container") {
-            // else if check if the parent is rating-filter-container
-            // change the rating value
-            reduxStore.dispatch(productFilterSlice.actions.changeMinRating(newNumValue));
-        }
-        
-    }
-
-    function DisplayStarRatingButtons(
-        {numStars} : {numStars: number},
-    ) {
-
-        if (reduxStore.getState().productFilter.value.minRating === numStars) {
-            return (
-                <button id={`${numStars}-stars-rating`} className="text-start hover:text-yellow-500 text-orange-500 " onClick={(e) => handleClickFilterStateChange(e, numStars)}>
-                    {Array(numStars).fill(<FontAwesomeIcon icon={faStar}  />) }
-                </button>
-            )
-        } else {
-            return (
-                <button id={`${numStars}-stars-rating`}  className="text-start hover:text-yellow-500 text-yellow-300" onClick={(e) => handleClickFilterStateChange(e, numStars)}>
-                    {Array(numStars).fill(<FontAwesomeIcon icon={faStar}  />) }
-                </button>
-            )
-        }
-    }
-
-
-    
-    
-    
     
     return (
         <div id="products-container-wrapper" className=" flex-col my-5 w-auto mx-4 w-3/12 max-w-xs hidden lg:flex">
@@ -87,10 +51,10 @@ export default function ProductFilterContainer(
                 {/* then we have a list of buttons with 1 to 4 stars for product ratings */}
                 <div id="rating-filter-container" className="flex flex-col gap-1">
                     <span>Minimum rating</span>
-                    <DisplayStarRatingButtons numStars={4} />
-                    <DisplayStarRatingButtons numStars={3} />
-                    <DisplayStarRatingButtons numStars={2} />
-                    <DisplayStarRatingButtons numStars={1} />
+                    <DisplayStarRatingButtons numStars={4} renderSW={renderSW} setRenderSW={setRenderSW} />
+                    <DisplayStarRatingButtons numStars={3} renderSW={renderSW} setRenderSW={setRenderSW} />
+                    <DisplayStarRatingButtons numStars={2} renderSW={renderSW} setRenderSW={setRenderSW} />
+                    <DisplayStarRatingButtons numStars={1} renderSW={renderSW} setRenderSW={setRenderSW} />
                 </div>
                 
                 {/* list all the contents of the contents of the dummy search filters object structure dinamically and use checkboxes to allow to select feature options, as well as adding a submit button */}
