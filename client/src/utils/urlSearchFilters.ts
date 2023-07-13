@@ -86,14 +86,8 @@ export function getProductFeaturesFromQueryString() {
             // we will find the feature with the name of the key
             const featureIndex = productFilters.features.findIndex(feature => feature.name === key);
 
-            // if the feature is not found, we will skip it
-            // continue;
-
             // now we will find the option with the name of the value
             const optionIndex = productFilters.features[featureIndex].options.findIndex(option => option.name === value);
-
-            // if the option is not found, we will skip it
-            // continue;
 
             // use redux store to set the option to selected
             reduxStore.dispatch(changeProductFeatureSelected({featureIndex, optionIndex, selected: true}));
