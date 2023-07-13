@@ -1,12 +1,10 @@
 
-import { dummyProductSearchFilters } from "@/data/dummyData/productsDummyData";
-import { faStar } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { ButtonWithActionPrimary } from "../buttons/buttonPrimary";
 import { productFilterSlice } from "@/data/redux/productFilterStore";
 import { reduxStore } from "@/data/redux/reduxStore";
 import { useState } from "react";
 import DisplayStarRatingButtons from "../buttons/RatingStarFilterButtons";
+import DisplayCheckboxFilters from "../cards/productFilterCheckBoxesComponent";
 
 // the container for the product filters
 export default function ProductFilterContainer(
@@ -29,7 +27,7 @@ export default function ProductFilterContainer(
             // change the price max value
             reduxStore.dispatch(productFilterSlice.actions.changePriceMax(event.target.value));
         } 
-    }
+    }    
     
     return (
         <div id="products-container-wrapper" className=" flex-col my-5 w-auto mx-4 w-3/12 max-w-xs hidden lg:flex">
@@ -58,23 +56,8 @@ export default function ProductFilterContainer(
                 </div>
                 
                 {/* list all the contents of the contents of the dummy search filters object structure dinamically and use checkboxes to allow to select feature options, as well as adding a submit button */}
-                <div className="flex flex-col gap-1">
-                    {dummyProductSearchFilters.features.map((feature) => {
-                        return (
-                            <div className="flex flex-col gap-1">
-                                <span>{feature.name}</span>
-                                {feature.options.map((option) => {
-                                    return (
-                                        <div className="flex flex-row gap-2">
-                                            <input type="checkbox" checked={option.selected} />
-                                            <span>{option.name}</span>
-                                        </div>
-                                    )
-                                })}
-                            </div>
-                        )
-                    })}
-                </div>
+                <DisplayCheckboxFilters />
+                
                 {/* the submit button */}
                 <ButtonWithActionPrimary text="Apply filters" onClick={() => alert("Ring Ring")}/>
             </div>
