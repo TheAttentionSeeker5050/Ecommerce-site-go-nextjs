@@ -11,8 +11,7 @@ export default function ProductFilterContainer(
     // add the sorting and pagination state as props
     {sortedBy, ascending, pagination} : {sortedBy: string, ascending: boolean, pagination: number}
 ) {
-    // this is a weird implementation but I need to force a rerender of the star rating buttons when the redux state changes
-    const [renderSW, setRenderSW] = useState(false);
+    
 
     // we are going to use the redux store to store the filter state
     // the filter state handler function below
@@ -49,10 +48,10 @@ export default function ProductFilterContainer(
                 {/* then we have a list of buttons with 1 to 4 stars for product ratings */}
                 <div id="rating-filter-container" className="flex flex-col gap-1">
                     <span>Minimum rating</span>
-                    <DisplayStarRatingButtons numStars={4} renderSW={renderSW} setRenderSW={setRenderSW} />
-                    <DisplayStarRatingButtons numStars={3} renderSW={renderSW} setRenderSW={setRenderSW} />
-                    <DisplayStarRatingButtons numStars={2} renderSW={renderSW} setRenderSW={setRenderSW} />
-                    <DisplayStarRatingButtons numStars={1} renderSW={renderSW} setRenderSW={setRenderSW} />
+                    <DisplayStarRatingButtons numStars={4} />
+                    <DisplayStarRatingButtons numStars={3} />
+                    <DisplayStarRatingButtons numStars={2} />
+                    <DisplayStarRatingButtons numStars={1} />
                 </div>
                 
                 {/* list all the contents of the contents of the dummy search filters object structure dinamically and use checkboxes to allow to select feature options, as well as adding a submit button */}

@@ -5,24 +5,27 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useState } from "react";
 import React from "react";
 
-export function handleClickFilterStateChange(
-    event: React.MouseEvent<HTMLButtonElement, MouseEvent>,
-    newNumValue: number,
-    renderSW: boolean,
-    setRenderSW: React.Dispatch<React.SetStateAction<boolean>>,
-) {
-    // get the current state of the filter object from  the redux reducer
-    if (event.currentTarget.parentElement?.id === "rating-filter-container") {
-        // else if check if the parent is rating-filter-container
-        // change the rating value
-        reduxStore.dispatch(productFilterSlice.actions.changeMinRating(newNumValue));
-        setRenderSW(!renderSW);
-    }
-}
+
 
 export default function DisplayStarRatingButtons(
-    {numStars, renderSW, setRenderSW} : {numStars: number, renderSW: boolean, setRenderSW: React.Dispatch<React.SetStateAction<boolean>>},
+    {numStars} : {numStars: number},
 ) {
+    const [renderSW, setRenderSW] = useState(false);
+
+    function handleClickFilterStateChange(
+        event: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+        newNumValue: number,
+        renderSW: boolean,
+        setRenderSW: React.Dispatch<React.SetStateAction<boolean>>,
+    ) {
+        // get the current state of the filter object from  the redux reducer
+        if (event.currentTarget.parentElement?.id === "rating-filter-container") {
+            // else if check if the parent is rating-filter-container
+            // change the rating value
+            reduxStore.dispatch(productFilterSlice.actions.changeMinRating(newNumValue));
+            setRenderSW(!renderSW);
+        }
+    }
 
     if (reduxStore.getState().productFilter.value.minRating === numStars) {
         return (
