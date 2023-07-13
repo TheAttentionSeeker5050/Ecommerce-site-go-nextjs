@@ -4,11 +4,11 @@ import { useState } from "react";
 
 
 export default function DisplayCheckboxFilters(
-    
+    {renderSW, setRenderSW} : {renderSW: boolean, setRenderSW: React.Dispatch<React.SetStateAction<boolean>>}
     ) {
     
-    // this is a weird implementation but I need to force a rerender of the checkboxes when the redux state changes
-    const [renderSW, setRenderSW] = useState(false);
+    // // this is a weird implementation but I need to force a rerender of the checkboxes when the redux state changes
+    // const [renderSW, setRenderSW] = useState(false);
 
     function handleSelectFilterStateChange(
         {event, featureIndex, optionIndex} : {event: React.MouseEvent<HTMLDivElement, MouseEvent>, featureIndex: number, optionIndex: number}

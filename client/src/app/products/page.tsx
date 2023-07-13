@@ -2,15 +2,23 @@
 
 import ProductBrowseContainer from "@/components/containers/productBrowseContainer";
 import ProductFilterContainer from "@/components/containers/productFilterContainer";
+import { setProductFilter } from "@/data/redux/productFilterStore";
+import { reduxStore } from "@/data/redux/reduxStore";
 import { styleConstants } from "@/styles/constants/styleConstants";
+import { getProductFeaturesFromQueryString } from "@/utils/urlSearchFilters";
 
 
 export default function ProductQuickBrowsePage() {
     
     // get the query params from the url
     const urlSearchParams = new URLSearchParams(window.location.search);
-        
-        
+    
+    // get the url filter params and store them in the redux store
+    getProductFeaturesFromQueryString();
+
+    
+    
+
     // the sorting and pagination logic will be handled here
         
     // first get the sorting and pagination state from the url

@@ -1,4 +1,9 @@
 // in this file we will define the filters that we will use to filter the search results
+
+import { dummyProductSearchFilters, product } from "@/data/dummyData/productsDummyData";
+import { changeMinRating, changePriceMax, changePriceMin, changeProductFeatureSelected } from "@/data/redux/productFilterStore";
+import { reduxStore } from "@/data/redux/reduxStore";
+
 // these methods will return a string that will be appended to the url (the first part before the ? question mark)
 export default function getURLSearchFilterString(
     {orderBy, ascending, pageNumber, minPrice, maxPrice, minRating, features}: {orderBy: string, ascending: boolean, pageNumber?: number, minPrice?: number, maxPrice?: number, minRating?: number, features?: any[]} // idk if should be Object, object or any, well see
@@ -53,5 +58,48 @@ export default function getURLSearchFilterString(
 export function getProductFeaturesFromQueryString() {
     // this function will save into our Redux store the features that are in the query string
     // first we will store all of our query params features in an array
+    const urlSearchParams = new URLSearchParams(window.location.search);
+
+    // we will store the filters from the redux store in a variable
+    let productFilters = reduxStore.getState().productFilter.value;
+    console.log("productFilters", productFilters);
+    console.log("typeof productFilters", typeof productFilters);
+
+    // we will iterate through the query params and store the features
+    for (const [key, value] of urlSearchParams as any) {
+        // first we will check if the key is orderBy, ascending, or pageNumber
+        if (key === "orderBy" || key === "ascending" || key === "pageNumber") {
+            // we will skip these keys
+            continue;
+        } else if (key === "minPrice") {
+            // if the key is minPrice
+            reduxStore.dispatch(changePriceMin(value));
+        } else if (key === "maxPrice") {
+            reduxStore.dispatch(changePriceMax(value));
+        } else if (key === "minRating") {
+            reduxStore.dispatch(changeMinRating(value));
+        } else {
+            // // now we will add the features
+            // productFilters.features = productFilters.features || [];
+
+
+            // we will find the feature with the name of the key
+            const featureIndex = productFilters.features.findIndex(feature => feature.name === key);
+
+            // if the feature is not found, we will skip it
+            // continue;
+
+            // now we will find the option with the name of the value
+            const optionIndex = productFilters.features[featureIndex].options.findIndex(option => option.name === value);
+
+            // if the option is not found, we will skip it
+            // continue;
+
+            // use redux store to set the option to selected
+            reduxStore.dispatch(changeProductFeatureSelected({featureIndex, optionIndex, selected: true}));
+
+        }
+    }
+
     
 }
