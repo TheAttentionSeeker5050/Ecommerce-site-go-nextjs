@@ -83,8 +83,7 @@ export default function ProductBrowseContainer(
             return (
                 <FontAwesomeIcon icon={faArrowDown} />
             )
-        } 
-
+        }
     }
 
 
