@@ -15,7 +15,6 @@ export default function DisplayCheckboxFilters(
     ) {
         // dispatch the action to change the selected state of the option
         reduxStore.dispatch(changeProductFeatureSelected({featureIndex: featureIndex, optionIndex: optionIndex}));
-        console.log(reduxStore.getState().productFilter.value.features[featureIndex].options[optionIndex].selected);
     
         // force a rerender of select button
         setRenderSW(!renderSW);

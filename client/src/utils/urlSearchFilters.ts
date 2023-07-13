@@ -62,8 +62,6 @@ export function getProductFeaturesFromQueryString() {
 
     // we will store the filters from the redux store in a variable
     let productFilters = reduxStore.getState().productFilter.value;
-    console.log("productFilters", productFilters);
-    console.log("typeof productFilters", typeof productFilters);
 
     // we will iterate through the query params and store the features
     for (const [key, value] of urlSearchParams as any) {

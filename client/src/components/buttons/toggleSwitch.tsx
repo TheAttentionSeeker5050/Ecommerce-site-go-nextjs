@@ -17,7 +17,6 @@ export function ToggleSwitch(props: Props) {
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setChecked(e.target.checked);
         props.handleContext();
-        console.log("toggle switch value: "+e.target.checked);
     };
 
     return (

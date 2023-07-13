@@ -22,7 +22,7 @@ export function getGitHubURL(path: string): string {
 
     const queryString = new URLSearchParams(options).toString();
 
-    console.log(`${rootURL}?${queryString}`);
+  
     
     return `${rootURL}?${queryString}`;
 };
