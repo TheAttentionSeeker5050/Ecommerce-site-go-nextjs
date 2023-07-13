@@ -27,16 +27,16 @@ export default function ProductFilterContainer(
                 {/* then we have a list of buttons with 1 to 4 stars for product ratings */}
                 <div className="flex flex-col gap-1">
                     <span>Minimum rating</span>
-                    <button id="4-stars-rating" className="text-start hover:text-yellow-500 text-yellow-400">
+                    <button id="4-stars-rating" className={dummyProductSearchFilters.minRating===4?"text-start hover:text-yellow-500 text-orange-500":"text-start hover:text-yellow-500 text-yellow-300"}>
                         {Array(4).fill(<FontAwesomeIcon icon={faStar}  />) }
                     </button>
-                    <button id="3-stars-rating" className="text-start hover:text-yellow-500 text-yellow-400">
+                    <button id="3-stars-rating" className={dummyProductSearchFilters.minRating===3?"text-start hover:text-yellow-500 text-orange-500":"text-start hover:text-yellow-500 text-yellow-300"}>
                         {Array(3).fill(<FontAwesomeIcon icon={faStar}  />) }
                     </button>
-                    <button id="2-stars-rating" className="text-start hover:text-yellow-500 text-yellow-400">
+                    <button id="2-stars-rating" className={dummyProductSearchFilters.minRating===2?"text-start hover:text-yellow-500 text-orange-500":"text-start hover:text-yellow-500 text-yellow-300"}>
                         {Array(2).fill(<FontAwesomeIcon icon={faStar}  />) }
                     </button>
-                    <button id="1-stars-rating" className="text-start hover:text-yellow-500 text-yellow-400">
+                    <button id="1-stars-rating" className={dummyProductSearchFilters.minRating===1?"text-start hover:text-yellow-500 text-orange-500":"text-start hover:text-yellow-500 text-yellow-300"}>
                         {Array(1).fill(<FontAwesomeIcon icon={faStar}  />) }
                     </button>
 

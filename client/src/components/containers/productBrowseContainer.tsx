@@ -89,10 +89,10 @@ export default function ProductBrowseContainer(
 
 
     return (
-        <div id="content-wrapper" className="flex flex-row gap-2 flex-wrap justify-evenly">
-            {/* only show this filter container if not on small device */}
+        // <div id="content-wrapper" className="flex flex-row gap-2 flex-wrap justify-evenly">
+        //     {/* only show this filter container if not on small device */}
 
-            <ProductFilterContainer />
+        //     <ProductFilterContainer />
             <div id="products-container-wrapper" className="flex flex-col my-5 w-auto mx-4">
                 <div id="products-container-upper-view-opts " className="bg-primary-light dark:bg-primary-dark dark:text-black text-white p-4 rounded-t-xl border-2 border-black dark:border-white flex flex-col flex-wrap  gap-3 ">
                     <div id="sorting" className="flex flex-row gap-3 justify-center">
@@ -139,6 +139,6 @@ export default function ProductBrowseContainer(
                 </div>
             </div>
 
-        </div>
+        // </div>
     )
 }
