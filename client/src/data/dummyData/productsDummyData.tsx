@@ -42,10 +42,7 @@ export const dummyProductSearchFilters = {
         min: undefined,
         max: undefined,
     },
-    maxRating: {
-        min: undefined,
-        max: undefined,
-    },
+    minRating: undefined,
     features: [
         {
             name: "feature-1",

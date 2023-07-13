@@ -1,12 +1,55 @@
-import { dummyProductSearchFilters } from "@/data/dummyData/productsDummyData"
-import { faStar } from "@fortawesome/free-solid-svg-icons"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { ButtonWithActionPrimary } from "../buttons/buttonPrimary"
+// redux store methods
+import { ButtonWithActionPrimary } from "../buttons/buttonPrimary";
+import { changePriceMax, changePriceMin } from "@/data/redux/productFilterStore";
+import { reduxStore } from "@/data/redux/reduxStore";
+
+// import the components that will be used in this container
+import DisplayStarRatingButtons from "../buttons/RatingStarFilterButtons";
+import DisplayCheckboxFilters from "../cards/productFilterCheckBoxesComponent";
+
+// import the utility functions that will be used in this container
+import getURLSearchFilterString from "@/utils/urlSearchFilters";
+import { useState } from "react";
 
 // the container for the product filters
 export default function ProductFilterContainer(
-
+    // add the sorting and pagination state as props
+    {sortedBy, ascending, pagination} : {sortedBy: string, ascending: boolean, pagination: number}
 ) {
+    const [renderSW, setRenderSW] = useState(false);
+
+    // we are going to use the redux store to store the filter state
+    // the filter state handler function below
+    function handleTextFilterStateChange(
+        event: React.ChangeEvent<HTMLInputElement>,
+    ) {
+        // get the current state of the filter object from  the redux reducer
+        if (event.target.name === "price-min") {
+            // change the price min value
+            reduxStore.dispatch(changePriceMin(event.target.value));
+        } else if (event.target.name === "price-max") {
+            // change the price max value
+            reduxStore.dispatch(changePriceMax(event.target.value));
+        } 
+    }
+
+    function submitFilterStateChange() {
+        // dispatch the action to change the selected state of the option
+        // set the url query string using our utility function
+        const queryString = getURLSearchFilterString({
+            orderBy: sortedBy,
+            ascending: ascending,
+            pageNumber: pagination,
+            minPrice: reduxStore.getState().productFilter.value.price.min,
+            maxPrice: reduxStore.getState().productFilter.value.price.max,
+            minRating: reduxStore.getState().productFilter.value.minRating,
+            features: reduxStore.getState().productFilter.value.features,
+        });
+
+        // redirect to the new url
+        window.location.href = queryString;
+    }
+    
     return (
         <div id="products-container-wrapper" className=" flex-col my-5 w-auto mx-4 w-3/12 max-w-xs hidden lg:flex">
             <div id="products-container-upper-view-opts " className="bg-primary-light dark:bg-primary-dark dark:text-black text-white p-4 rounded-t-xl border-2 border-black dark:border-white flex flex-col flex-wrap  gap-3 ">
@@ -18,55 +61,26 @@ export default function ProductFilterContainer(
                 <div className="flex flex-col gap-3">
                     <span>Price</span>
                     <div className="flex flex-row gap-2  w-full">
-                        <input type="number" placeholder="Min" className="w-1/2 border-2 px-2 py-0.5 rounded-md border-black dark:border-primary-dark" value={dummyProductSearchFilters.price.min}/>
+                        <input type="number" placeholder="Min" className="w-1/2 border-2 px-2 py-0.5 rounded-md border-black dark:border-primary-dark" name="price-min" value={reduxStore.getState().productFilter.value.price.min} onChange={(e) => handleTextFilterStateChange(e)}/>
                         <span>-</span>
-                        <input type="number" placeholder="Max" className="w-1/2 border-2 px-2 py-0.5 rounded-md border-black dark:border-primary-dark" value={dummyProductSearchFilters.price.max}/>
+                        <input type="number" placeholder="Max" className="w-1/2 border-2 px-2 py-0.5 rounded-md border-black dark:border-primary-dark" name="price-min" value={reduxStore.getState().productFilter.value.price.max} onChange={(e) => handleTextFilterStateChange(e)}/>
                     </div>
                 </div>
 
                 {/* then we have a list of buttons with 1 to 4 stars for product ratings */}
-                <div className="flex flex-col gap-1">
+                <div id="rating-filter-container" className="flex flex-col gap-1">
                     <span>Minimum rating</span>
-                    <button id="4-stars-rating" className="text-start hover:text-yellow-500 text-yellow-400">
-                        {Array(4).fill(<FontAwesomeIcon icon={faStar}  />) }
-                    </button>
-                    <button id="3-stars-rating" className="text-start hover:text-yellow-500 text-yellow-400">
-                        {Array(3).fill(<FontAwesomeIcon icon={faStar}  />) }
-                    </button>
-                    <button id="2-stars-rating" className="text-start hover:text-yellow-500 text-yellow-400">
-                        {Array(2).fill(<FontAwesomeIcon icon={faStar}  />) }
-                    </button>
-                    <button id="1-stars-rating" className="text-start hover:text-yellow-500 text-yellow-400">
-                        {Array(1).fill(<FontAwesomeIcon icon={faStar}  />) }
-                    </button>
-
+                    <DisplayStarRatingButtons numStars={4} renderSW={renderSW} setRenderSW={setRenderSW} />
+                    <DisplayStarRatingButtons numStars={3} renderSW={renderSW} setRenderSW={setRenderSW} />
+                    <DisplayStarRatingButtons numStars={2} renderSW={renderSW} setRenderSW={setRenderSW} />
+                    <DisplayStarRatingButtons numStars={1} renderSW={renderSW} setRenderSW={setRenderSW} />
                 </div>
                 
                 {/* list all the contents of the contents of the dummy search filters object structure dinamically and use checkboxes to allow to select feature options, as well as adding a submit button */}
-                <div className="flex flex-col gap-1">
-                    {dummyProductSearchFilters.features.map((feature) => {
-                        return (
-                            <div className="flex flex-col gap-1">
-                                <span>{feature.name}</span>
-                                {feature.options.map((option) => {
-                                    return (
-                                        <div className="flex flex-row gap-2">
-                                            <input type="checkbox" checked={option.selected} />
-                                            <span>{option.name}</span>
-                                        </div>
-                                    )
-                                })}
-                            </div>
-                        )
-                    })}
-                </div>
-
-
-
-                {/* the submit button */}
-                <ButtonWithActionPrimary text="Apply filters" onClick={() => alert("Ring Ring")}/>
-
+                <DisplayCheckboxFilters renderSW={renderSW} setRenderSW={setRenderSW} />
                 
+                {/* the submit button */}
+                <ButtonWithActionPrimary text="Apply filters" onClick={() => submitFilterStateChange()} />
             </div>
         </div>
     )
