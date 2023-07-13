@@ -55,7 +55,13 @@ export default function ProductBrowseContainer(
         }
 
         // redirect to the new url
-        window.location.href = getNewLocation();
+        // window.location.href = getNewLocation();
+        // redirect to the new url
+        window.location.href = getURLSearchFilterString({
+            pageNumber: pagination,
+            orderBy: sortedBy,
+            ascending: ascending,
+        });
     }
                 
 

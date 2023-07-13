@@ -49,3 +49,9 @@ export default function getURLSearchFilterString(
 
     return query;
 }
+
+export function getFeaturesFromQueryString() {
+    // this function will save into our Redux store the features that are in the query string
+    // first we will store all of our query params features in an array
+    
+}

@@ -5,6 +5,7 @@ import { reduxStore } from "@/data/redux/reduxStore";
 import { useState } from "react";
 import DisplayStarRatingButtons from "../buttons/RatingStarFilterButtons";
 import DisplayCheckboxFilters from "../cards/productFilterCheckBoxesComponent";
+import getURLSearchFilterString from "@/utils/urlSearchFilters";
 
 // the container for the product filters
 export default function ProductFilterContainer(
@@ -27,6 +28,26 @@ export default function ProductFilterContainer(
             reduxStore.dispatch(productFilterSlice.actions.changePriceMax(event.target.value));
         } 
     }    
+
+    function submitFilterStateChange(
+        // event: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+    ) {
+        // dispatch the action to change the selected state of the option
+        // set the url query string using our utility function
+        const queryString = getURLSearchFilterString({
+            orderBy: sortedBy,
+            ascending: ascending,
+            pageNumber: pagination,
+            minPrice: reduxStore.getState().productFilter.value.price.min,
+            maxPrice: reduxStore.getState().productFilter.value.price.max,
+            minRating: reduxStore.getState().productFilter.value.minRating,
+            features: reduxStore.getState().productFilter.value.features,
+        });
+
+        // redirect to the new url
+        // window.location.href = `/products/${queryString}`;
+        window.location.href = queryString;
+    }
     
     return (
         <div id="products-container-wrapper" className=" flex-col my-5 w-auto mx-4 w-3/12 max-w-xs hidden lg:flex">
@@ -58,7 +79,7 @@ export default function ProductFilterContainer(
                 <DisplayCheckboxFilters />
                 
                 {/* the submit button */}
-                <ButtonWithActionPrimary text="Apply filters" onClick={() => alert("Ring Ring")}/>
+                <ButtonWithActionPrimary text="Apply filters" onClick={() => submitFilterStateChange()} />
             </div>
         </div>
     )

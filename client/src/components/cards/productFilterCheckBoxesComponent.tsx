@@ -20,6 +20,8 @@ export default function DisplayCheckboxFilters(
         // force a rerender of select button
         setRenderSW(!renderSW);
     }
+
+    
     return (
         <div className="flex flex-col gap-1">
             {reduxStore.getState().productFilter.value.features.map((feature, featureIndex) => {
