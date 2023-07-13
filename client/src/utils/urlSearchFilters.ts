@@ -1,13 +1,9 @@
 // in this file we will define the filters that we will use to filter the search results
 // these methods will return a string that will be appended to the url (the first part before the ? question mark)
-function getURLSearchFilterString(
-    orderBy: string,
-    ascending: boolean,
-    pageNumber?: number,
-    minPrice?: number,
-    maxPrice?: number,
-    minRating?: number,
-    features?: any[], // idk if should be Object, object or any, well see
+export default function getURLSearchFilterString(
+    {orderBy, ascending, pageNumber, minPrice, maxPrice, minRating, features}: {orderBy: string, ascending: boolean, pageNumber?: number, minPrice?: number, maxPrice?: number, minRating?: number, features?: any[]} // idk if should be Object, object or any, well see
+
+    // } // idk if should be Object, object or any, well see
 ) {
     // the first part of this query will be the ordering of the results
     let query = `?orderBy=${orderBy}&ascending=${ascending}`;

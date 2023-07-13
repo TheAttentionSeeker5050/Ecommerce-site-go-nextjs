@@ -6,7 +6,8 @@ import { productsArray, dummyProductSearchFilters } from "@/data/dummyData/produ
 // import icons
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowDown, faArrowUp, faDollarSign, faFire, faList, faStar, faTableCells } from "@fortawesome/free-solid-svg-icons";
-import ProductFilterContainer from "./productFilterContainer";
+import getURLSearchFilterString from "@/utils/urlSearchFilters";
+
 
 
 export default function ProductBrowseContainer(
@@ -33,7 +34,11 @@ export default function ProductBrowseContainer(
         }
 
         // redirect to the new url
-        window.location.href = getNewLocation();
+        window.location.href = getURLSearchFilterString({
+            pageNumber: pagination,
+            orderBy: sortedBy,
+            ascending: ascending,
+        });
     }
 
 
