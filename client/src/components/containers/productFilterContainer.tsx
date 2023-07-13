@@ -1,11 +1,12 @@
-import { dummyProductSearchFilters } from "@/data/dummyData/productsDummyData"
-import { faStar } from "@fortawesome/free-solid-svg-icons"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { ButtonWithActionPrimary } from "../buttons/buttonPrimary"
+import { dummyProductSearchFilters } from "@/data/dummyData/productsDummyData";
+import { faStar } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { ButtonWithActionPrimary } from "../buttons/buttonPrimary";
 
 // the container for the product filters
 export default function ProductFilterContainer(
-
+    // add the sorting and pagination state as props
+    {sortedBy, ascending, pagination} : {sortedBy: string, ascending: boolean, pagination: number}
 ) {
     return (
         <div id="products-container-wrapper" className=" flex-col my-5 w-auto mx-4 w-3/12 max-w-xs hidden lg:flex">
@@ -60,13 +61,8 @@ export default function ProductFilterContainer(
                         )
                     })}
                 </div>
-
-
-
                 {/* the submit button */}
                 <ButtonWithActionPrimary text="Apply filters" onClick={() => alert("Ring Ring")}/>
-
-                
             </div>
         </div>
     )
