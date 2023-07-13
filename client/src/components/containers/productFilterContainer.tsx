@@ -1,10 +1,13 @@
-
+// redux store methods
 import { ButtonWithActionPrimary } from "../buttons/buttonPrimary";
-import { productFilterSlice } from "@/data/redux/productFilterStore";
+import { changePriceMax, changePriceMin } from "@/data/redux/productFilterStore";
 import { reduxStore } from "@/data/redux/reduxStore";
-import { useState } from "react";
+
+// import the components that will be used in this container
 import DisplayStarRatingButtons from "../buttons/RatingStarFilterButtons";
 import DisplayCheckboxFilters from "../cards/productFilterCheckBoxesComponent";
+
+// import the utility functions that will be used in this container
 import getURLSearchFilterString from "@/utils/urlSearchFilters";
 
 // the container for the product filters
@@ -22,16 +25,14 @@ export default function ProductFilterContainer(
         // get the current state of the filter object from  the redux reducer
         if (event.target.name === "price-min") {
             // change the price min value
-            reduxStore.dispatch(productFilterSlice.actions.changePriceMin(event.target.value));
+            reduxStore.dispatch(changePriceMin(event.target.value));
         } else if (event.target.name === "price-max") {
             // change the price max value
-            reduxStore.dispatch(productFilterSlice.actions.changePriceMax(event.target.value));
+            reduxStore.dispatch(changePriceMax(event.target.value));
         } 
     }    
 
-    function submitFilterStateChange(
-        // event: React.MouseEvent<HTMLButtonElement, MouseEvent>,
-    ) {
+    function submitFilterStateChange() {
         // dispatch the action to change the selected state of the option
         // set the url query string using our utility function
         const queryString = getURLSearchFilterString({
@@ -45,7 +46,6 @@ export default function ProductFilterContainer(
         });
 
         // redirect to the new url
-        // window.location.href = `/products/${queryString}`;
         window.location.href = queryString;
     }
     

@@ -1,22 +1,20 @@
 
 
-// import dummy data
+// import redux store methods and data 
 import { productsArray, dummyProductSearchFilters } from "@/data/dummyData/productsDummyData";
 
 // import icons
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowDown, faArrowUp, faDollarSign, faFire, faList, faStar, faTableCells } from "@fortawesome/free-solid-svg-icons";
-import getURLSearchFilterString from "@/utils/urlSearchFilters";
 
+// import the utility functions that will be used in this container
+import getURLSearchFilterString from "@/utils/urlSearchFilters";
 
 
 export default function ProductBrowseContainer(
         // add the sorting and pagination state as props
         {sortedBy, ascending, pagination} : {sortedBy: string, ascending: boolean, pagination: number}
     ) {
-    
-    // the getter for the new location to redirect to
-    const getNewLocation = () => window.location.href.split("?")[0] + "?page=" + pagination + "&sort=" + sortedBy+ "&ascending=" + ascending;
     
     // the handler for the sorting and pagination
     function handleSorting(
@@ -54,19 +52,13 @@ export default function ProductBrowseContainer(
             pagination = newPagination;
         }
 
-        // redirect to the new url
-        // window.location.href = getNewLocation();
-        // redirect to the new url
         window.location.href = getURLSearchFilterString({
             pageNumber: pagination,
             orderBy: sortedBy,
             ascending: ascending,
         });
     }
-                
-
-
-
+    
     const ArrowIconComponent = (
         {sortByInput} : {sortByInput: string}
     ) => {
