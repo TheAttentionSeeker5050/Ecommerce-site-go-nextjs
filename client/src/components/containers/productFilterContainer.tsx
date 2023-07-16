@@ -1,6 +1,6 @@
 // redux store methods
 import { ButtonWithActionPrimary } from "../buttons/buttonPrimary";
-import { changePriceMax, changePriceMin } from "@/data/redux/productFilterStore";
+import { changePriceMax, changePriceMin, changeMinRating } from "@/data/redux/productFilterStore";
 import { reduxStore } from "@/data/redux/reduxStore";
 
 // import the components that will be used in this container
@@ -46,8 +46,14 @@ export default function ProductFilterContainer(
             features: reduxStore.getState().productFilter.value.features,
         });
 
+        
         // redirect to the new url
         window.location.href = queryString;
+    }
+    
+    function handleUnselectRating(event: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
+        reduxStore.dispatch(changeMinRating(undefined));
+        setRenderSW(!renderSW);
     }
     
     return (
@@ -74,6 +80,10 @@ export default function ProductFilterContainer(
                     <DisplayStarRatingButtons numStars={3} renderSW={renderSW} setRenderSW={setRenderSW} />
                     <DisplayStarRatingButtons numStars={2} renderSW={renderSW} setRenderSW={setRenderSW} />
                     <DisplayStarRatingButtons numStars={1} renderSW={renderSW} setRenderSW={setRenderSW} />
+                    {/* an unselect button for the rating */}
+                    <button className="text-left text-md" onClick={(e) => {
+                        handleUnselectRating(e);
+                    } }>Unselect Rating</button>
                 </div>
                 
                 {/* list all the contents of the contents of the dummy search filters object structure dinamically and use checkboxes to allow to select feature options, as well as adding a submit button */}
