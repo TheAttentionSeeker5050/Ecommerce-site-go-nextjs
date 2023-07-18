@@ -42,7 +42,7 @@ export default function IndividualProductPage(
             </div>
             </div>
             <div id="productDescription" className="">
-                <h2 className="font-semibold text-md mb-3">Product Description:</h2> 
+                <h2 className="font-semibold text-md my-3">Product Description:</h2> 
                 <div className="text-justify text-sm">
                     {product_data.productDescription.map((paragraph: string, i: number) => {
                         return <p className="mb-2" key={i}>{paragraph}</p>

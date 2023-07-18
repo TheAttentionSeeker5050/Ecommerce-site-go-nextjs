@@ -56,6 +56,12 @@ module.exports = {
         },
         
       },
+      screens: {
+        "phone": "480px",
+        "tablet": "640px",
+        "laptop": "1024px",
+        "desktop": "1280px",
+      },
       fontFamily: {
         sans: ['Roboto', 'sans-serif'],
         serif: ['Roboto Slab', 'serif'],
