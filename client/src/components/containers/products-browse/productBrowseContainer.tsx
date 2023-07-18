@@ -11,6 +11,7 @@ import Link from "next/link";
 
 // redux store methods
 import { reduxStore } from "@/data/redux/reduxStore";
+import { formatProductTitleInGridThumbView } from "@/utils/formatThumbnailTitle";
 
 
 export default function ProductBrowseContainer(
@@ -121,7 +122,9 @@ export default function ProductBrowseContainer(
                                 productData.productImageSrc
                             } />
                             <p className="text-md text-center">
-                                {productData.productName}
+                                {
+                                    formatProductTitleInGridThumbView(productData.productName)
+                                }
                             </p>
                             <p className="text-md text-center font-bold">
                                 ${productData.price}
