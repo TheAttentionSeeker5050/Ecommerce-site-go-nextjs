@@ -38,7 +38,7 @@ export default function DisplayStarRatingButtons(
     if (reduxStore.getState().productFilter.value.minRating == numStars) {
         return (
             <button id={`${numStars}-stars-rating`} className="text-start hover:text-orange-600 text-orange-400 " onClick={(e) => handleClickFilterStateChange(e, numStars)}>
-                {Array(numStars).fill(<FontAwesomeIcon icon={faStar}  />) }
+                {Array(numStars).fill(<FontAwesomeIcon icon={faStar} />) }
             </button>
         )
     } else {

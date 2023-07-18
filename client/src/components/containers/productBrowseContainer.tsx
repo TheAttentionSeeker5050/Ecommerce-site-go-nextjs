@@ -1,7 +1,5 @@
-
-
 // import redux store methods and data 
-import { productsArray, dummyProductSearchFilters } from "@/data/dummyData/productsDummyData";
+// import { productsArray, dummyProductSearchFilters } from "@/data/dummyData/productsDummyData";
 
 // import icons
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -9,12 +7,21 @@ import { faArrowDown, faArrowUp, faDollarSign, faFire, faList, faStar, faTableCe
 
 // import the utility functions that will be used in this container
 import getURLSearchFilterString from "@/utils/urlSearchFilters";
+import Link from "next/link";
+
+// redux store methods
+import { reduxStore } from "@/data/redux/reduxStore";
 
 
 export default function ProductBrowseContainer(
         // add the sorting and pagination state as props
         {sortedBy, ascending, pagination} : {sortedBy: string, ascending: boolean, pagination: number}
     ) {
+
+    // get the products array from the redux store
+    const productsArray = reduxStore.getState().product.value;
+    console.log("array: \n");
+    console.log(productsArray);
     
     // the handler for the sorting and pagination
     function handleSorting(
@@ -108,7 +115,8 @@ export default function ProductBrowseContainer(
             <div id="products-container-grid" className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4  gap-3 px-3 py-5  border-black dark:border-primary-dark border-2 border-t-0 rounded-b-xl">
                 {productsArray.map((productData) => {
                     return (
-                        <div className="w-32 mx-auto">
+                        <Link className="w-32 mx-auto" href={productData.productLink} key={productData.key}>
+                            
                             <img className="w-28 rounded-md mx-auto" src={
                                 productData.productImageSrc
                             } />
@@ -118,7 +126,7 @@ export default function ProductBrowseContainer(
                             <p className="text-md text-center font-bold">
                                 ${productData.price}
                             </p>
-                        </div>
+                        </Link>
                     )}
                 )}
             </div>

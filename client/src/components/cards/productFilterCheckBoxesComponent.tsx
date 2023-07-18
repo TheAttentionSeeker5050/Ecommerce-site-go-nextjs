@@ -25,13 +25,13 @@ export default function DisplayCheckboxFilters(
         <div className="flex flex-col gap-1">
             {reduxStore.getState().productFilter.value.features.map((feature, featureIndex) => {
                 return (
-                    <div className="flex flex-col gap-1">
+                    <div className="flex flex-col gap-1" key={featureIndex}>
                         <span>{feature.name}</span>
                         {feature.options.map((option, optionIndex) => {
                             return (
-                                <div className="flex flex-row gap-2" onClick={(e) => handleSelectFilterStateChange({event: e, featureIndex:featureIndex, optionIndex: optionIndex})}
+                                <div className="flex flex-row gap-2" key={optionIndex} onClick={(e) => handleSelectFilterStateChange({event: e, featureIndex:featureIndex, optionIndex: optionIndex})}
                                 >
-                                    <input type="checkbox" checked={option.selected} />
+                                    <input type="checkbox" checked={option.selected} readOnly/>
                                     <span>{option.name}</span>
                                 </div>
                             )
