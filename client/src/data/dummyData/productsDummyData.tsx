@@ -1,6 +1,6 @@
 export const product = {
     key: 0,
-    productName: "Product Name",
+    productName: "Product Name Product Name Product Name Product Name Product Name Product Name Product Name ",
     price: 100,
     productImageSrc: "https://cdn.pixabay.com/photo/2016/03/03/13/38/mouse-1234199_1280.jpg",
     productDescription: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Distinctio provident maxime adipisci nemo cumque sint quia blanditiis minus, inventore rerum necessitatibus nisi fugit doloremque itaque",

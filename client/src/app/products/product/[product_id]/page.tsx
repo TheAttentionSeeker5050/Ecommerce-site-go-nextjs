@@ -14,8 +14,8 @@ export default function IndividualProductPage({params}: { params: {product_id: s
     const productData = getProductData();
 
     return ( 
-        <div id="p-content" className="w-full">
+        // <div id="p-content" className="w-full">
             <IndividualProductPageContainer product_data={productData} />
-        </div>
+        // </div>
     )
 }
