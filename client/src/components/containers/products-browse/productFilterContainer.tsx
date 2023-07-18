@@ -1,11 +1,11 @@
 // redux store methods
-import { ButtonWithActionPrimary } from "../buttons/buttonPrimary";
+import { ButtonWithActionPrimary } from "@/components/buttons/buttonPrimary";
 import { changePriceMax, changePriceMin, changeMinRating } from "@/data/redux/productFilterStore";
 import { reduxStore } from "@/data/redux/reduxStore";
 
 // import the components that will be used in this container
-import DisplayStarRatingButtons from "../buttons/RatingStarFilterButtons";
-import DisplayCheckboxFilters from "../cards/productFilterCheckBoxesComponent";
+import DisplayStarRatingButtons from "@/components/buttons/RatingStarFilterButtons";
+import DisplayCheckboxFilters from "@/components/cards/productFilterCheckBoxesComponent";
 
 // import the utility functions that will be used in this container
 import getURLSearchFilterString from "@/utils/urlSearchFilters";
