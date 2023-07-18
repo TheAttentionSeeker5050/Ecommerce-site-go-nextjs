@@ -7,8 +7,8 @@ export default function IndividualProductPage(
     {product_data}: { product_data: any }
     ) {
     return ( 
-        <div id="p-content" className="w-full max-w-4xl mx-auto my-3">
-            <div id="top-prod-container" className="grid-rows-5 grid grid-cols-3 my-3">
+        <div id="p-content" className="max-w-4xl my-8 flex flex-col gap-5 mx-auto">
+            <div id="upper-prod-container" className="grid-rows-5 grid grid-cols-3">
 
                 <h2 id="product-title" className="text-lg font-bold col-start-2 col-span-2 row-start-1 row-end-2">
                     {product_data.productName}
@@ -20,7 +20,7 @@ export default function IndividualProductPage(
                     {/* will replace image with a carousell widget element */}
                     <img src={product_data.productImageSrc} alt={product_data.productName} className="w-60"/>
                 </div>
-                <div id="product-purchase-widget" className="p-4 border-2 flex flex-col gap-3 rounded-lg dark:bg-gray-light text-black  col-start-3 col-end-4 row-start-2 row-end-6">
+                <div id="product-purchase-widget" className="p-4 border-2 flex flex-col gap-3 rounded-lg dark:bg-gray-light text-black  col-start-3 col-end-4 row-start-2 row-end-6 ">
                     <span className="">Quantity</span>
                     {/* a dropdown widget here */}
                     <select name="product-quantity" id="product-quantity-select" className="p-2 border-2 dark:text-black">
@@ -41,9 +41,13 @@ export default function IndividualProductPage(
                     } } text="Add to cart" />
             </div>
             </div>
-            <div id="productDescription">
-                <span>Product Description:</span> <br/>
-                {product_data.productDescription}
+            <div id="productDescription" className="">
+                <h2 className="font-semibold text-md mb-3">Product Description:</h2> 
+                <div className="text-justify text-sm">
+                    {product_data.productDescription.map((paragraph: string, i: number) => {
+                        return <p className="mb-2" key={i}>{paragraph}</p>
+                    })}
+                </div>
             </div>
             {/* and now a purchase widget */}
             

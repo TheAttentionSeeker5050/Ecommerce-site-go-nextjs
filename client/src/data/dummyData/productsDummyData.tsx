@@ -3,7 +3,12 @@ export const product = {
     productName: "Product Name Product Name Product Name Product Name Product Name Product Name Product Name ",
     price: 100,
     productImageSrc: "https://cdn.pixabay.com/photo/2016/03/03/13/38/mouse-1234199_1280.jpg",
-    productDescription: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Distinctio provident maxime adipisci nemo cumque sint quia blanditiis minus, inventore rerum necessitatibus nisi fugit doloremque itaque",
+    productDescription: 
+    [
+        "Lorem ipsum dolor sit amet consectetur adipisicing elit. Distinctio provident maxime adipisci nemo cumque sint quia blanditiis minus, inventore rerum necessitatibus nisi fugit doloremque itaque",
+        "Lorem ipsum dolor sit amet consectetur adipisicing elit. Distinctio provident maxime adipisci nemo cumque sint quia blanditiis minus, inventore rerum necessitatibus nisi fugit doloremque itaque",
+        "Lorem ipsum dolor sit amet consectetur adipisicing elit. Distinctio provident maxime adipisci nemo cumque sint quia blanditiis minus, inventore rerum necessitatibus nisi fugit doloremque itaque",
+    ],
     productHighlight: "taste this delicious product",
     productLink: "/products/product/1", // this is the link to the product page, for now it is just 0 but it will be the product id when we prepare the rest api
 }
