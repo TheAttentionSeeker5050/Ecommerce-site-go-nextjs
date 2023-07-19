@@ -27,6 +27,24 @@ function populateProductArray(size: number, data: any) {
     return array;
 }
 
+export const productCategories = populateProductCategoriesArray(25, {
+    category: "Category",
+    categoryImageSrc: "https://cdn.pixabay.com/photo/2016/03/03/13/38/mouse-1234199_1280.jpg",
+    categoryId: 5445684,
+});
+
+
+export function populateProductCategoriesArray(size: number, data: any) {
+    let array = [];
+    for (let i = 0; i < size; i++) {
+        array.push({
+            ...data,
+            key: i,
+        });
+    }
+    return array;
+}
+
 // the product filter object
 // create a filter object to store the filter state
 export const dummyProductSearchFilters = {

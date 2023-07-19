@@ -2,8 +2,6 @@
 
 import ProductBrowseContainer from "@/components/containers/products-browse/productBrowseContainer";
 import ProductFilterContainer from "@/components/containers/products-browse/productFilterContainer";
-import { setProductFilter } from "@/data/redux/productFilterStore";
-import { reduxStore } from "@/data/redux/reduxStore";
 import { styleConstants } from "@/styles/constants/styleConstants";
 import { getProductFeaturesFromQueryString } from "@/utils/urlSearchFilters";
 
