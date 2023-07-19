@@ -12,7 +12,7 @@ export default function CategoriesBrowseContainer(
             <div id="product-categories-container" className="grid grid-cols-1 phone:grid-cols-2 tablet:grid-cols-3 laptop:grid-cols-4 max-w-6xl mx-auto gap-4 p-4 ">
                 {productCategoryArray.map((categoryData) => {
                     return (
-                        <div className="max-w-xs w-9/12 mx-auto phone:w-48 h-48 text-white bg-blue-500 grid place-content-center" style={
+                        <div className="max-w-xs w-9/12 h-52 mx-auto phone:w-44 phone:h-44 text-white bg-blue-500 grid place-content-center" style={
                             {
                                 backgroundImage: `url(${categoryData.categoryImageSrc})`,
                                 backgroundSize: "cover",
