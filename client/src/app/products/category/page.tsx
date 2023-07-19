@@ -1,3 +1,7 @@
+import CategoriesBrowseContainer from "@/components/containers/products-browse/categoriesBrowseContainer";
+
 export default function ProductCategoriesPage() {
-    return <h1>Hello, Next.js! categories page</h1>
+    return (
+        <CategoriesBrowseContainer />
+    )
 }

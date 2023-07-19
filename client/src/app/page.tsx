@@ -2,8 +2,8 @@
 
 import { ButtonRedirectPrimary } from "@/components/buttons/buttonPrimary"
 import { ButtonRedirectSecondary } from "@/components/buttons/buttonSecondary"
-import ProductHighlightedContainer from "@/components/containers/productHighlightedContainer"
-import TrendingProductsContainer from "@/components/containers/trendingProductsContainer"
+import ProductHighlightedContainer from "@/components/containers/main-page/productHighlightedContainer"
+import TrendingProductsContainer from "@/components/containers/main-page/trendingProductsContainer"
 
 
 export default function Page() {

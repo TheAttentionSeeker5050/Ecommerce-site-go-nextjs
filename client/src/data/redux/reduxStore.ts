@@ -1,11 +1,15 @@
 import { configureStore } from "@reduxjs/toolkit";
 import productFilterSlice  from "./productFilterStore";
+import productSlice  from "./productStore";
+import selectedProductSlice  from "./selectedProductStore"; 
 
 // the store where all the reducers are combined
 export const reduxStore = configureStore({
     reducer: {
         // add reducers here
         productFilter: productFilterSlice,
+        product: productSlice,
+        selectedProduct: selectedProductSlice,
     },
 });
 
