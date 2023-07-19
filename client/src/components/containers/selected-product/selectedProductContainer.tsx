@@ -3,7 +3,7 @@ import formatCurrency from "@/utils/formatCurrency";
 
 
 
-export default function IndividualProductPage(
+export default function IndividualProductPageContainer(
     {product_data}: { product_data: any }
     ) {
     return ( 
@@ -15,9 +15,9 @@ export default function IndividualProductPage(
                 </h2>
                 <div id="product-image" className="tablet:col-start-1 tablet:col-span-1 tablet:row-start-1 tablet:row-end-4 mx-auto p-2">
                     {/* will replace image with a carousell widget element */}
-                    <img src={product_data.productImageSrc} alt={product_data.productName} className=""/>
+                    <img src={product_data.productImageSrc} alt={product_data.productName} className="rounded-md"/>
                 </div>
-                <div id="product-price-highlights" className="text-md font-semibold text-red-600 tablet:col-start-2 tablet:col-end-3  tablet:row-start-2 tablet:row-end-5 p-2">
+                <div id="product-price-highlights" className="text-md font-semibold text-red-600 tablet:col-start-2 tablet:col-end-3  tablet:row-start-2 tablet:row-end-5 p-2 dark:text-orange-light">
                     {formatCurrency(product_data.price)}
                 </div>
                 <div id="product-purchase-widget" className="p-4 border-2 flex flex-col gap-3 rounded-lg dark:bg-gray-light text-black  tablet:col-start-3 tablet:col-end-4 tablet:row-start-2 tablet:row-end-4">
