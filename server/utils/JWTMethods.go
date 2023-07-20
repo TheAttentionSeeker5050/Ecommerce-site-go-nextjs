@@ -80,5 +80,4 @@ func ValidateJWT(
 
 	// return the claims
 	return claims["sub"], nil
-
 }

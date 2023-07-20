@@ -1,7 +1,7 @@
 package routers
 
 import (
-	"net/http"
+	"workspace/controllers"
 
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
@@ -15,13 +15,15 @@ func ProductCategoryRouter(
 	productCategoryRouter := router.Group("/category")
 
 	// define the product category router endpoints
+	// get a list of all categories
 	productCategoryRouter.GET("/", func(c *gin.Context) {
-		c.JSON(
-			http.StatusOK,
-			gin.H{
-				"message": "Hello, product category!",
-			},
-		)
+		// use the product category controller
+		controllers.GetProductCategoryList(c, db)
+	})
+
+	productCategoryRouter.GET("/pet-types", func(c *gin.Context) {
+		// use the product category controller
+		controllers.GetPetTypeList(c, db)
 	})
 
 	return productCategoryRouter
