@@ -7,7 +7,7 @@ import { useEffect } from "react"
 export default function CategoriesBrowseContainer(
 ) {
     
-    let productCategoryArray = [];
+    let productCategoryArray = productCategories;
         
     let productCategoriesResponseBody = handleGetRequests("/products/category/");
     
@@ -15,8 +15,6 @@ export default function CategoriesBrowseContainer(
         productCategoryArray = data.productCategoryList;
     })
 
-
-    
     
     // populate the categories array
     return (
