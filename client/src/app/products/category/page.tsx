@@ -3,18 +3,6 @@ import { handleGetRequests } from "@/api/handlers/handleGenericGetRequests";
 import CategoriesBrowseContainer from "@/components/containers/products-browse/categoriesBrowseContainer";
 import { useEffect, useState } from "react";
 
-async function getData(
-    url: string
-) {
-    const res = await fetch('http://currentdevelopment.local:8081'+url);
-
-    if (!res.ok) {
-        throw new Error(`HTTP error! status: ${res.status}`);
-    }
-
-    const data = await res.json();
-    return data;
-}
 
 export default function ProductCategoriesPage() {
 
