@@ -1,5 +1,4 @@
 // a container for the products category browse page
-
 import { handleGetRequests } from "@/api/handlers/handleGenericGetRequests";
 import {  productCategories } from "@/data/dummyData/productsDummyData"
 import { useEffect } from "react"
@@ -11,9 +10,9 @@ export default function CategoriesBrowseContainer(
         
     let productCategoriesResponseBody = handleGetRequests("/products/category/");
     
-    productCategoriesResponseBody.then((data) => {
-        productCategoryArray = data.productCategoryList;
-    })
+    // productCategoriesResponseBody.then((data) => {
+    //     productCategoryArray = data[productCategoryList];
+    // })
 
     
     // populate the categories array
