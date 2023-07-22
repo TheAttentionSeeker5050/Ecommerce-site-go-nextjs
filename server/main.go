@@ -68,6 +68,12 @@ func main() {
 		})
 	})
 
+	productRoutes := router.Group("/products")
+
+	routers.ProductCategoryRouter(productRoutes, db)
+	routers.ProductMainRouter(productRoutes, db)
+	routers.ProductViewRouter(productRoutes, db)
+
 	// define the user router
 	routers.UserRouter(router, db)
 	routers.SessionRouter(router, db)

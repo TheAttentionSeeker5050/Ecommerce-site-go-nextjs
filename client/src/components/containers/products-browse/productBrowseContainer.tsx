@@ -21,8 +21,7 @@ export default function ProductBrowseContainer(
 
     // get the products array from the redux store
     const productsArray = reduxStore.getState().product.value;
-    console.log("array: \n");
-    console.log(productsArray);
+    
     
     // the handler for the sorting and pagination
     function handleSorting(

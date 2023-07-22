@@ -1,6 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { productsArray as dummyProductsArray } from "../dummyData/productsDummyData";
-import exp from "constants";
 
 export const productSlice = createSlice({
     name: "productStore",
