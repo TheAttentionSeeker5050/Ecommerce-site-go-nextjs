@@ -41,10 +41,6 @@ values (
 	'Litter', 'litter'
 );
 
-insert into ecommerce_db.product_categories (ecommerce_db.product_categories.category_name, ecommerce_db.product_categories.url_formatted_name)
-values (
-	'Feeders and Water Dispenser Supplies', 'feeders-and-water-supplies'
-);
 
 insert into ecommerce_db.product_categories(ecommerce_db.product_categories.category_name, ecommerce_db.product_categories.url_formatted_name)
 values (

@@ -28,14 +28,16 @@ type ProductUnit struct {
 
 type ProductCategory struct {
 	gorm.Model
-	ID               uint64 `gorm:"primary_key;auto_increment" json:"id"`
-	CategoryName     string `gorm:"size:255;not null" json:"category_name"`
-	UrlFormattedName string `gorm:"size:255;not null" json:"url_formatted_name"`
+	ID                uint64 `gorm:"primary_key;auto_increment" json:"id"`
+	CategoryName      string `gorm:"size:255;not null" json:"category_name"`
+	UrlFormattedName  string `gorm:"size:255;not null" json:"url_formatted_name"`
+	ImageThumbnailURL string `gorm:"size:255" json:"image_thumbnail_url"`
 }
 
 type ProductPetType struct {
 	gorm.Model
-	ID               uint64 `gorm:"primary_key;auto_increment" json:"id"`
-	PetName          string `gorm:"size:255;not null" json:"pet_name"`
-	UrlFormattedName string `gorm:"size:255;not null" json:"url_formatted_name"`
+	ID                uint64 `gorm:"primary_key;auto_increment" json:"id"`
+	PetName           string `gorm:"size:255;not null" json:"pet_name"`
+	UrlFormattedName  string `gorm:"size:255;not null" json:"url_formatted_name"`
+	ImageThumbnailURL string `gorm:"size:255" json:"image_thumbnail_url"`
 }
