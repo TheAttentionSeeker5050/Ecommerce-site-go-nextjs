@@ -32,7 +32,6 @@ func GetProductCategoryList(ctx *gin.Context, db *gorm.DB) {
 			"productCategoryList": productCategoryList,
 		})
 	return
-
 }
 
 func GetPetTypeList(ctx *gin.Context, db *gorm.DB) {

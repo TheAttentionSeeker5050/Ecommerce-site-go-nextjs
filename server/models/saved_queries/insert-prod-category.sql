@@ -1,52 +1,54 @@
-insert into ecommerce_db.product_categories (ecommerce_db.product_categories.name)
+-- delete from ecommerce_db.product_categories where id > 0;
+
+insert into ecommerce_db.product_categories (ecommerce_db.product_categories.category_name, ecommerce_db.product_categories.url_formatted_name)
 values (
-	'food'
+	'Food', 'food'
 );
 
-insert into ecommerce_db.product_categories (ecommerce_db.product_categories.name)
+insert into ecommerce_db.product_categories (ecommerce_db.product_categories.category_name, ecommerce_db.product_categories.url_formatted_name)
 values (
-	'treats'
+	'Treats', 'treats'
 );
 
 
-insert into ecommerce_db.product_categories (ecommerce_db.product_categories.name)
+insert into ecommerce_db.product_categories (ecommerce_db.product_categories.category_name, ecommerce_db.product_categories.url_formatted_name)
 values (
-	'beds-and-furniture'
+	'Beds and Furniture', 'beds-and-furniture'
 );
 
-insert into ecommerce_db.product_categories (ecommerce_db.product_categories.name)
+insert into ecommerce_db.product_categories (ecommerce_db.product_categories.category_name, ecommerce_db.product_categories.url_formatted_name)
 values (
-	'grooming-and-fur-care'
+	'Grooming and Fur Care', 'grooming-and-fur-care'
 );
 
-insert into ecommerce_db.product_categories (ecommerce_db.product_categories.name)
+insert into ecommerce_db.product_categories (ecommerce_db.product_categories.category_name, ecommerce_db.product_categories.url_formatted_name)
 values (
-	'medicines'
+	'Medicines', 'medicines'
 );
 
-insert into ecommerce_db.product_categories (ecommerce_db.product_categories.name)
+insert into ecommerce_db.product_categories (ecommerce_db.product_categories.category_name, ecommerce_db.product_categories.url_formatted_name)
 values (
-	'toys'
+	'Toys', 'toys'
 );
 
-insert into ecommerce_db.product_categories (ecommerce_db.product_categories.name)
+insert into ecommerce_db.product_categories (ecommerce_db.product_categories.category_name, ecommerce_db.product_categories.url_formatted_name)
 values (
-	'collars-and-leashes'
+	'Collars and Leashes', 'collars-and-leashes'
 );
 
-insert into ecommerce_db.product_categories (ecommerce_db.product_categories.name)
+insert into ecommerce_db.product_categories (ecommerce_db.product_categories.category_name, ecommerce_db.product_categories.url_formatted_name)
 values (
-	'litter'
+	'Litter', 'litter'
 );
 
-insert into ecommerce_db.product_categories (ecommerce_db.product_categories.name)
+insert into ecommerce_db.product_categories (ecommerce_db.product_categories.category_name, ecommerce_db.product_categories.url_formatted_name)
 values (
-	'feeders-supplies'
+	'Feeders and Water Dispenser Supplies', 'feeders-and-water-supplies'
 );
 
-insert into ecommerce_db.product_categories (ecommerce_db.product_categories.name)
+insert into ecommerce_db.product_categories(ecommerce_db.product_categories.category_name, ecommerce_db.product_categories.url_formatted_name)
 values (
-	'habitat-supplies'
+	'Habitat Supplies', 'habitat-supplies'
 );
 
 commit;
