@@ -76,13 +76,6 @@ func main() {
 
 	productRoutes := v1Routes.Group("/products")
 
-	// make a dummy route /pet on top of the product routes to test the if no collision happens
-	productRoutes.GET("/pet", func(c *gin.Context) {
-		c.JSON(http.StatusOK, gin.H{
-			"message": "Hello, pets!",
-		})
-	})
-
 	routers.ProductCategoryRouter(productRoutes, db)
 	routers.ProductMainRouter(productRoutes, db)
 	routers.ProductViewRouter(productRoutes, db)
