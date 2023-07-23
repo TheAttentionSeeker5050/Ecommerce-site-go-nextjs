@@ -13,7 +13,8 @@ export default function Page() {
 
     return (
         <div id="p-content" className="">
-            <h1></h1>
+            <h1 className="text-4xl font-bold text-center py-3">Browse Our Products</h1>
+            
             <ProductHighlightedContainer />
             <TrendingProductsContainer containerTitle="Trending Products" />
             {/* container for the trending products */}

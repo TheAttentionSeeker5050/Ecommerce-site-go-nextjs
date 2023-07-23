@@ -20,6 +20,9 @@ const nextConfig = {
     REACT_APP_GITHUB_CLIENT_ID_PROD: '05e0f5394297b8e961ae',
     // MAINTENANCE_MODE: 'true',
   },
+  images: {
+    domains: ['localhost', 'currentdevelopment.local', 'ecommerce-x.alligatorcode.pro', "cdn.pixabay.com", "https://imagedelivery.net"],
+  },
 };
 
 module.exports = nextConfig;

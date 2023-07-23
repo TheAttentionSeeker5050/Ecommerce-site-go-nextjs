@@ -25,7 +25,7 @@ export default function ProductBrowseListingByCategoryPage({params}: { params: {
     
     return (
         <div id="p-content" className="w-full">
-            <h1 className="text-2xl font-bold text-center">((Product category))</h1>
+            <h1 className="text-2xl font-bold text-center">{"Browse products: "+params.category}</h1>
             <div className="flex flex-row gap-2 flex-wrap justify-evenly">
                 <ProductFilterContainer sortedBy={sortedBy} ascending={ascending} pagination={pagination} />
                 <ProductBrowseContainer sortedBy={sortedBy} ascending={ascending} pagination={pagination} />

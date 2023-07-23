@@ -1,5 +1,7 @@
 import Link from "next/link"
 import { productsArray } from "@/data/dummyData/productsDummyData" /// this is the dummy data temporarily
+import Image from "next/image";
+
 export default function TrendingProductsContainer(
     { containerTitle }: { containerTitle: string},
 ) {
@@ -11,7 +13,10 @@ export default function TrendingProductsContainer(
                     return (
                         <Link href={productData.productLink}>
                         <div className="w-32 mx-auto p-2 dark:hover:shadow-white hover:shadow-lg hover:shadow-zinc-500 ">
-                            <img className="w-28 rounded-md mx-auto" src={
+                            {/* <img className="w-28 rounded-md mx-auto" src={
+                                productData.productImageSrc
+                            } /> */}
+                            <Image width={120} height={120} alt={productData.productName} className="w-28 rounded-md mx-auto" src={
                                 productData.productImageSrc
                             } />
                             <p className="text-md text-center">
