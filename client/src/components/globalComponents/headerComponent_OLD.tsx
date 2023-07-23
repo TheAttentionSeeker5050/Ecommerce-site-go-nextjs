@@ -11,7 +11,7 @@ import ShoppingCartWidgetComponent from './shoppingCartWidgetComponent';
 // import '@fortawesome/fontawesome-free/js/all.js';
 // import '@fortawesome/fontawesome-free/css/all.css';
 
-export default function HeaderComponent(ToggleDarkMode: any, isDarkMode: any) {
+export default function HeaderComponentOLD(ToggleDarkMode: any, isDarkMode: any) {
     return (
         <header className={'w-full dark:text-yellow-400'} >
                 
