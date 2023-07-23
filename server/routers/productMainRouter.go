@@ -12,7 +12,7 @@ func ProductMainRouter(
 	db *gorm.DB,
 ) *gin.RouterGroup {
 	// define the product category router
-	productCategoryRouter := router.Group("/")
+	productCategoryRouter := router.Group("/products")
 
 	// define the product category router endpoints
 	productCategoryRouter.GET("/", func(c *gin.Context) {

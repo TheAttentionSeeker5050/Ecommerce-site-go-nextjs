@@ -23,7 +23,7 @@ export default function IndividualProductPageContainer(
                 <div id="product-purchase-widget" className="p-4 border-2 flex flex-col gap-3 rounded-lg dark:bg-gray-light text-black  tablet:col-start-3 tablet:col-end-4 tablet:row-start-2 tablet:row-end-4">
                     <span className="">Quantity</span>
                     {/* a dropdown widget here */}
-                    <select name="product-quantity" id="product-quantity-select" className="p-2 border-2 dark:text-black">
+                    <select name="product-quantity" defaultValue={"1"} id="product-quantity-select" className="p-2 border-2 dark:text-black">
                         <option selected value="1">1</option>
                         <option value="2">2</option>
                         <option value="3">3</option>

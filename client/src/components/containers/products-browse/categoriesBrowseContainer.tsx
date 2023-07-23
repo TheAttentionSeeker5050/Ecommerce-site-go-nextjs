@@ -9,7 +9,7 @@ export default function CategoriesBrowseContainer(
     { productCategories,  title} : { productCategories: any[], title: string }
 ) {
     
-    
+    // console.log(productCategories);
 
     
     // populate the categories array

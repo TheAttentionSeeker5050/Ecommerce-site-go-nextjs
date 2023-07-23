@@ -1,5 +1,5 @@
 export const handleGetRequests = async (
-    getRequestRoute:string,
+    getRequestRoute: string,
     ) => {
 
     // create an url request string using environment variables
@@ -10,6 +10,9 @@ export const handleGetRequests = async (
     } else {
         url = `${process.env.API_URL_REMOTE}${getRequestRoute}`;
     }
+    
+    console.log("request url:", url);
+
     // create a control origin header based on environment type
     var controlOrigin: string;
     if (process.env.NODE_ENV === 'development') {

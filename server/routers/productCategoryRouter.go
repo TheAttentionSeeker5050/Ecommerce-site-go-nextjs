@@ -12,11 +12,11 @@ func ProductCategoryRouter(
 	db *gorm.DB,
 ) *gin.RouterGroup {
 	// define the product category router
-	productCategoryRouter := router.Group("/category")
+	productCategoryRouter := router.Group("/categories")
 
 	// define the product category router endpoints
 	// get a list of all categories
-	productCategoryRouter.GET("/", func(c *gin.Context) {
+	productCategoryRouter.GET("/product-types", func(c *gin.Context) {
 		// use the product category controller
 		controllers.GetProductCategoryList(c, db)
 	})
