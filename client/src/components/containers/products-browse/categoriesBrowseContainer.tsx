@@ -15,7 +15,7 @@ export default function CategoriesBrowseContainer(
     // populate the categories array
     return (
         <div id="p-content" className="w-full">
-            <h2 className="text-2xl font-bold text-center">
+            <h2 className="text-2xl font-bold text-center ">
                 {/* Browse our Products By Category */}
                 {title}
             </h2>
