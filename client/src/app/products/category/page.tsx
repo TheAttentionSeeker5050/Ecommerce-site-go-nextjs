@@ -15,8 +15,8 @@ export default function ProductCategoriesPage() {
         handleGetRequests("/products/category")
         .then((data) => {
             // change the state of the product categories
-            setProductCategories(data.productCategoryList);
             console.log(data);
+            setProductCategories(data.productCategoryList);
         })
         .catch((error) => {
             console.log(error);

@@ -29,7 +29,6 @@ export const handleGetRequests = async (
     });
 
     if (!response.ok) {
-        console.log(`Error when Fetching`);
         throw new Error(`HTTP error! status: ${response.status}`);
     }
     

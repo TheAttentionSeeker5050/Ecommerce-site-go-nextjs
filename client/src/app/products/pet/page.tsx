@@ -8,6 +8,7 @@ export default function ProductPetTypesPage() {
 
     // declare state variables
     const [productCategories, setProductCategories] = useState([]);
+    
     useEffect(() => {
 
         // get the data for the animal categories
