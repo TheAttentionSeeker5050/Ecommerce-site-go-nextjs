@@ -10,6 +10,7 @@ export const handleGetRequests = async (
     } else {
         url = `${process.env.API_URL_REMOTE}${getRequestRoute}`;
     }
+    
     // create a control origin header based on environment type
     var controlOrigin: string;
     if (process.env.NODE_ENV === 'development') {
@@ -28,6 +29,7 @@ export const handleGetRequests = async (
     });
 
     if (!response.ok) {
+        console.log(`Error when Fetching`);
         throw new Error(`HTTP error! status: ${response.status}`);
     }
     
