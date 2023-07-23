@@ -17,6 +17,7 @@ import { faGithub, faGoogle } from "@fortawesome/free-brands-svg-icons";
 import { getGitHubURL } from "@/utils/getGitHubURL";
 import Link from "next/link";
 import { SubmitButtonPrimary } from "@/components/buttons/buttonPrimary";
+import { getCurrentPath } from "@/utils/routeUtils";
 
 
 
@@ -67,6 +68,9 @@ export default function LoginPage() {
     // location of the api
     const location = window.location;
     let path = location.pathname as string || '/';
+
+
+
 
 
 
