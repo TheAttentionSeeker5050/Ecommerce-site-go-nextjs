@@ -17,6 +17,14 @@ module.exports = {
           dark: '#ced4da',
           hover: '#5d92e7',
         },
+        brand: {
+          DEFAULT: '#34D399',
+          dark: '#699669',
+          lighter: '#6EE7B7',
+          electric: '#6EE7B7',
+          vivid: '#16A34A',
+          light: '#4ADE80',
+        },
         secondary: {
           light: '#8338ec',
           DEFAULT: '#8338ec',

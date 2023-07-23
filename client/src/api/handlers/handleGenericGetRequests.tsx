@@ -1,6 +1,6 @@
 export const handleGetRequests = async (
     getRequestRoute:string,
-    ): Promise<void> => {
+    ) => {
 
     // create an url request string using environment variables
     // declare the url variable as string

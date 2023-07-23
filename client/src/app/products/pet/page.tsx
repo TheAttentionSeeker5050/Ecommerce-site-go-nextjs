@@ -4,23 +4,21 @@ import CategoriesBrowseContainer from "@/components/containers/products-browse/c
 import { useEffect, useState } from "react";
 
 
-export default function ProductCategoriesPage() {
+export default function ProductPetTypesPage() {
 
     // declare state variables
     const [productCategories, setProductCategories] = useState([]);
-    
-    
     useEffect(() => {
-        // get the data for the product categories
-        handleGetRequests("/products/category")
-        .then((data) => {
+
+        // get the data for the animal categories
+        handleGetRequests("/products/category/pet-types").then((data) => {
             // change the state of the product categories
-            setProductCategories(data.productCategoryList);
+            setProductCategories(data.petTypeList);
         })
     }, [])
 
     return (
         // the categories browse container with the state arrays
-        <CategoriesBrowseContainer title={"Browse Products by Category"} productCategories={productCategories} />
+        <CategoriesBrowseContainer title={"Browse Products by Pet Type"} productCategories={productCategories} />
     )
 }
