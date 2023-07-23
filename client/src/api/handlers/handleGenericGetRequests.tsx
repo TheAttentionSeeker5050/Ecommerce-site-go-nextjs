@@ -1,5 +1,5 @@
 export const handleGetRequests = async (
-    getRequestRoute:string,
+    getRequestRoute: string,
     ) => {
 
     // create an url request string using environment variables
