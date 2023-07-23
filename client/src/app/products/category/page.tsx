@@ -16,6 +16,10 @@ export default function ProductCategoriesPage() {
         .then((data) => {
             // change the state of the product categories
             setProductCategories(data.productCategoryList);
+            console.log(data);
+        })
+        .catch((error) => {
+            console.log(error);
         })
     }, [])
 
