@@ -2,13 +2,13 @@
 require('dotenv').config();
 
 const nextConfig = {
-  webpackDevMiddleware: config => {
-    config.watchOptions = {
-      poll: 1000,
-      aggregateTimeout: 300,
-    }
-    return config
-  },
+  // webpackDevMiddleware: config => {
+  //   config.watchOptions = {
+  //     poll: 1000,
+  //     aggregateTimeout: 300,
+  //   }
+  //   return config
+  // },
   reactStrictMode: true,
   env: {
     API_URL:'http://currentdevelopment.local:8081',

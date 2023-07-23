@@ -6,6 +6,7 @@ config.autoAddCss = false;
 
 // layout elements import (individual pages will be wrapped in this layout)
 import Layout from '../components/Layout'
+import Provider from '../components/Provider'
 
 export default function App({ Component, pageProps }) {
   
