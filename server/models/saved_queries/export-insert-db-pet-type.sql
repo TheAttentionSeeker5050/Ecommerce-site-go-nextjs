@@ -9,5 +9,5 @@ LIMIT 0, 1000
 -- INSERT INTO ecommerce_db.product_pet_types (`id`,`created_at`,`updated_at`,`deleted_at`,`pet_name`,`url_formatted_name`,`image_thumbnail_url`) VALUES (3,NULL,NULL,NULL,'Birds','birds','https://imagedelivery.net/TCjTQ2jntwoaDOUnNfWb7Q/17f01819-82d8-4cd6-b975-afb890a96f00/public');
 -- INSERT INTO ecommerce_db.product_pet_types (`id`,`created_at`,`updated_at`,`deleted_at`,`pet_name`,`url_formatted_name`,`image_thumbnail_url`) VALUES (4,NULL,NULL,NULL,'Small Mammals','small-mammals','https://imagedelivery.net/TCjTQ2jntwoaDOUnNfWb7Q/880eb448-b6a1-4f5b-1805-4ff2edf4fd00/public');
 -- INSERT INTO ecommerce_db.product_pet_types (`id`,`created_at`,`updated_at`,`deleted_at`,`pet_name`,`url_formatted_name`,`image_thumbnail_url`) VALUES (5,NULL,NULL,NULL,'Reptiles','reptiles','https://imagedelivery.net/TCjTQ2jntwoaDOUnNfWb7Q/e759e179-b0db-44f2-397c-321482fe9700/public');
-
+commit;
 select * from ecommerce_db.product_pet_types;

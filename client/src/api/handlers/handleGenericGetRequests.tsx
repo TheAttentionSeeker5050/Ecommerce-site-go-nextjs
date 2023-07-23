@@ -20,11 +20,11 @@ export const handleGetRequests = async (
     // make a post request using fetch, the new user data var and cors headers
     const response = await fetch(url, {
         method: 'GET',
-        // headers: {
-        //     'Content-Type': 'application/json',
-        //     'Accept': 'application/json',
-        //     'Access-Control-Allow-Origin': controlOrigin,
-        // },
+        headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+            'Access-Control-Allow-Origin': controlOrigin,
+        },
     });
 
     if (!response.ok) {
