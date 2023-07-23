@@ -19,6 +19,7 @@ export default function ProductCategoriesPage() {
             setProductCategories(data.productCategoryList);
         })
         .catch((error) => {
+            console.log("catch was called");
             console.log(error);
         })
     }, [])
