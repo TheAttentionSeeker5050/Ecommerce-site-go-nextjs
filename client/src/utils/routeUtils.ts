@@ -1,7 +1,12 @@
-import { useRouter as useNavRouter } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
 
 export function getCurrentPath() {
     // this doesn't work in getStaticProps
-  const router = useNavRouter();
-  return router
+  const currentPage = usePathname();
+  return currentPage;
+}
+
+export function getQuerysetFromURL() {
+  const querySet = useSearchParams();
+  return querySet.toString();
 }

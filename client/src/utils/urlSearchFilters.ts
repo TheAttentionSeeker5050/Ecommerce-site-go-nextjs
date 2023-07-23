@@ -3,6 +3,7 @@
 import { dummyProductSearchFilters, product } from "@/data/dummyData/productsDummyData";
 import { changeMinRating, changePriceMax, changePriceMin, changeProductFeatureSelected } from "@/data/redux/productFilterStore";
 import { reduxStore } from "@/data/redux/reduxStore";
+import { getQuerysetFromURL } from "./routeUtils";
 
 // these methods will return a string that will be appended to the url (the first part before the ? question mark)
 export default function getURLSearchFilterString(
@@ -58,7 +59,7 @@ export default function getURLSearchFilterString(
 export function getProductFeaturesFromQueryString() {
     // this function will save into our Redux store the features that are in the query string
     // first we will store all of our query params features in an array
-    const urlSearchParams = new URLSearchParams(window.location.search);
+    const urlSearchParams = new URLSearchParams(getQuerysetFromURL());
 
     // we will store the filters from the redux store in a variable
     let productFilters = reduxStore.getState().productFilter.value;

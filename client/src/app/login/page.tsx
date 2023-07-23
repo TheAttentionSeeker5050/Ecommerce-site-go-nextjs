@@ -66,8 +66,11 @@ export default function LoginPage() {
     const apiURL = process.env.NODE_ENV === 'development' ? process.env.API_URL : process.env.API_URL_REMOTE;
     
     // location of the api
-    const location = window.location;
-    let path = location.pathname as string || '/';
+    // const location = window.location;
+    // let path = location.pathname as string || '/';
+    let path = getCurrentPath();
+
+
 
 
 

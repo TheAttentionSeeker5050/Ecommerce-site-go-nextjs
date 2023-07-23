@@ -8,6 +8,7 @@ import { faArrowDown, faArrowUp, faDollarSign, faFire, faList, faStar, faTableCe
 // import the utility functions that will be used in this container
 import getURLSearchFilterString from "@/utils/urlSearchFilters";
 import Link from "next/link";
+import Image from "next/image";
 
 // redux store methods
 import { reduxStore } from "@/data/redux/reduxStore";
@@ -117,7 +118,7 @@ export default function ProductBrowseContainer(
                     return (
                         <Link className="w-32 mx-auto" href={productData.productLink} key={productData.key}>
                             
-                            <img className="w-28 rounded-md mx-auto" src={
+                            <Image width={120} height={120} alt={productData.productName} className="w-28 rounded-md mx-auto" src={
                                 productData.productImageSrc
                             } />
                             <p className="text-md text-center">

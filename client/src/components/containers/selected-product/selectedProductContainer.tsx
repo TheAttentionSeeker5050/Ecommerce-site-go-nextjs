@@ -1,6 +1,6 @@
 import { ButtonWithActionPrimary } from "@/components/buttons/buttonPrimary";
 import formatCurrency from "@/utils/formatCurrency";
-
+import Image from "next/image";
 
 
 export default function IndividualProductPageContainer(
@@ -15,7 +15,7 @@ export default function IndividualProductPageContainer(
                 </h2>
                 <div id="product-image" className="tablet:col-start-1 tablet:col-span-1 tablet:row-start-1 tablet:row-end-4 mx-auto p-2">
                     {/* will replace image with a carousell widget element */}
-                    <img src={product_data.productImageSrc} alt={product_data.productName} className="rounded-md"/>
+                    <Image width={250} height={250} src={product_data.productImageSrc} alt={product_data.productName} className="rounded-md"/>
                 </div>
                 <div id="product-price-highlights" className="text-md font-semibold text-red-600 tablet:col-start-2 tablet:col-end-3  tablet:row-start-2 tablet:row-end-5 p-2 dark:text-orange-light">
                     {formatCurrency(product_data.price)}
