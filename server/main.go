@@ -68,7 +68,20 @@ func main() {
 		})
 	})
 
-	productRoutes := router.Group("/products")
+	// to prevent address collision, we from now on will reverse our backend to be /api instead
+	// of /api/v1. Then we will contain all our routes to be under the router group /v1
+	// this will make that we do not need to care about repeat addresses on frontend and backend
+
+	v1Routes := router.Group("/v1")
+
+	productRoutes := v1Routes.Group("/products")
+
+	// make a dummy route /pet on top of the product routes to test the if no collision happens
+	productRoutes.GET("/pet", func(c *gin.Context) {
+		c.JSON(http.StatusOK, gin.H{
+			"message": "Hello, pets!",
+		})
+	})
 
 	routers.ProductCategoryRouter(productRoutes, db)
 	routers.ProductMainRouter(productRoutes, db)
