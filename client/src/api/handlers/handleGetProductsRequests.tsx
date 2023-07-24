@@ -30,10 +30,10 @@ export async function getProductsRequest(
     // we will default limit to 25 and offset to 0 if not provided in any of the cases
     // and sortedBy will be popularity and ascending will be true if they are not provided
     // sorted by popularity for the moment this sorting is just not sorted
-    if (filters && !category && petType) {
+    if (!category && petType) {
         // case 5
 
-    } else if (filters && category && !petType) {
+    } else if (category && !petType) {
         // case 4
 
     } else if (filters && !category && !petType) {

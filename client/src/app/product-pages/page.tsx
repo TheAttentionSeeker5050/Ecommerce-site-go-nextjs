@@ -31,6 +31,8 @@ export default function ProductQuickBrowsePage() {
 
     // the products state
     const [products, setProducts] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
+
 
     // we will use useEffect to fetch the products from the server
     useEffect(() => {
@@ -38,6 +40,7 @@ export default function ProductQuickBrowsePage() {
         getProductsRequest({}).then((data) => {
             // set the products state
             setProducts(data);
+            setIsLoading(false);
         }
         ).catch((error) => {
             console.log(error);
@@ -49,10 +52,15 @@ export default function ProductQuickBrowsePage() {
     return (
         <div id="p-content" className="w-full">
             <h1 className={styleConstants.pageTitleStyle}>Browse our Products</h1>
-            <div className="flex flex-row gap-2 flex-wrap justify-evenly">
-                {/* <ProductFilterContainer sortedBy={sortedBy} ascending={ascending} pagination={pagination} /> */}
-                <ProductBrowseContainer sortedBy={sortedBy} ascending={ascending} pagination={pagination} products={products} />
-            </div>
+
+            {isLoading ? 
+                <div className="text-center">Loading...</div>
+                :
+                <div className="flex flex-row gap-2 flex-wrap justify-evenly">
+                    {/* <ProductFilterContainer sortedBy={sortedBy} ascending={ascending} pagination={pagination} /> */}
+                    <ProductBrowseContainer sortedBy={sortedBy} ascending={ascending} pagination={pagination} products={products} />
+                </div>
+            }
             
         </div>
     )

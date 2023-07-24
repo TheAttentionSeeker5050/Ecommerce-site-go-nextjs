@@ -8,6 +8,7 @@ export default function ProductCategoriesPage() {
 
     // declare state variables
     const [productCategories, setProductCategories] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
     
     
     useEffect(() => {
@@ -16,6 +17,7 @@ export default function ProductCategoriesPage() {
         .then((data) => {
             // change the state of the product categories
             setProductCategories(data.productCategoryList);
+            setIsLoading(false);
         })
         .catch((error) => {
             console.log("catch was called");
@@ -25,6 +27,12 @@ export default function ProductCategoriesPage() {
 
     return (
         // the categories browse container with the state arrays
-        <CategoriesBrowseContainer title={"Browse Products by Category"} productCategories={productCategories} />
+        <div id="p-content" className="w-full">
+            {isLoading ?
+                <div className="text-center">Loading...</div>
+                :
+                <CategoriesBrowseContainer title={"Browse Products by Category"} productCategories={productCategories} />
+            }
+        </div>
     )
 }
