@@ -1,7 +1,7 @@
 package routers
 
 import (
-	"net/http"
+	"workspace/controllers"
 
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
@@ -16,11 +16,10 @@ func ProductRouter(
 
 	// define the product category router endpoints
 	productCategoryRouter.GET("/", func(c *gin.Context) {
-		c.JSON(
-			http.StatusOK,
-			gin.H{
-				"message": "Hello, product list!",
-			},
+		// we will use our controller here, also add url query parameters (later)
+		controllers.GetAllProducts(
+			c,
+			db,
 		)
 	})
 
