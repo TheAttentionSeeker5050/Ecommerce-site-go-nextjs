@@ -1,12 +1,5 @@
 // api handler for getting products requests
 
-// const handleErrors = (response: any) => {
-//     if (!response.ok) {
-//         throw Error(response.statusText);
-//     }
-//     return;
-// }
-
 export async function getProductsRequest(
     {filters, limit, offset, sortedBy, ascending, category, petType}: {filters?: string[], limit?: number, offset?: number, sortedBy?: string, ascending?: boolean, category?: number, petType?: number}
 ) {
@@ -39,15 +32,12 @@ export async function getProductsRequest(
     // sorted by popularity for the moment this sorting is just not sorted
     if (filters && !category && petType) {
         // case 5
-        queryString = `http://currentdevelopment.local:8081/v1/products/products`
 
     } else if (filters && category && !petType) {
         // case 4
-        queryString = `http://currentdevelopment.local:8081/v1/products/products`
 
     } else if (filters && !category && !petType) {
         // case 3
-        queryString = `http://currentdevelopment.local:8081/v1/products/products`
 
     } else  {
         // case 2 and 1
@@ -82,7 +72,7 @@ export async function getProductByIdRequest(
     }
 
     // the fetch request
-    const response = await fetch(`${baseURL}/products/products/${productId}`)
+    const response = await fetch(`${baseURL}/products/products/by-id/${productId}`)
 
     const data = await response.json();
 

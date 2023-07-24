@@ -37,7 +37,7 @@ func (productRepo *ProductRepository) GetAllProducts(
 }
 
 // get a single product
-func (productRepo *ProductRepository) GetSingleProduct(id uint64) (*models.Product, error) {
+func (productRepo *ProductRepository) GetSingleProductByID(id int) (*models.Product, error) {
 	// create a product
 	product := &models.Product{}
 

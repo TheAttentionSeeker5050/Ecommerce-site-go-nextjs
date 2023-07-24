@@ -23,5 +23,13 @@ func ProductRouter(
 		)
 	})
 
+	productCategoryRouter.GET("/by-id/:id", func(c *gin.Context) {
+		// we will use our controller here, also add url query parameters (later)
+		controllers.GetProductById(
+			c,
+			db,
+		)
+	})
+
 	return productCategoryRouter
 }

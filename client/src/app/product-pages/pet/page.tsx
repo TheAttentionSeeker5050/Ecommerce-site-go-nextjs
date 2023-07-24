@@ -18,6 +18,8 @@ export default function ProductPetTypesPage() {
         })
     }, [])
 
+    
+
     return (
         // the categories browse container with the state arrays
         <CategoriesBrowseContainer title={"Browse Products by Pet Type"} productCategories={productCategories} />
