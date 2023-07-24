@@ -45,7 +45,7 @@ export default function ProductQuickBrowsePage() {
         );
     }, []);
     
-    console.log("products\n",products);
+    // console.log("products\n",products);
     return (
         <div id="p-content" className="w-full">
             <h1 className={styleConstants.pageTitleStyle}>Browse our Products</h1>

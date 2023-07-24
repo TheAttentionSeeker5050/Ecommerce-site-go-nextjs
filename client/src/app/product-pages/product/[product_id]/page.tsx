@@ -1,6 +1,7 @@
 "use client"
 import IndividualProductPageContainer from "@/components/containers/selected-product/selectedProductContainer";
 import { reduxStore } from "@/data/redux/reduxStore";
+import { useEffect } from "react";
 
 export default function IndividualProductPage({params}: { params: {product_id: string} }) {
 
@@ -13,7 +14,14 @@ export default function IndividualProductPage({params}: { params: {product_id: s
 
     const productData = getProductData();
 
+    useEffect(() => {
+        // get the product data from the server
+        
+    }, [])
+
+
+
     return ( 
-            <IndividualProductPageContainer product_data={productData} />
+        <IndividualProductPageContainer product_data={productData} />
     )
 }

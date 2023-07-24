@@ -24,11 +24,19 @@ export async function getProductsRequest(
     sortedBy = sortedBy || "popularity";
     limit = limit || 25;
     offset = offset || 0;
+    
+    // get the base url from the env file
+    let baseURL = process.env.API_URL as string;
+    // if on development, use the development url
+    if (process.env.NODE_ENV !== "development") {
+        baseURL = process.env.API_URL_REMOTE as string;
+    }
 
+    let queryString = "";
+    
     // we will default limit to 25 and offset to 0 if not provided in any of the cases
     // and sortedBy will be popularity and ascending will be true if they are not provided
     // sorted by popularity for the moment this sorting is just not sorted
-    let queryString = "";
     if (filters && !category && petType) {
         // case 5
         queryString = `http://currentdevelopment.local:8081/v1/products/products`
@@ -41,21 +49,15 @@ export async function getProductsRequest(
         // case 3
         queryString = `http://currentdevelopment.local:8081/v1/products/products`
 
-    } else if (!filters && !category && !petType) {
-        // case 2
-        queryString = `http://currentdevelopment.local:8081/v1/products/products`
-    } else {
-        // queryString = `?limit=${limit}&offset=${offset}&sortedBy=${sortedBy}&ascending=${ascending}`;
-        queryString = `http://currentdevelopment.local:8081/v1/products/products`
-    }
+    } else  {
+        // case 2 and 1
+        queryString = `${baseURL}/products/products`
+    } 
 
-    console.log("queryString\n",queryString);
 
     // case 1
     const response = await fetch(queryString);
-    // response.text().then((text) => {
-    //     console.log("response text\n",text);
-    // });
+    
     const data = await response.json();
 
     // handle error
@@ -65,13 +67,31 @@ export async function getProductsRequest(
 
     // return the data
     return data;
-    // return "get all products"
 }
 
 
 
-export function getProductByIdRequest(
+export async function getProductByIdRequest(
     {productId} : {productId: number}
 ) {
+    // get the base url from the env file
+    let baseURL = process.env.API_URL as string;
+    // if on development, use the development url
+    if (process.env.NODE_ENV !== "development") {
+        baseURL = process.env.API_URL_REMOTE as string;
+    }
+
+    // the fetch request
+    const response = await fetch(`${baseURL}/products/products/${productId}`)
+
+    const data = await response.json();
+
+    // handle error
+    if (!response.ok) {
+        throw Error(response.statusText);
+    }
+
+    // return the data
+    return data;
 
 }
