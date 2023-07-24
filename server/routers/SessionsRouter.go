@@ -10,7 +10,7 @@ import (
 
 // router for user endpoints
 func SessionRouter(
-	router *gin.Engine,
+	router *gin.RouterGroup,
 	db *gorm.DB,
 ) *gin.RouterGroup {
 	// define the user router

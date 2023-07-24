@@ -70,8 +70,8 @@ func main() {
 	routers.ProductRouter(productRoutes, db)
 
 	// define the user router
-	routers.UserRouter(router, db)
-	routers.SessionRouter(router, db)
+	routers.UserRouter(v1Routes, db)
+	routers.SessionRouter(v1Routes, db)
 
 	// Run the server
 	router.Run(":8080")
