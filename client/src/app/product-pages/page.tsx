@@ -6,7 +6,7 @@ import ProductFilterContainer from "@/components/containers/products-browse/prod
 import { styleConstants } from "@/styles/constants/styleConstants";
 import { getQuerysetFromURL } from "@/utils/routeUtils";
 import { getProductFeaturesFromQueryString } from "@/utils/urlSearchFilters";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 
 export default function ProductQuickBrowsePage() {
@@ -29,18 +29,29 @@ export default function ProductQuickBrowsePage() {
     let ascending = urlSearchParams.get("ascending") === "true" || false;
     let pagination = parseInt(urlSearchParams.get("page") || "1");
 
+    // the products state
+    const [products, setProducts] = useState([]);
+
     // we will use useEffect to fetch the products from the server
     useEffect(() => {
-        // let productsRequest = getProductsRequest({}) as string;
-        // alert(getProductsRequest({}));
+        // get the products from the server
+        getProductsRequest({}).then((data) => {
+            // set the products state
+            setProducts(data);
+        }
+        ).catch((error) => {
+            console.log(error);
+        }
+        );
     }, []);
     
     
     return (
         <div id="p-content" className="w-full">
             <h1 className={styleConstants.pageTitleStyle}>Browse our Products</h1>
+            <p>Data: {products}</p>
             <div className="flex flex-row gap-2 flex-wrap justify-evenly">
-                <ProductFilterContainer sortedBy={sortedBy} ascending={ascending} pagination={pagination} />
+                {/* <ProductFilterContainer sortedBy={sortedBy} ascending={ascending} pagination={pagination} /> */}
                 <ProductBrowseContainer sortedBy={sortedBy} ascending={ascending} pagination={pagination} />
             </div>
             

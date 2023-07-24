@@ -1,6 +1,13 @@
 // api handler for getting products requests
 
-export function getProductsRequest(
+// const handleErrors = (response: any) => {
+//     if (!response.ok) {
+//         throw Error(response.statusText);
+//     }
+//     return;
+// }
+
+export async function getProductsRequest(
     {filters, limit, offset, sortedBy, ascending, category, petType}: {filters?: string[], limit?: number, offset?: number, sortedBy?: string, ascending?: boolean, category?: number, petType?: number}
 ) {
     // this is the go to function for getting several types of products get requests
@@ -21,6 +28,7 @@ export function getProductsRequest(
     // we will default limit to 25 and offset to 0 if not provided in any of the cases
     // and sortedBy will be popularity and ascending will be true if they are not provided
     // sorted by popularity for the moment this sorting is just not sorted
+    let queryString = "";
     if (filters && !category && petType) {
         // case 5
     } else if (filters && category && !petType) {
@@ -30,10 +38,24 @@ export function getProductsRequest(
     } else if (!filters && !category && !petType) {
         // case 2
     } else {
-        // case 1
+        // queryString = `?limit=${limit}&offset=${offset}&sortedBy=${sortedBy}&ascending=${ascending}`;
+        queryString = `http://127.0.0.1:8081/v1/products-api/products`
     }
+    // case 1
+    const response = await fetch(queryString);
+    const data = await response.json();
+
+    // handle error
+    if (!response.ok) {
+        throw Error(response.statusText);
+    }
+
+    // return the data
+    return data;
     // return "get all products"
 }
+
+
 
 export function getProductByIdRequest(
     {productId} : {productId: number}
