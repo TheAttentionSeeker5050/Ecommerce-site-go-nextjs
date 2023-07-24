@@ -7,7 +7,7 @@ import (
 	"gorm.io/gorm"
 )
 
-func ProductMainRouter(
+func ProductRouter(
 	router *gin.RouterGroup,
 	db *gorm.DB,
 ) *gin.RouterGroup {

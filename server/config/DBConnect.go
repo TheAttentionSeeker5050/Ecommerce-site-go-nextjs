@@ -22,7 +22,9 @@ func ConnectDB() (*gorm.DB, error) {
 	fmt.Println("connstring: ", connectionString)
 
 	// open the connection to the database
-	db, err := gorm.Open(mysql.Open(connectionString), &gorm.Config{})
+	db, err := gorm.Open(mysql.Open(connectionString), &gorm.Config{
+		// DisableForeignKeyConstraintWhenMigrating: true,
+	})
 
 	// print database connection and error
 	fmt.Println("db: ", db, "err: ", err)
@@ -34,7 +36,8 @@ func ConnectDB() (*gorm.DB, error) {
 		&models.UserSession{},
 		&models.ProductCategory{},
 		&models.ProductPetType{},
-		// &models.Product{},
+		&models.Metadata{},
+		&models.Product{},
 		// &models.Wishlist{},
 		// &models.ProductUnit{},
 		// &models.ShoppingCartItem{},
@@ -42,7 +45,6 @@ func ConnectDB() (*gorm.DB, error) {
 		// &models.OnSalePromoItem{},
 		// &models.Order{},
 		// &models.OrderItem{},
-		// &models.Metadata{},
 	)
 
 	// return the database connection
