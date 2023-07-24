@@ -10,7 +10,7 @@ export const product = {
         "Lorem ipsum dolor sit amet consectetur adipisicing elit. Distinctio provident maxime adipisci nemo cumque sint quia blanditiis minus, inventore rerum necessitatibus nisi fugit doloremque itaque",
     ],
     productHighlight: "taste this delicious product",
-    productLink: "/products/product/1", // this is the link to the product page, for now it is just 0 but it will be the product id when we prepare the rest api
+    productLink: "/product-pages/product/1", // this is the link to the product page, for now it is just 0 but it will be the product id when we prepare the rest api
 }
 
 // product array of size 25 and increase the key by 1 for each product

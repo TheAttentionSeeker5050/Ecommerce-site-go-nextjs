@@ -45,14 +45,13 @@ export default function ProductQuickBrowsePage() {
         );
     }, []);
     
-    
+    console.log("products\n",products);
     return (
         <div id="p-content" className="w-full">
             <h1 className={styleConstants.pageTitleStyle}>Browse our Products</h1>
-            <p>Data: {products}</p>
             <div className="flex flex-row gap-2 flex-wrap justify-evenly">
                 {/* <ProductFilterContainer sortedBy={sortedBy} ascending={ascending} pagination={pagination} /> */}
-                <ProductBrowseContainer sortedBy={sortedBy} ascending={ascending} pagination={pagination} />
+                <ProductBrowseContainer sortedBy={sortedBy} ascending={ascending} pagination={pagination} products={products} />
             </div>
             
         </div>

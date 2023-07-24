@@ -17,7 +17,7 @@ import { formatProductTitleInGridThumbView } from "@/utils/formatThumbnailTitle"
 
 export default function ProductBrowseContainer(
         // add the sorting and pagination state as props
-        {sortedBy, ascending, pagination} : {sortedBy: string, ascending: boolean, pagination: number}
+        {sortedBy, ascending, pagination, products} : {sortedBy: string, ascending: boolean, pagination: number, products: any[]}
     ) {
 
     // get the products array from the redux store
@@ -114,16 +114,16 @@ export default function ProductBrowseContainer(
                 </div>
             </div>
             <div id="products-container-grid" className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4  gap-3 px-3 py-5  border-black dark:border-primary-dark border-2 border-t-0 rounded-b-xl">
-                {productsArray.map((productData) => {
+                {products.map((productData) => {
                     return (
-                        <Link className="w-32 mx-auto" href={productData.productLink} key={productData.key}>
+                        <Link className="w-32 mx-auto" href={`/product-pages/product/${productData.ID}`} key={productData.ID}>
                             
-                            <Image width={120} height={120} alt={productData.productName} className="w-28 rounded-md mx-auto" src={
-                                productData.productImageSrc
+                            <Image width={120} height={120} alt={productData.name} className="w-28 rounded-md mx-auto" src={
+                                productData.product_image
                             } />
                             <p className="text-md text-center">
                                 {
-                                    formatProductTitleInGridThumbView(productData.productName)
+                                    formatProductTitleInGridThumbView(productData.name)
                                 }
                             </p>
                             <p className="text-md text-center font-bold">

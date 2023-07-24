@@ -41,8 +41,8 @@ export default function HeaderComponent(ToggleDarkMode: any, isDarkMode: any) {
                     </div>
                 </div>
                 <div id="desktop-header-bottom" className='flex flex-row flex-wrap justify-center gap-5 bg-brand-vivid  dark:bg-background-light dark:text-black  text-white my-3 py-2'>
-                    <Link href={"/products/category"}>Shop By Category</Link>
-                    <Link href={"/products/pet"}>Shop By Pet</Link>
+                    <Link href={"/product-pages/category"}>Shop By Category</Link>
+                    <Link href={"/product-pages/pet"}>Shop By Pet</Link>
                     <div>Products on Sale</div>
                 </div>
             </div>

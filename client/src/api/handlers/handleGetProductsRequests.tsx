@@ -31,18 +31,31 @@ export async function getProductsRequest(
     let queryString = "";
     if (filters && !category && petType) {
         // case 5
+        queryString = `http://currentdevelopment.local:8081/v1/products/products`
+
     } else if (filters && category && !petType) {
         // case 4
+        queryString = `http://currentdevelopment.local:8081/v1/products/products`
+
     } else if (filters && !category && !petType) {
         // case 3
+        queryString = `http://currentdevelopment.local:8081/v1/products/products`
+
     } else if (!filters && !category && !petType) {
         // case 2
+        queryString = `http://currentdevelopment.local:8081/v1/products/products`
     } else {
         // queryString = `?limit=${limit}&offset=${offset}&sortedBy=${sortedBy}&ascending=${ascending}`;
-        queryString = `http://127.0.0.1:8081/v1/products-api/products`
+        queryString = `http://currentdevelopment.local:8081/v1/products/products`
     }
+
+    console.log("queryString\n",queryString);
+
     // case 1
     const response = await fetch(queryString);
+    // response.text().then((text) => {
+    //     console.log("response text\n",text);
+    // });
     const data = await response.json();
 
     // handle error
