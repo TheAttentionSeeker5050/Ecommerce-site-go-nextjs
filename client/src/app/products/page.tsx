@@ -1,10 +1,12 @@
 "use client";
 
+import { getProductsRequest } from "@/api/handlers/handleGetProductsRequests";
 import ProductBrowseContainer from "@/components/containers/products-browse/productBrowseContainer";
 import ProductFilterContainer from "@/components/containers/products-browse/productFilterContainer";
 import { styleConstants } from "@/styles/constants/styleConstants";
 import { getQuerysetFromURL } from "@/utils/routeUtils";
 import { getProductFeaturesFromQueryString } from "@/utils/urlSearchFilters";
+import { useEffect } from "react";
 
 
 export default function ProductQuickBrowsePage() {
@@ -26,6 +28,12 @@ export default function ProductQuickBrowsePage() {
     let sortedBy = urlSearchParams.get("sort") || "popularity";
     let ascending = urlSearchParams.get("ascending") === "true" || false;
     let pagination = parseInt(urlSearchParams.get("page") || "1");
+
+    // we will use useEffect to fetch the products from the server
+    useEffect(() => {
+        // let productsRequest = getProductsRequest({}) as string;
+        // alert(getProductsRequest({}));
+    }, []);
     
     
     return (

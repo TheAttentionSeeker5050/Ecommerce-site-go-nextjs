@@ -71,7 +71,9 @@ func (productRepo *ProductRepository) GetProductsByCategory(categoryID uint64) (
 }
 
 // get products by pet type
-func (productRepo *ProductRepository) GetProductsByPetType(petTypeID uint64) ([]*models.Product, error) {
+func (productRepo *ProductRepository) GetProductsByPetType(
+	petTypeID uint64,
+) ([]*models.Product, error) {
 	// create a list of products
 	products := []*models.Product{}
 
