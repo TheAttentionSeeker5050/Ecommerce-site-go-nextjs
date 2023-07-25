@@ -10,12 +10,21 @@ import (
 	"gorm.io/gorm"
 )
 
+// some constants for the search criteria
+const (
+	SEARCH_BY_CATEGORY = "by_category"
+	SEARCH_BY_PET_TYPE = "by_pet_type"
+)
+
 // This controller will get a list of product categories
 
 func GetAllProducts(
 	c *gin.Context,
 	db *gorm.DB,
+	// optional parameter search criteria
+	searchCriteria string,
 ) {
+
 	// create a new product repository
 	productRepo := repositories.NewProductRepository(db)
 
@@ -24,6 +33,20 @@ func GetAllProducts(
 		25,
 		0,
 	)
+
+	// check if search criteria is by_category
+	if searchCriteria == SEARCH_BY_CATEGORY {
+		// get the name from the url params
+		var productCategoryName string = c.Param("category_name")
+
+		products, err = productRepo.GetProductsByCategory(productCategoryName)
+
+	} else if searchCriteria == SEARCH_BY_PET_TYPE {
+		// get the name
+		petTypeName := c.Param("pet_type_name")
+
+		products, err = productRepo.GetProductsByPetType(petTypeName)
+	}
 
 	// check for errors
 	if err != nil {

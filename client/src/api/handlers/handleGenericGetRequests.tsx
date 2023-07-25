@@ -20,6 +20,7 @@ export const handleGetRequests = async (
     } else {
         controlOrigin = "https://ecommerce-x.alligatorcode.pro";
     }
+    
     // make a post request using fetch, the new user data var and cors headers
     const response = await fetch(url, {
         method: 'GET',

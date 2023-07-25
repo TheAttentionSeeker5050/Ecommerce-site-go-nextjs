@@ -30,7 +30,7 @@ export default function ProductPetTypesPage() {
                     <div className="text-center">Loading...</div>
                 :
                     // the categories browse container with the state arrays
-                    <CategoriesBrowseContainer title={"Browse Products by Pet Type"} productCategories={productCategories} />
+                    <CategoriesBrowseContainer displayType={"Pet Type"} productCategories={productCategories} />
             }
         </div>
     )

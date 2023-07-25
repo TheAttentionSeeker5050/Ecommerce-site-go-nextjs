@@ -31,7 +31,7 @@ export default function ProductCategoriesPage() {
             {isLoading ?
                 <div className="text-center">Loading...</div>
                 :
-                <CategoriesBrowseContainer title={"Browse Products by Category"} productCategories={productCategories} />
+                <CategoriesBrowseContainer displayType={"Category"} productCategories={productCategories} />
             }
         </div>
     )

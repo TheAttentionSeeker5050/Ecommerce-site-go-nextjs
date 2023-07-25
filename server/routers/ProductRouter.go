@@ -20,6 +20,27 @@ func ProductRouter(
 		controllers.GetAllProducts(
 			c,
 			db,
+			"",
+		)
+	})
+
+	// browse products by category
+	productCategoryRouter.GET("/by-category/:category_name", func(c *gin.Context) {
+		// we will use our controller here, also add url query parameters (later)
+		controllers.GetAllProducts(
+			c,
+			db,
+			controllers.SEARCH_BY_CATEGORY,
+		)
+	})
+
+	// browse products by pet type
+	productCategoryRouter.GET("/by-pet-type/:pet_type_name", func(c *gin.Context) {
+		// we will use our controller here, also add url query parameters (later)
+		controllers.GetAllProducts(
+			c,
+			db,
+			controllers.SEARCH_BY_PET_TYPE,
 		)
 	})
 

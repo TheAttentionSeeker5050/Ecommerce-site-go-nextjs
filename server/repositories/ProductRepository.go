@@ -1,6 +1,7 @@
 package repositories
 
 import (
+	"fmt"
 	"workspace/models"
 
 	"gorm.io/gorm"
@@ -54,16 +55,32 @@ func (productRepo *ProductRepository) GetSingleProductByID(id int) (*models.Prod
 }
 
 // get products by category
-func (productRepo *ProductRepository) GetProductsByCategory(categoryID uint64) ([]*models.Product, error) {
+func (productRepo *ProductRepository) GetProductsByCategory(
+	categoryName string,
+) ([]*models.Product, error) {
 	// create a list of products
 	products := []*models.Product{}
 
+	category := models.ProductCategory{}
+
+	// find the category id from the name
+	categoryQueryResult := productRepo.DB.Where("url_formatted_name = ?", categoryName).First(&category)
+	if categoryQueryResult.Error != nil {
+		return nil, categoryQueryResult.Error
+	}
+
+	// get the field ID value
+	categoryID := category.ID
+
+	// print category
+	fmt.Printf("Category ID: %v", categoryID)
+
 	// get the products
-	result := productRepo.DB.Where("product_category_id = ?", categoryID).Find(&products)
+	productsQueryResult := productRepo.DB.Where("product_category_id = ?", categoryID).Limit(25).Offset(0).Find(&products)
 
 	// check for errors
-	if result.Error != nil {
-		return nil, result.Error
+	if productsQueryResult.Error != nil {
+		return nil, productsQueryResult.Error
 	}
 
 	// return the products
@@ -72,13 +89,27 @@ func (productRepo *ProductRepository) GetProductsByCategory(categoryID uint64) (
 
 // get products by pet type
 func (productRepo *ProductRepository) GetProductsByPetType(
-	petTypeID uint64,
+	petName string,
 ) ([]*models.Product, error) {
-	// create a list of products
+	// create a product list struct
 	products := []*models.Product{}
 
+	// create a pet type struct
+	petType := models.ProductPetType{}
+
+	// find the pet type id from the name
+	petTypeQueryResult := productRepo.DB.Where("url_formatted_name = ?", petName).First(&petType)
+
+	// check for errors
+	if petTypeQueryResult.Error != nil {
+		return nil, petTypeQueryResult.Error
+	}
+
+	// get the field ID value
+	petTypeID := petType.ID
+
 	// get the products
-	result := productRepo.DB.Where("product_pet_type_id = ?", petTypeID).Find(&products)
+	result := productRepo.DB.Where("product_pet_type_id = ?", petTypeID).Limit(25).Offset(0).Find(&products)
 
 	// check for errors
 	if result.Error != nil {

@@ -1,7 +1,7 @@
 // api handler for getting products requests
 
 export async function getProductsRequest(
-    {filters, limit, offset, sortedBy, ascending, category, petType}: {filters?: string[], limit?: number, offset?: number, sortedBy?: string, ascending?: boolean, category?: number, petType?: number}
+    {filters, limit, offset, sortedBy, ascending, category, petType}: {filters?: string[], limit?: number, offset?: number, sortedBy?: string, ascending?: boolean, category?: string, petType?: string}
 ) {
     // this is the go to function for getting several types of products get requests
 
@@ -32,18 +32,19 @@ export async function getProductsRequest(
     // sorted by popularity for the moment this sorting is just not sorted
     if (!category && petType) {
         // case 5
+        queryString = `${baseURL}/products/products/by-pet-type/${petType}`
 
     } else if (category && !petType) {
         // case 4
-
-    } else if (filters && !category && !petType) {
-        // case 3
+        queryString = `${baseURL}/products/products/by-category/${category}`
 
     } else  {
-        // case 2 and 1
+        // case 3, 2 and 1
         queryString = `${baseURL}/products/products`
-    } 
+    }
 
+    // add query search parameters to the query string if they are provided
+    // using filters object array and other handler function params
 
     // case 1
     const response = await fetch(queryString);
