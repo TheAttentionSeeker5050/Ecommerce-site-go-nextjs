@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"net/http"
 	"os"
 	"workspace/config"
 	"workspace/routers"
@@ -58,15 +57,6 @@ func main() {
 
 	// add cors configuration
 	router.Use(cors.New(config.ConfigureCors()))
-	// fmt.Println("Successfully loaded CORS configuration")
-	// fmt.Println(config.ConfigureCors())
-
-	// Define routes
-	router.GET("/", func(c *gin.Context) {
-		c.JSON(http.StatusOK, gin.H{
-			"message": "Hello, World!",
-		})
-	})
 
 	// to prevent address collision, we from now on will reverse our backend to be /api instead
 	// of /api/v1. Then we will contain all our routes to be under the router group /v1
@@ -77,12 +67,11 @@ func main() {
 	productRoutes := v1Routes.Group("/products")
 
 	routers.ProductCategoryRouter(productRoutes, db)
-	routers.ProductMainRouter(productRoutes, db)
-	routers.ProductViewRouter(productRoutes, db)
+	routers.ProductRouter(productRoutes, db)
 
 	// define the user router
-	routers.UserRouter(router, db)
-	routers.SessionRouter(router, db)
+	routers.UserRouter(v1Routes, db)
+	routers.SessionRouter(v1Routes, db)
 
 	// Run the server
 	router.Run(":8080")

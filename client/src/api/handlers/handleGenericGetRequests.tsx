@@ -11,7 +11,7 @@ export const handleGetRequests = async (
         url = `${process.env.API_URL_REMOTE}${getRequestRoute}`;
     }
     
-    console.log("request url:", url);
+    // console.log("request url:", url);
 
     // create a control origin header based on environment type
     var controlOrigin: string;
@@ -20,6 +20,7 @@ export const handleGetRequests = async (
     } else {
         controlOrigin = "https://ecommerce-x.alligatorcode.pro";
     }
+    
     // make a post request using fetch, the new user data var and cors headers
     const response = await fetch(url, {
         method: 'GET',

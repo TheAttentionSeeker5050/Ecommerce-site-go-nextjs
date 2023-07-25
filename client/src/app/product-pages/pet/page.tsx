@@ -8,6 +8,7 @@ export default function ProductPetTypesPage() {
 
     // declare state variables
     const [productCategories, setProductCategories] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
 
@@ -15,11 +16,22 @@ export default function ProductPetTypesPage() {
         handleGetRequests("/products/categories/pet-types").then((data) => {
             // change the state of the product categories
             setProductCategories(data.petTypeList);
+            setIsLoading(false);
         })
     }, [])
 
+    
+
     return (
-        // the categories browse container with the state arrays
-        <CategoriesBrowseContainer title={"Browse Products by Pet Type"} productCategories={productCategories} />
+        <div id="p-content" className="w-full">
+            { 
+            isLoading 
+                ?
+                    <div className="text-center">Loading...</div>
+                :
+                    // the categories browse container with the state arrays
+                    <CategoriesBrowseContainer displayType={"Pet Type"} productCategories={productCategories} />
+            }
+        </div>
     )
 }

@@ -1,10 +1,12 @@
 "use client";
 
+import { getProductsRequest } from "@/api/handlers/handleGetProductsRequests";
 import ProductBrowseContainer from "@/components/containers/products-browse/productBrowseContainer";
 import ProductFilterContainer from "@/components/containers/products-browse/productFilterContainer";
 import { styleConstants } from "@/styles/constants/styleConstants";
 import { getQuerysetFromURL } from "@/utils/routeUtils";
 import { getProductFeaturesFromQueryString } from "@/utils/urlSearchFilters";
+import { useEffect, useState } from "react";
 
 
 export default function ProductQuickBrowsePage() {
@@ -26,15 +28,39 @@ export default function ProductQuickBrowsePage() {
     let sortedBy = urlSearchParams.get("sort") || "popularity";
     let ascending = urlSearchParams.get("ascending") === "true" || false;
     let pagination = parseInt(urlSearchParams.get("page") || "1");
+
+    // the products state
+    const [products, setProducts] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
+
+
+    // we will use useEffect to fetch the products from the server
+    useEffect(() => {
+        // get the products from the server
+        getProductsRequest({}).then((data) => {
+            // set the products state
+            setProducts(data);
+            setIsLoading(false);
+        }
+        ).catch((error) => {
+            console.log(error);
+        }
+        );
+    }, []);
     
-    
+    // console.log("products\n",products);
     return (
         <div id="p-content" className="w-full">
             <h1 className={styleConstants.pageTitleStyle}>Browse our Products</h1>
-            <div className="flex flex-row gap-2 flex-wrap justify-evenly">
-                <ProductFilterContainer sortedBy={sortedBy} ascending={ascending} pagination={pagination} />
-                <ProductBrowseContainer sortedBy={sortedBy} ascending={ascending} pagination={pagination} />
-            </div>
+
+            {isLoading ? 
+                <div className="text-center">Loading...</div>
+                :
+                <div className="flex flex-row gap-2 flex-wrap justify-evenly">
+                    {/* <ProductFilterContainer sortedBy={sortedBy} ascending={ascending} pagination={pagination} /> */}
+                    <ProductBrowseContainer sortedBy={sortedBy} ascending={ascending} pagination={pagination} products={products} />
+                </div>
+            }
             
         </div>
     )

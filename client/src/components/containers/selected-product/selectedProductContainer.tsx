@@ -11,11 +11,11 @@ export default function IndividualProductPageContainer(
             <div id="upper-prod-container" className="tablet:grid-rows-4 tablet:grid tablet:grid-cols-3 px-4 flex flex-col gap-3">
 
                 <h2 id="product-title" className="text-lg font-bold tablet:col-start-2 tablet:col-span-2 tablet:row-start-1 tablet:row-end-2">
-                    {product_data.productName}
+                    {product_data.name}
                 </h2>
                 <div id="product-image" className="tablet:col-start-1 tablet:col-span-1 tablet:row-start-1 tablet:row-end-4 mx-auto p-2">
                     {/* will replace image with a carousell widget element */}
-                    <Image width={250} height={250} src={product_data.productImageSrc} alt={product_data.productName} className="rounded-md"/>
+                    <Image width={250} height={250} src={product_data.product_image} alt={product_data.product_image_alt} className="rounded-md"/>
                 </div>
                 <div id="product-price-highlights" className="text-md font-semibold text-red-600 tablet:col-start-2 tablet:col-end-3  tablet:row-start-2 tablet:row-end-5 p-2 dark:text-orange-light">
                     {formatCurrency(product_data.price)}
@@ -44,9 +44,13 @@ export default function IndividualProductPageContainer(
             <div id="productDescription" className="px-4">
                 <h2 className="font-semibold text-md my-3">Product Description:</h2> 
                 <div className="text-justify text-sm">
-                    {product_data.productDescription.map((paragraph: string, i: number) => {
+                    {/* {product_data.description.map((paragraph: string, i: number) => {
                         return <p className="mb-2" key={i}>{paragraph}</p>
-                    })}
+                        }) // THIS IS SUPPOSED TO BE IMPLEMENTED FOR MULTIPLE PARAGRAPHS, BUT FOR THE MOMENT WE WILL ONLY HAVE ONE PARAGRAPH
+                    }  */}
+
+                    <p className="mb-2">{product_data.description}</p>
+
                 </div>
             </div>
             {/* and now a purchase widget */}
