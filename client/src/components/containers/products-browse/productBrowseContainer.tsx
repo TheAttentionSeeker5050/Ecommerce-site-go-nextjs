@@ -17,12 +17,9 @@ import { formatProductTitleInGridThumbView } from "@/utils/formatThumbnailTitle"
 
 export default function ProductBrowseContainer(
         // add the sorting and pagination state as props
-        {sortedBy, ascending, pagination, products} : {sortedBy: string, ascending: boolean, pagination: number, products: any[]}
+        {sortedBy, sortOrder, limit, offset, products, setSortedBy, setSortOrder, setLimit, setOffset} :
+        {sortedBy: string, sortOrder: string, limit: number, offset: number, products: any[], setSortedBy: any, setSortOrder: any, setLimit: any, setOffset: any}
     ) {
-
-    // get the products array from the redux store
-    const productsArray = reduxStore.getState().product.value;
-    
     
     // the handler for the sorting and pagination
     function handleSorting(
@@ -33,37 +30,40 @@ export default function ProductBrowseContainer(
         // change the sorting state if needed
         // if the sorting is already set to the same value, then change the sorting order
         if (newSortedBy === sortedBy) {
-            ascending = !ascending;
+            setSortOrder(sortOrder === "desc" ? "asc" : "desc");
         } else {
-            sortedBy = newSortedBy;
-            ascending = false;
+            setSortedBy(sortedBy);
+            setSortOrder("desc");
         }
 
         // redirect to the new url
         window.location.href = getURLSearchFilterString({
-            pageNumber: pagination,
+            limit: limit,
+            offset: offset,
             orderBy: sortedBy,
-            ascending: ascending,
+            sortOrder: sortOrder,
         });
     }
 
 
     function handlePagination(
         event: React.MouseEvent<HTMLAnchorElement, MouseEvent>,
-        newPagination: number,
+        newPagination: string,
     ) {
         event.preventDefault();
         // change the pagination state if needed
-        if (newPagination < 1) {
-            newPagination = 1;
-        } else {
-            pagination = newPagination;
+        if (newPagination === "+" ) {
+            setOffset(offset + limit);
+        } else if (newPagination === "-" && offset >= limit) {
+            setOffset(offset - limit);
         }
 
+        // redirect to the new url
         window.location.href = getURLSearchFilterString({
-            pageNumber: pagination,
+            limit: limit,
+            offset: offset,
             orderBy: sortedBy,
-            ascending: ascending,
+            sortOrder: sortOrder,
         });
     }
     
@@ -71,11 +71,11 @@ export default function ProductBrowseContainer(
         {sortByInput} : {sortByInput: string}
     ) => {
         // if the sorted by input is the same as the current sorting state, and order is ascending, then return the up arrow
-        if (sortByInput === sortedBy && ascending) {
+        if (sortByInput == sortedBy && sortOrder === "asc") {
             return (
                 <FontAwesomeIcon icon={faArrowUp} />
             )
-        } else if (sortByInput === sortedBy && !ascending) {
+        } else if (sortByInput === sortedBy && sortOrder === "desc") {
             return (
                 <FontAwesomeIcon icon={faArrowDown} />
             )
@@ -93,11 +93,15 @@ export default function ProductBrowseContainer(
                         <ArrowIconComponent sortByInput="price" />
                         <FontAwesomeIcon icon={faDollarSign} />
                     </a>
-                    <a href="" onClick={(e) => handleSorting(e, "ratings")}>
+                    <a href="" 
+                    // onClick={(e) => handleSorting(e, "ratings")}
+                    >
                         <ArrowIconComponent sortByInput="ratings" />
                         <FontAwesomeIcon icon={faStar} />
                     </a>
-                    <a href="" onClick={(e) => handleSorting(e, "popularity")}>
+                    <a href="" 
+                    // onClick={(e) => handleSorting(e, "popularity")}
+                    >
                         <ArrowIconComponent sortByInput="popularity" />
                         <FontAwesomeIcon icon={faFire} />
                     </a>
@@ -109,8 +113,8 @@ export default function ProductBrowseContainer(
                     </a>
                 </div>
                 <div id="pagination" className="flex flex-row gap-3 justify-center">
-                    <a href="" onClick={(e) => handlePagination(e, pagination-1)}>Previous</a>
-                    <a href="" onClick={(e) => handlePagination(e, pagination+1)}>Next</a>
+                    <a href="" onClick={(e) => handlePagination(e, "+")}>Previous</a>
+                    <a href="" onClick={(e) => handlePagination(e, "-")}>Next</a>
                 </div>
             </div>
             <div id="products-container-grid" className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4  gap-3 px-3 py-5  border-black dark:border-primary-dark border-2 border-t-0 rounded-b-xl">
