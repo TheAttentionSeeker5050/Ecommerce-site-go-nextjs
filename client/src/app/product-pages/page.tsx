@@ -6,6 +6,7 @@ import ProductFilterContainer from "@/components/containers/products-browse/prod
 import { styleConstants } from "@/styles/constants/styleConstants";
 import { getQuerysetFromURL } from "@/utils/routeUtils";
 import { getProductFeaturesFromQueryString } from "@/utils/urlSearchFilters";
+import { url } from "inspector";
 import { useEffect, useState } from "react";
 
 
@@ -25,9 +26,14 @@ export default function ProductQuickBrowsePage() {
     // first get the sorting and pagination state from the url
     // i am using variables and the url search params object because i want to be able to change the sorting and pagination state without reloading the page and not dealing with async execution
     // i may change to somethign else later
-    let sortedBy = urlSearchParams.get("sort") || "popularity";
-    let ascending = urlSearchParams.get("ascending") === "true" || false;
-    let pagination = parseInt(urlSearchParams.get("page") || "1");
+    let sortedBy = urlSearchParams.get("sorted_by") || "";
+    let sortOrder = urlSearchParams.get("sort_order") || "desc";
+    let limit = parseInt(urlSearchParams.get("limit") || "25");
+    let offset = parseInt(urlSearchParams.get("offset") || "0");
+
+    // will fix this next
+    let pagination = parseInt(urlSearchParams.get("pagination") || "0");
+    let ascending = sortOrder === "asc" ? true : false;
 
     // the products state
     const [products, setProducts] = useState([]);
@@ -36,8 +42,14 @@ export default function ProductQuickBrowsePage() {
 
     // we will use useEffect to fetch the products from the server
     useEffect(() => {
+
         // get the products from the server
-        getProductsRequest({}).then((data) => {
+        getProductsRequest({
+            sortedBy: sortedBy,
+            sortOrder: sortOrder,
+            limit: limit,
+            offset: offset,
+        }).then((data) => {
             // set the products state
             setProducts(data);
             setIsLoading(false);
@@ -48,7 +60,6 @@ export default function ProductQuickBrowsePage() {
         );
     }, []);
     
-    // console.log("products\n",products);
     return (
         <div id="p-content" className="w-full">
             <h1 className={styleConstants.pageTitleStyle}>Browse our Products</h1>
