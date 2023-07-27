@@ -36,13 +36,13 @@ export default function ProductBrowseContainer(
             setSortOrder("desc");
         }
 
-        // redirect to the new url
-        window.location.href = getURLSearchFilterString({
-            limit: limit,
-            offset: offset,
-            orderBy: sortedBy,
-            sortOrder: sortOrder,
-        });
+        // // redirect to the new url
+        // window.location.href = getURLSearchFilterString({
+        //     limit: limit,
+        //     offset: offset,
+        //     orderBy: sortedBy,
+        //     sortOrder: sortOrder,
+        // });
     }
 
 
@@ -58,13 +58,13 @@ export default function ProductBrowseContainer(
             setOffset(offset - limit);
         }
 
-        // redirect to the new url
-        window.location.href = getURLSearchFilterString({
-            limit: limit,
-            offset: offset,
-            orderBy: sortedBy,
-            sortOrder: sortOrder,
-        });
+        // // redirect to the new url
+        // window.location.href = getURLSearchFilterString({
+        //     limit: limit,
+        //     offset: offset,
+        //     orderBy: sortedBy,
+        //     sortOrder: sortOrder,
+        // });
     }
     
     const ArrowIconComponent = (
@@ -89,32 +89,32 @@ export default function ProductBrowseContainer(
         <div id="products-container-wrapper" className="flex flex-col my-5 w-auto mx-4">
             <div id="products-container-upper-view-opts " className="bg-primary-light dark:bg-primary-dark dark:text-black text-white p-4 rounded-t-xl border-2 border-black dark:border-white flex flex-col flex-wrap  gap-3 ">
                 <div id="sorting" className="flex flex-row gap-3 justify-center">
-                    <a href="" onClick={(e) => handleSorting(e, "price")}>
+                    <Link href="" onClick={(e) => handleSorting(e, "price")}>
                         <ArrowIconComponent sortByInput="price" />
                         <FontAwesomeIcon icon={faDollarSign} />
-                    </a>
-                    <a href="" 
+                    </Link>
+                    <Link href="" 
                     // onClick={(e) => handleSorting(e, "ratings")}
                     >
                         <ArrowIconComponent sortByInput="ratings" />
                         <FontAwesomeIcon icon={faStar} />
-                    </a>
-                    <a href="" 
+                    </Link>
+                    <Link href="" 
                     // onClick={(e) => handleSorting(e, "popularity")}
                     >
                         <ArrowIconComponent sortByInput="popularity" />
                         <FontAwesomeIcon icon={faFire} />
-                    </a>
-                    <a href="" className="ml-auto">
+                    </Link>
+                    <Link href="" className="ml-auto">
                         <FontAwesomeIcon icon={faList} />
-                    </a>
-                    <a href="">
+                    </Link>
+                    <Link href="">
                         <FontAwesomeIcon icon={faTableCells} />
-                    </a>
+                    </Link>
                 </div>
                 <div id="pagination" className="flex flex-row gap-3 justify-center">
-                    <a href="" onClick={(e) => handlePagination(e, "+")}>Previous</a>
-                    <a href="" onClick={(e) => handlePagination(e, "-")}>Next</a>
+                    <Link href="" onClick={(e) => handlePagination(e, "+")}>Previous</Link>
+                    <Link href="" onClick={(e) => handlePagination(e, "-")}>Next</Link>
                 </div>
             </div>
             <div id="products-container-grid" className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4  gap-3 px-3 py-5  border-black dark:border-primary-dark border-2 border-t-0 rounded-b-xl">
