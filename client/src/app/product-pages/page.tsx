@@ -9,6 +9,8 @@ import { getProductFeaturesFromQueryString } from "@/utils/urlSearchFilters";
 import { url } from "inspector";
 import { useEffect, useState } from "react";
 
+// import { useRouter } from "next/navigation";
+import { useRouter } from "next/router";
 
 export default function ProductQuickBrowsePage() {
     
@@ -34,6 +36,9 @@ export default function ProductQuickBrowsePage() {
     const [isLoading, setIsLoading] = useState(true);
     const [isError, setIsError] = useState(false);
 
+    // declare the router
+    // const router = useRouter();
+    const router = "useRouter()";
 
     // we will use useEffect to fetch the products from the server
     useEffect(() => {
@@ -64,7 +69,7 @@ export default function ProductQuickBrowsePage() {
                 :
                 <div className="flex flex-row gap-2 flex-wrap justify-evenly">
                     {/* <ProductFilterContainer sortedBy={sortedBy} ascending={ascending} pagination={pagination} /> */}
-                    <ProductBrowseContainer sortedBy={sortedBy} sortOrder={sortOrder} limit={limit} offset={offset} products={products} setSortedBy={setSortedBy} setSortOrder={setSortOrder} setLimit={setLimit} setOffset={setOffset} />
+                    <ProductBrowseContainer sortedBy={sortedBy} sortOrder={sortOrder} limit={limit} offset={offset} products={products} setSortedBy={setSortedBy} setSortOrder={setSortOrder} setLimit={setLimit} setOffset={setOffset} router={router} />
                 </div>
             }
             

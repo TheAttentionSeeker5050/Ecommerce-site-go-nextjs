@@ -17,12 +17,12 @@ import { formatProductTitleInGridThumbView } from "@/utils/formatThumbnailTitle"
 
 export default function ProductBrowseContainer(
         // add the sorting and pagination state as props
-        {sortedBy, sortOrder, limit, offset, products, setSortedBy, setSortOrder, setLimit, setOffset} :
-        {sortedBy: string, sortOrder: string, limit: number, offset: number, products: any[], setSortedBy: any, setSortOrder: any, setLimit: any, setOffset: any}
+        {sortedBy, sortOrder, limit, offset, products, setSortedBy, setSortOrder, setLimit, setOffset, router} :
+        {sortedBy: string, sortOrder: string, limit: number, offset: number, products: any[], setSortedBy: any, setSortOrder: any, setLimit: any, setOffset: any, router: any}
     ) {
     
     // the handler for the sorting and pagination
-    function handleSorting(
+    async function handleSorting(
         event: React.MouseEvent<HTMLAnchorElement, MouseEvent>,
         newSortedBy: string,
     ) {
@@ -30,41 +30,59 @@ export default function ProductBrowseContainer(
         // change the sorting state if needed
         // if the sorting is already set to the same value, then change the sorting order
         if (newSortedBy === sortedBy) {
-            setSortOrder(sortOrder === "desc" ? "asc" : "desc");
+            await setSortOrder(sortOrder === "desc" ? "asc" : "desc");
         } else {
-            setSortedBy(sortedBy);
-            setSortOrder("desc");
+            await setSortedBy(newSortedBy);
+            await setSortOrder("desc");
         }
 
-        // // redirect to the new url
-        // window.location.href = getURLSearchFilterString({
+        // redirect to the new 
+        let newQueryset = getURLSearchFilterString({
+            limit: limit,
+            offset: offset,
+            orderBy: sortedBy,
+            sortOrder: sortOrder,
+        });
+
+        console.log("newQueryset:", newQueryset);
+        console.log("window.location.href:", window.location.href);
+        window.location.href = newQueryset;
+
+        // router.push(getURLSearchFilterString({
         //     limit: limit,
         //     offset: offset,
         //     orderBy: sortedBy,
         //     sortOrder: sortOrder,
-        // });
+        // }));
     }
 
 
-    function handlePagination(
+    async function handlePagination(
         event: React.MouseEvent<HTMLAnchorElement, MouseEvent>,
         newPagination: string,
     ) {
         event.preventDefault();
         // change the pagination state if needed
         if (newPagination === "+" ) {
-            setOffset(offset + limit);
+            await setOffset(offset + limit);
         } else if (newPagination === "-" && offset >= limit) {
-            setOffset(offset - limit);
+            await setOffset(offset - limit);
         }
 
-        // // redirect to the new url
-        // window.location.href = getURLSearchFilterString({
+        // redirect to the new url
+        window.location.href = getURLSearchFilterString({
+            limit: limit,
+            offset: offset,
+            orderBy: sortedBy,
+            sortOrder: sortOrder,
+        });
+
+        // router.push(getURLSearchFilterString({
         //     limit: limit,
         //     offset: offset,
         //     orderBy: sortedBy,
         //     sortOrder: sortOrder,
-        // });
+        // }));
     }
     
     const ArrowIconComponent = (

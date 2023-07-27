@@ -6,6 +6,8 @@ import ProductBrowseContainer from "@/components/containers/products-browse/prod
 import { getProductFeaturesFromQueryString } from "@/utils/urlSearchFilters";
 import { useEffect, useState } from "react";
 
+import { useRouter } from "next/router";
+
 export default function ProductBrowseListingByCategoryPage({params}: { params: {category: string} }) {
     // get the query params from the url
     const urlSearchParams = new URLSearchParams(window.location.search);
@@ -26,6 +28,10 @@ export default function ProductBrowseListingByCategoryPage({params}: { params: {
     const [products, setProducts] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [isError, setIsError] = useState(false);
+
+    // declare the router
+    // const router = useRouter();
+    const router = "useRouter()";
 
 
     // get the products from the server before render
@@ -54,7 +60,7 @@ export default function ProductBrowseListingByCategoryPage({params}: { params: {
             <div className="flex flex-row gap-2 flex-wrap justify-evenly">
                 
                 {/* <ProductFilterContainer sortedBy={sortedBy} ascending={ascending} pagination={pagination} /> */}
-                <ProductBrowseContainer sortedBy={sortedBy} sortOrder={sortOrder} limit={limit} offset={offset} products={products} setSortedBy={setSortedBy} setSortOrder={setSortOrder} setLimit={setLimit} setOffset={setOffset} />
+                <ProductBrowseContainer sortedBy={sortedBy} sortOrder={sortOrder} limit={limit} offset={offset} products={products} setSortedBy={setSortedBy} setSortOrder={setSortOrder} setLimit={setLimit} setOffset={setOffset} router={router} />
 
             </div>
 
