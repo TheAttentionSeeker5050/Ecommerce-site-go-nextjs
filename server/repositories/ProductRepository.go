@@ -17,16 +17,44 @@ func NewProductRepository(db *gorm.DB) *ProductRepository {
 	}
 }
 
+// constants for the sort order
+const (
+	ASCENDING  = "asc"
+	DESCENDING = "desc"
+	BY_PRICE   = "price"
+)
+
 // get a list of products
 func (productRepo *ProductRepository) GetAllProducts(
 	limit int,
 	offset int,
+	sortOrder string,
+	sortedBy string,
 ) ([]*models.Product, error) {
 	// create a list of products
 	products := []*models.Product{}
 
-	// get the products
-	result := productRepo.DB.Limit(limit).Offset(offset).Find(&products)
+	// first get the sort order
+	sortString := ""
+	switch sortedBy {
+	case BY_PRICE:
+		sortString = "price"
+	default:
+		sortString = "id" /// we will add something like popularity later
+	}
+
+	// get the sort order
+	switch sortOrder {
+	case ASCENDING:
+		sortString += " asc"
+	case DESCENDING:
+		sortString += " desc"
+	default:
+		sortString += " asc"
+	}
+
+	// now make the query
+	result := productRepo.DB.Order(sortString).Limit(limit).Offset(offset).Find(&products)
 
 	// check for errors
 	if result.Error != nil {

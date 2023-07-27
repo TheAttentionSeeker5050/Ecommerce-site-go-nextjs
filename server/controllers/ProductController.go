@@ -25,13 +25,42 @@ func GetAllProducts(
 	searchCriteria string,
 ) {
 
+	// get limit and offset from url query params
+	limit, err := strconv.Atoi(c.DefaultQuery("limit", "25"))
+	if err != nil {
+		c.JSON(
+			http.StatusBadRequest,
+			gin.H{
+				"error": "Invalid limit",
+			},
+		)
+		return
+	}
+
+	offset, err := strconv.Atoi(c.DefaultQuery("offset", "0"))
+	if err != nil {
+		c.JSON(
+			http.StatusBadRequest,
+			gin.H{
+				"error": "Invalid offset",
+			},
+		)
+		return
+	}
+
+	// get sort order and sorted by
+	sortOrder := c.DefaultQuery("sort_order", "") // repositories.ASCENDING)
+	sortedBy := c.DefaultQuery("sorted_by", "")   // repositories.BY_PRICE)
+
 	// create a new product repository
 	productRepo := repositories.NewProductRepository(db)
 
 	// get the products, we will add filters and pagination later
 	products, err := productRepo.GetAllProducts(
-		25,
-		0,
+		limit,
+		offset,
+		sortOrder,
+		sortedBy,
 	)
 
 	// check if search criteria is by_category
@@ -57,7 +86,6 @@ func GetAllProducts(
 				"error":     "Could not find any products with the stated the criteria",
 			},
 		)
-
 		return
 	}
 
@@ -66,6 +94,7 @@ func GetAllProducts(
 		http.StatusOK,
 		products,
 	)
+	return
 }
 
 // get a product by id
