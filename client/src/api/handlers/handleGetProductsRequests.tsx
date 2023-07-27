@@ -18,6 +18,7 @@ export async function getProductsRequest(
     limit = limit || 25;
     offset = offset || 0;
     
+
     // get the base url from the env file
     let baseURL = process.env.API_URL as string;
     // if on development, use the development url
