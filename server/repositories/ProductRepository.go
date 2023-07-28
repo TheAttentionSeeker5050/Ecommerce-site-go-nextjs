@@ -154,7 +154,7 @@ func (productRepo *ProductRepository) GetProductsByPetType(
 	sortString := getSortedByString(sortedBy, sortOrder)
 
 	// get the products
-	result := productRepo.DB.Where("product_pet_type_id = ?", petTypeID).Order(sortString).Limit(25).Offset(0).Find(&products)
+	result := productRepo.DB.Where("product_pet_type_id = ?", petTypeID).Order(sortString).Limit(limit).Offset(offset).Find(&products)
 
 	// check for errors
 	if result.Error != nil {

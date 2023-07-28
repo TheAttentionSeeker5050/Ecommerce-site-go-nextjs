@@ -8,10 +8,11 @@ import { getProductFeaturesFromQueryString } from "@/utils/urlSearchFilters";
 import { useEffect, useState } from "react";
 
 import { useRouter } from "next/navigation";
+import { getQuerysetFromURL } from "@/utils/routeUtils";
 
 export default function ProductBrowseListingByPetTypePage({params}: { params: {petType: string} }) {
     // get the query params from the url
-    const urlSearchParams = new URLSearchParams(window.location.search);
+    const urlSearchParams = new URLSearchParams(getQuerysetFromURL());
     
 
     // get the url filter params and store them in the redux store

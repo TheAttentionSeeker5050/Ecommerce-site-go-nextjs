@@ -11,10 +11,12 @@ import Link from "next/link";
 import Image from "next/image";
 
 // redux store methods
-import { reduxStore } from "@/data/redux/reduxStore";
 import { formatProductTitleInGridThumbView } from "@/utils/formatThumbnailTitle";
-import { use, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
+// name constants grid and list view
+const LIST_VIEW = "list";
+const GRID_VIEW = "grid";
 
 export default function ProductBrowseContainer(
         // add the sorting and pagination state as props
@@ -22,8 +24,8 @@ export default function ProductBrowseContainer(
         {sortedBy: string, sortOrder: string, limit: number, offset: number, products: any[], setSortedBy: any, setSortOrder: any, setLimit: any, setOffset: any, router: any}
     ) {
     
-    const [query, setQuery] = useState("");
-    
+    // visibility state for displaying between list and grid view
+    const [view, setView] = useState("grid");
 
     // the handler for the sorting and pagination
     async function handleSorting(
@@ -40,17 +42,8 @@ export default function ProductBrowseContainer(
             await setSortOrder("desc");
         }
 
-        // // redirect to the new 
-        // setQuery(
-        //     getURLSearchFilterString({
-        //         limit: limit,
-        //         offset: offset,
-        //         orderBy: sortedBy,
-        //         sortOrder: sortOrder,
-        //     })
-        // );
-
-        router.push(getURLSearchFilterString({
+        // redirect to the new url
+        await router.push(getURLSearchFilterString({
             limit: limit,
             offset: offset,
             orderBy: sortedBy,
@@ -64,6 +57,7 @@ export default function ProductBrowseContainer(
         newPagination: string,
     ) {
         event.preventDefault();
+        
         // change the pagination state if needed
         if (newPagination === "+" ) {
             await setOffset(offset + limit);
@@ -71,20 +65,25 @@ export default function ProductBrowseContainer(
             await setOffset(offset - limit);
         }
 
-        // // redirect to the new url
-        // window.location.search = getURLSearchFilterString({
-        //     limit: limit,
-        //     offset: offset,
-        //     orderBy: sortedBy,
-        //     sortOrder: sortOrder,
-        // });
+        await router.push(getURLSearchFilterString({
+            limit: limit,
+            offset: offset,
+            orderBy: sortedBy,
+            sortOrder: sortOrder,
+        }));
+    }
 
-        // router.push(getURLSearchFilterString({
-        //     limit: limit,
-        //     offset: offset,
-        //     orderBy: sortedBy,
-        //     sortOrder: sortOrder,
-        // }));
+    function toggleListGridView(
+        event: React.MouseEvent<HTMLAnchorElement, MouseEvent>,
+        newView: string,
+    ) {
+        event.preventDefault();
+        
+        if (newView === GRID_VIEW) {
+            setView(GRID_VIEW);
+        } else {
+            setView(LIST_VIEW);
+        }
     }
     
     const ArrowIconComponent = (
@@ -102,7 +101,6 @@ export default function ProductBrowseContainer(
         }
     }
 
-
     return (
         
 
@@ -113,50 +111,78 @@ export default function ProductBrowseContainer(
                         <ArrowIconComponent sortByInput="price" />
                         <FontAwesomeIcon icon={faDollarSign} />
                     </Link>
-                    <Link href="" 
+                    <Link href="" className="hidden"
                     // onClick={(e) => handleSorting(e, "ratings")}
                     >
                         <ArrowIconComponent sortByInput="ratings" />
                         <FontAwesomeIcon icon={faStar} />
                     </Link>
-                    <Link href="" 
+                    <Link href="" className="hidden"
                     // onClick={(e) => handleSorting(e, "popularity")}
                     >
                         <ArrowIconComponent sortByInput="popularity" />
                         <FontAwesomeIcon icon={faFire} />
                     </Link>
-                    <Link href="" className="ml-auto">
+                    <Link href="" className="ml-auto" onClick={(e) => toggleListGridView(e, LIST_VIEW)}>
                         <FontAwesomeIcon icon={faList} />
                     </Link>
-                    <Link href="">
+                    <Link href="" onClick={(e) => toggleListGridView(e, GRID_VIEW)} >
                         <FontAwesomeIcon icon={faTableCells} />
                     </Link>
                 </div>
                 <div id="pagination" className="flex flex-row gap-3 justify-center">
-                    <Link href="" onClick={(e) => handlePagination(e, "+")}>Previous</Link>
-                    <Link href="" onClick={(e) => handlePagination(e, "-")}>Next</Link>
+                    <Link href="" onClick={(e) => handlePagination(e, "-")}>Previous</Link>
+                    <Link href="" onClick={(e) => handlePagination(e, "+")}>Next</Link>
                 </div>
             </div>
-            <div id="products-container-grid" className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4  gap-3 px-3 py-5  border-black dark:border-primary-dark border-2 border-t-0 rounded-b-xl">
-                {products.map((productData) => {
-                    return (
-                        <Link className="w-32 mx-auto" href={`/product-pages/product/${productData.id}`} key={productData.id}>
-                            
-                            <Image width={120} height={120} alt={productData.name} className="w-28 rounded-md mx-auto" src={
-                                productData.product_image
-                            } />
-                            <p className="text-md text-center">
-                                {
-                                    formatProductTitleInGridThumbView(productData.name)
-                                }
-                            </p>
-                            <p className="text-md text-center font-bold">
-                                ${productData.price}
-                            </p>
-                        </Link>
+
+            { view !== GRID_VIEW ?
+                <div id="products-container-grid" className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4  gap-3 px-3 py-5  border-black dark:border-primary-dark border-2 border-t-0 rounded-b-xl">
+                    {/* <DisplayProducts /> */}
+
+                    {products.map((productData) => {
+                        return (
+                            <Link className="w-32 mx-auto" href={`/product-pages/product/${productData.id}`} key={productData.id}>
+                                
+                                <Image width={120} height={120} alt={productData.name} className="w-28 rounded-md mx-auto" src={
+                                    productData.product_image
+                                } />
+                                <p className="text-md text-center">
+                                    {
+                                        formatProductTitleInGridThumbView(productData.name)
+                                    }
+                                </p>
+                                <p className="text-md text-center font-bold">
+                                    ${productData.price}
+                                </p>
+                            </Link>
+                        )}
                     )}
-                )}
-            </div>
+                </div>
+            : 
+                <div id="products-container-list" className="flex flex-col gap-3 px-3 py-5  border-black dark:border-primary-dark border-2 border-t-0 rounded-b-xl">
+                    {/* <DisplayProducts /> */}
+                    {products.map((productData) => {
+                        return (
+                            <Link className="w-full grid grid-cols-5 sm:grid-cols-6 md:grid-cols-6 justify-around h-40 content-evenly" href={`/product-pages/product/${productData.id}`} key={productData.id}>
+                                
+                                <Image width={120} height={120}  alt={productData.name} className="w-32 col-span-2 sm:col-span-2 mx-auto rounded-md " src={
+                                    productData.product_image
+                                } />
+                                <p className="text-md text-center col-span-2 sm:col-span-3 md:w-80 p-2">
+                                    {
+                                        formatProductTitleInGridThumbView(productData.name)
+                                    }
+                                </p>
+                                <p className="text-md text-center col-span-1 p-2 font-bold text-green-700">
+                                    ${productData.price}
+                                </p>
+                            </Link>
+                        )}
+                    )}
+                </div>
+            }
+            
         </div>
     )
 }
