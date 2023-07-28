@@ -136,7 +136,7 @@ export default function ProductBrowseContainer(
                 </div>
             </div>
 
-            { view !== GRID_VIEW ?
+            { view === GRID_VIEW ?
                 <div id="products-container-grid" className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4  gap-3 px-3 py-5  border-black dark:border-primary-dark border-2 border-t-0 rounded-b-xl">
                     {/* <DisplayProducts /> */}
 

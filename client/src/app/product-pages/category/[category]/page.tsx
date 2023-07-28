@@ -45,7 +45,6 @@ export default function ProductBrowseListingByCategoryPage({params}: { params: {
         }).then((data) => {
             // set the products state
             setProducts(data);
-            // console.log("data: ", data);
             setIsLoading(false);
         }
         ).catch((error) => {

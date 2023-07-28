@@ -48,9 +48,6 @@ func GetAllProducts(
 		return
 	}
 
-	// print limit and offset with labels
-	fmt.Printf("limit: %v, offset: %v\n", limit, offset)
-
 	// get sort order and sorted by
 	sortOrder := c.DefaultQuery("sort_order", "") // repositories.ASCENDING)
 	sortedBy := c.DefaultQuery("sorted_by", "")   // repositories.BY_PRICE)

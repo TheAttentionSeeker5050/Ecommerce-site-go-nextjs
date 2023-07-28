@@ -8,10 +8,6 @@ import React from 'react';
 import ShoppingCartWidgetComponent from './shoppingCartWidgetComponent';
 import Link from 'next/link';
 
-// import fontawesome js and css
-// import '@fortawesome/fontawesome-free/js/all.js';
-// import '@fortawesome/fontawesome-free/css/all.css';
-
 export default function HeaderComponent(ToggleDarkMode: any, isDarkMode: any) {
     return (
         <header className={'w-full'} >

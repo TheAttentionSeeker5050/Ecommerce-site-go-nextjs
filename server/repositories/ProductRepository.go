@@ -1,7 +1,6 @@
 package repositories
 
 import (
-	"fmt"
 	"workspace/models"
 
 	"gorm.io/gorm"
@@ -87,9 +86,6 @@ func (productRepo *ProductRepository) GetProductsByCategory(
 
 	// get the field ID value
 	categoryID := category.ID
-
-	// print category
-	fmt.Printf("Category ID: %v", categoryID)
 
 	// get sort string
 	sortString := getSortedByString(sortedBy, sortOrder)
