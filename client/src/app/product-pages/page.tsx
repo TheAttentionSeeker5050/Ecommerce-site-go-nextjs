@@ -2,12 +2,15 @@
 
 import { getProductsRequest } from "@/api/handlers/handleGetProductsRequests";
 import ProductBrowseContainer from "@/components/containers/products-browse/productBrowseContainer";
-import ProductFilterContainer from "@/components/containers/products-browse/productFilterContainer";
+// import ProductFilterContainer from "@/components/containers/products-browse/productFilterContainer";
 import { styleConstants } from "@/styles/constants/styleConstants";
 import { getQuerysetFromURL } from "@/utils/routeUtils";
 import { getProductFeaturesFromQueryString } from "@/utils/urlSearchFilters";
+import { url } from "inspector";
 import { useEffect, useState } from "react";
 
+// import { useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 export default function ProductQuickBrowsePage() {
     
@@ -18,26 +21,34 @@ export default function ProductQuickBrowsePage() {
 
     
     // get the url filter params and store them in the redux store
-    getProductFeaturesFromQueryString();
+    // getProductFeaturesFromQueryString();
 
     // the sorting and pagination logic will be handled here
         
     // first get the sorting and pagination state from the url
-    // i am using variables and the url search params object because i want to be able to change the sorting and pagination state without reloading the page and not dealing with async execution
-    // i may change to somethign else later
-    let sortedBy = urlSearchParams.get("sort") || "popularity";
-    let ascending = urlSearchParams.get("ascending") === "true" || false;
-    let pagination = parseInt(urlSearchParams.get("page") || "1");
+    const [sortedBy, setSortedBy] = useState(urlSearchParams.get("sorted_by") || "");
+    const [sortOrder, setSortOrder] = useState(urlSearchParams.get("sort_order") || "desc");
+    const [limit, setLimit] = useState(parseInt(urlSearchParams.get("limit") || "25"));
+    const [offset, setOffset] = useState(parseInt(urlSearchParams.get("offset") || "0"));
 
     // the products state
     const [products, setProducts] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
+    const [isError, setIsError] = useState(false);
 
+    // declare the router
+    const router = useRouter();
 
     // we will use useEffect to fetch the products from the server
     useEffect(() => {
+
         // get the products from the server
-        getProductsRequest({}).then((data) => {
+        getProductsRequest({
+            sortedBy: sortedBy,
+            sortOrder: sortOrder,
+            limit: limit,
+            offset: offset,
+        }).then((data) => {
             // set the products state
             setProducts(data);
             setIsLoading(false);
@@ -46,9 +57,8 @@ export default function ProductQuickBrowsePage() {
             console.log(error);
         }
         );
-    }, []);
+    }, [sortedBy, sortOrder, limit, offset]);
     
-    // console.log("products\n",products);
     return (
         <div id="p-content" className="w-full">
             <h1 className={styleConstants.pageTitleStyle}>Browse our Products</h1>
@@ -58,7 +68,7 @@ export default function ProductQuickBrowsePage() {
                 :
                 <div className="flex flex-row gap-2 flex-wrap justify-evenly">
                     {/* <ProductFilterContainer sortedBy={sortedBy} ascending={ascending} pagination={pagination} /> */}
-                    <ProductBrowseContainer sortedBy={sortedBy} ascending={ascending} pagination={pagination} products={products} />
+                    <ProductBrowseContainer sortedBy={sortedBy} sortOrder={sortOrder} limit={limit} offset={offset} products={products} setSortedBy={setSortedBy} setSortOrder={setSortOrder} setLimit={setLimit} setOffset={setOffset} router={router} />
                 </div>
             }
             

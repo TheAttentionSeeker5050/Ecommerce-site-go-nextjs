@@ -11,7 +11,6 @@ export const handleGetRequests = async (
         url = `${process.env.API_URL_REMOTE}${getRequestRoute}`;
     }
     
-    // console.log("request url:", url);
 
     // create a control origin header based on environment type
     var controlOrigin: string;

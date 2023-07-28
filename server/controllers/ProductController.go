@@ -25,13 +25,45 @@ func GetAllProducts(
 	searchCriteria string,
 ) {
 
+	// get limit and offset from url query params
+	limit, err := strconv.Atoi(c.DefaultQuery("limit", "25"))
+	if err != nil {
+		c.JSON(
+			http.StatusBadRequest,
+			gin.H{
+				"error": "Invalid limit",
+			},
+		)
+		return
+	}
+
+	offset, err := strconv.Atoi(c.DefaultQuery("offset", "0"))
+	if err != nil {
+		c.JSON(
+			http.StatusBadRequest,
+			gin.H{
+				"error": "Invalid offset",
+			},
+		)
+		return
+	}
+
+	// print limit and offset with labels
+	fmt.Printf("limit: %v, offset: %v\n", limit, offset)
+
+	// get sort order and sorted by
+	sortOrder := c.DefaultQuery("sort_order", "") // repositories.ASCENDING)
+	sortedBy := c.DefaultQuery("sorted_by", "")   // repositories.BY_PRICE)
+
 	// create a new product repository
 	productRepo := repositories.NewProductRepository(db)
 
 	// get the products, we will add filters and pagination later
 	products, err := productRepo.GetAllProducts(
-		25,
-		0,
+		limit,
+		offset,
+		sortOrder,
+		sortedBy,
 	)
 
 	// check if search criteria is by_category
@@ -39,13 +71,25 @@ func GetAllProducts(
 		// get the name from the url params
 		var productCategoryName string = c.Param("category_name")
 
-		products, err = productRepo.GetProductsByCategory(productCategoryName)
+		products, err = productRepo.GetProductsByCategory(
+			productCategoryName,
+			limit,
+			offset,
+			sortOrder,
+			sortedBy,
+		)
 
 	} else if searchCriteria == SEARCH_BY_PET_TYPE {
 		// get the name
 		petTypeName := c.Param("pet_type_name")
 
-		products, err = productRepo.GetProductsByPetType(petTypeName)
+		products, err = productRepo.GetProductsByPetType(
+			petTypeName,
+			limit,
+			offset,
+			sortOrder,
+			sortedBy,
+		)
 	}
 
 	// check for errors
@@ -57,7 +101,6 @@ func GetAllProducts(
 				"error":     "Could not find any products with the stated the criteria",
 			},
 		)
-
 		return
 	}
 
@@ -66,6 +109,7 @@ func GetAllProducts(
 		http.StatusOK,
 		products,
 	)
+	return
 }
 
 // get a product by id

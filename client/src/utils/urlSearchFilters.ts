@@ -7,16 +7,21 @@ import { getQuerysetFromURL } from "./routeUtils";
 
 // these methods will return a string that will be appended to the url (the first part before the ? question mark)
 export default function getURLSearchFilterString(
-    {orderBy, ascending, pageNumber, minPrice, maxPrice, minRating, features}: {orderBy: string, ascending: boolean, pageNumber?: number, minPrice?: number, maxPrice?: number, minRating?: number, features?: any[]} // idk if should be Object, object or any, well see
+    // {orderBy, ascending, pageNumber, minPrice, maxPrice, minRating, features}: {orderBy: string, ascending: boolean, pageNumber?: number, minPrice?: number, maxPrice?: number, minRating?: number, features?: any[]} // idk if should be Object, object or any, well see
+    {orderBy, sortOrder, limit, offset, minPrice, maxPrice, minRating, features}: {orderBy: string, sortOrder: string, limit?: number, offset?: number, minPrice?: number, maxPrice?: number, minRating?: number, features?: any[]} // idk if should be Object, object or any, well see
 
-    // } // idk if should be Object, object or any, well see
 ) {
     // the first part of this query will be the ordering of the results
-    let query = `?orderBy=${orderBy}&ascending=${ascending}`;
+    let query = `?limit=${limit}&offset=${offset}`;
 
-    // if the page number is provided, we will add it to the query
-    if (pageNumber) {
-        query += `&pageNumber=${pageNumber}`;
+    // if the orderBy is provided, we will add it to the query
+    if (orderBy) {
+        query += `&sorted_by=${orderBy}`;
+    }
+
+    // if the sortOrder is provided, we will add it to the query
+    if (sortOrder) {
+        query += `&sort_order=${sortOrder}`;
     }
 
     // if the min price is provided, we will add it to the query
