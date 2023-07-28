@@ -34,25 +34,6 @@ func (productRepo *ProductRepository) GetAllProducts(
 	// create a list of products
 	products := []*models.Product{}
 
-	// // first get the sort order
-	// sortString := ""
-	// switch sortedBy {
-	// case BY_PRICE:
-	// 	sortString = "price"
-	// default:
-	// 	sortString = "id" /// we will add something like popularity later
-	// }
-
-	// // get the sort order
-	// switch sortOrder {
-	// case ASCENDING:
-	// 	sortString += " asc"
-	// case DESCENDING:
-	// 	sortString += " desc"
-	// default:
-	// 	sortString += " asc"
-	// }
-
 	// get sort string
 	sortString := getSortedByString(sortedBy, sortOrder)
 

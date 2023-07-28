@@ -15,7 +15,7 @@ func ProductRouter(
 	productCategoryRouter := router.Group("/products")
 
 	// define the product category router endpoints
-	productCategoryRouter.GET("/", func(c *gin.Context) {
+	productCategoryRouter.GET("/all", func(c *gin.Context) {
 		// we will use our controller here, also add url query parameters (later)
 		controllers.GetAllProducts(
 			c,
