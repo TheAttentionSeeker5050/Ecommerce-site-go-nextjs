@@ -13,6 +13,7 @@ import Image from "next/image";
 // redux store methods
 import { reduxStore } from "@/data/redux/reduxStore";
 import { formatProductTitleInGridThumbView } from "@/utils/formatThumbnailTitle";
+import { use, useEffect, useState } from "react";
 
 
 export default function ProductBrowseContainer(
@@ -21,6 +22,9 @@ export default function ProductBrowseContainer(
         {sortedBy: string, sortOrder: string, limit: number, offset: number, products: any[], setSortedBy: any, setSortOrder: any, setLimit: any, setOffset: any, router: any}
     ) {
     
+    const [query, setQuery] = useState("");
+    
+
     // the handler for the sorting and pagination
     async function handleSorting(
         event: React.MouseEvent<HTMLAnchorElement, MouseEvent>,
@@ -36,24 +40,22 @@ export default function ProductBrowseContainer(
             await setSortOrder("desc");
         }
 
-        // redirect to the new 
-        let newQueryset = getURLSearchFilterString({
+        // // redirect to the new 
+        // setQuery(
+        //     getURLSearchFilterString({
+        //         limit: limit,
+        //         offset: offset,
+        //         orderBy: sortedBy,
+        //         sortOrder: sortOrder,
+        //     })
+        // );
+
+        router.push(getURLSearchFilterString({
             limit: limit,
             offset: offset,
             orderBy: sortedBy,
             sortOrder: sortOrder,
-        });
-
-        console.log("newQueryset:", newQueryset);
-        console.log("window.location.href:", window.location.href);
-        window.location.href = newQueryset;
-
-        // router.push(getURLSearchFilterString({
-        //     limit: limit,
-        //     offset: offset,
-        //     orderBy: sortedBy,
-        //     sortOrder: sortOrder,
-        // }));
+        }));
     }
 
 
@@ -69,13 +71,13 @@ export default function ProductBrowseContainer(
             await setOffset(offset - limit);
         }
 
-        // redirect to the new url
-        window.location.href = getURLSearchFilterString({
-            limit: limit,
-            offset: offset,
-            orderBy: sortedBy,
-            sortOrder: sortOrder,
-        });
+        // // redirect to the new url
+        // window.location.search = getURLSearchFilterString({
+        //     limit: limit,
+        //     offset: offset,
+        //     orderBy: sortedBy,
+        //     sortOrder: sortOrder,
+        // });
 
         // router.push(getURLSearchFilterString({
         //     limit: limit,

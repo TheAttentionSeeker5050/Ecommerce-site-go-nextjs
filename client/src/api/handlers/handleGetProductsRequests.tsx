@@ -68,6 +68,8 @@ export async function getProductsRequest(
         queryString += `&sort_order=${sortOrder}`;
     }
 
+    console.log("queryString: ", queryString);
+
     // add query search parameters to the query string if they are provided
     // using filters object array and other handler function params
 

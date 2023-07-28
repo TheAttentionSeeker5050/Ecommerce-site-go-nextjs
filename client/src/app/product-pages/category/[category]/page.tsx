@@ -6,7 +6,7 @@ import ProductBrowseContainer from "@/components/containers/products-browse/prod
 import { getProductFeaturesFromQueryString } from "@/utils/urlSearchFilters";
 import { useEffect, useState } from "react";
 
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 
 export default function ProductBrowseListingByCategoryPage({params}: { params: {category: string} }) {
     // get the query params from the url
@@ -30,8 +30,8 @@ export default function ProductBrowseListingByCategoryPage({params}: { params: {
     const [isError, setIsError] = useState(false);
 
     // declare the router
-    // const router = useRouter();
-    const router = "useRouter()";
+    const router = useRouter();
+    // const router = "useRouter()";
 
 
     // get the products from the server before render
@@ -39,16 +39,21 @@ export default function ProductBrowseListingByCategoryPage({params}: { params: {
         // get the products from the server
         getProductsRequest({
             category: params.category,
+            sortedBy: sortedBy,
+            sortOrder: sortOrder,
+            limit: limit,
+            offset: offset,
         }).then((data) => {
             // set the products state
             setProducts(data);
+            // console.log("data: ", data);
             setIsLoading(false);
         }
         ).catch((error) => {
             console.log(error);
         });
         
-    }, []);
+    }, [sortedBy, sortOrder]);
     
     return (
         <div id="p-content" className="w-full">
