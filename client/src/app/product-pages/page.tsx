@@ -10,7 +10,7 @@ import { url } from "inspector";
 import { useEffect, useState } from "react";
 
 // import { useRouter } from "next/navigation";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 
 export default function ProductQuickBrowsePage() {
     
@@ -37,8 +37,7 @@ export default function ProductQuickBrowsePage() {
     const [isError, setIsError] = useState(false);
 
     // declare the router
-    // const router = useRouter();
-    const router = "useRouter()";
+    const router = useRouter();
 
     // we will use useEffect to fetch the products from the server
     useEffect(() => {
@@ -58,7 +57,7 @@ export default function ProductQuickBrowsePage() {
             console.log(error);
         }
         );
-    }, []);
+    }, [sortedBy, sortOrder, limit, offset]);
     
     return (
         <div id="p-content" className="w-full">

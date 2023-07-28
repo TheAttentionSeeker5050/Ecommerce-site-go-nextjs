@@ -68,13 +68,25 @@ func GetAllProducts(
 		// get the name from the url params
 		var productCategoryName string = c.Param("category_name")
 
-		products, err = productRepo.GetProductsByCategory(productCategoryName)
+		products, err = productRepo.GetProductsByCategory(
+			productCategoryName,
+			limit,
+			offset,
+			sortOrder,
+			sortedBy,
+		)
 
 	} else if searchCriteria == SEARCH_BY_PET_TYPE {
 		// get the name
 		petTypeName := c.Param("pet_type_name")
 
-		products, err = productRepo.GetProductsByPetType(petTypeName)
+		products, err = productRepo.GetProductsByPetType(
+			petTypeName,
+			limit,
+			offset,
+			sortOrder,
+			sortedBy,
+		)
 	}
 
 	// check for errors

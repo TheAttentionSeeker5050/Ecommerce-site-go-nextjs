@@ -7,7 +7,7 @@ import ProductBrowseContainer from "@/components/containers/products-browse/prod
 import { getProductFeaturesFromQueryString } from "@/utils/urlSearchFilters";
 import { useEffect, useState } from "react";
 
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 
 export default function ProductBrowseListingByPetTypePage({params}: { params: {petType: string} }) {
     // get the query params from the url
@@ -34,8 +34,7 @@ export default function ProductBrowseListingByPetTypePage({params}: { params: {p
 
 
     // declare the router
-    // const router = useRouter();
-    const router = "useRouter()";
+    const router = useRouter();
 
 
     // get the products from the server before render
@@ -43,6 +42,10 @@ export default function ProductBrowseListingByPetTypePage({params}: { params: {p
         // get the products from the server
         getProductsRequest({
             petType: params.petType,
+            sortedBy: sortedBy,
+            sortOrder: sortOrder,
+            limit: limit,
+            offset: offset,
         }).then((data) => {
             // set the products state
             setProducts(data);
@@ -53,7 +56,7 @@ export default function ProductBrowseListingByPetTypePage({params}: { params: {p
             setIsError(true);
         });
         
-    }, []);
+    }, [sortedBy, sortOrder, limit, offset]);
     
     return (
         <div id="p-content" className="w-full">

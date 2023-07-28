@@ -31,7 +31,6 @@ export default function ProductBrowseListingByCategoryPage({params}: { params: {
 
     // declare the router
     const router = useRouter();
-    // const router = "useRouter()";
 
 
     // get the products from the server before render
@@ -53,7 +52,7 @@ export default function ProductBrowseListingByCategoryPage({params}: { params: {
             console.log(error);
         });
         
-    }, [sortedBy, sortOrder]);
+    }, [sortedBy, sortOrder, limit, offset]);
     
     return (
         <div id="p-content" className="w-full">
