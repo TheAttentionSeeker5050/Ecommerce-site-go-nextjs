@@ -32,7 +32,7 @@ export async function getProductsRequest(
 
     } else  {
         // case 3
-        queryString = `${baseURL}/products/products`
+        queryString = `${baseURL}/products/products/all`
     }
 
     // add pagination and sorting on top of the base url ----------------------------------------------
