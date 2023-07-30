@@ -46,8 +46,8 @@ export default function LoginPage() {
             password,
             setErrorMessages,
             errorMessages,
-        );
-
+        )
+        
     };
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -69,13 +69,6 @@ export default function LoginPage() {
     // const location = window.location;
     // let path = location.pathname as string || '/';
     let path = getCurrentPath();
-
-
-
-
-
-
-
 
     return (
         <div id="p-content" className="">

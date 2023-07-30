@@ -141,3 +141,41 @@ func GitHubAuthController(ctx *gin.Context, db *gorm.DB) {
 	ctx.Redirect(http.StatusTemporaryRedirect, fmt.Sprint(os.Getenv("CLIENT_ORIGIN_URL")+pathUrl))
 
 }
+
+func GetAccessAndRefreshToken(
+	userPayload interface{},
+	c *gin.Context,
+) (
+	err error,
+) {
+	// parse os string token expiration time hours to int
+	tokenExpirationHours, err := strconv.Atoi(os.Getenv("TOKEN_EXPIRES_IN_HOURS"))
+	if err != nil {
+		return err
+	}
+
+	tokenExpiration := time.Duration(tokenExpirationHours) * time.Hour
+
+	// generate access token
+	access_token, err2 := utils.CreateJWT(tokenExpiration, userPayload, "55748031673b8827ca1a8d905a68baf3118fcfc7")
+	if err2 != nil {
+		return err2
+	}
+
+	// generate the refresh token
+	refresh_token, err3 := utils.CreateJWT(tokenExpiration, userPayload, "55748031673b8827ca1a8d905a68baf3118fcfc7")
+	if err3 != nil {
+		return err3
+	}
+
+	// save the token expiration hours to cookie
+	// var domainName string = os.Getenv("CLIENT_ORIGIN_URL")
+	var domainName string = ""
+
+	// set cookies
+	c.SetCookie("access_token", access_token, tokenExpirationHours*60*60, "/", domainName, false, true)
+	c.SetCookie("refresh_token", refresh_token, tokenExpirationHours*60*60, "/", domainName, false, true)
+	c.SetCookie("logged_in", "true", tokenExpirationHours*60*60, "/", domainName, false, true)
+
+	return nil
+}

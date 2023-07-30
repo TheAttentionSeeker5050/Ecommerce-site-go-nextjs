@@ -13,6 +13,8 @@ const nextConfig = {
   env: {
     API_URL:'http://currentdevelopment.local:8081/v1',
     API_URL_REMOTE:'https://ecommerce-x.alligatorcode.pro/api/v1',
+    CLIENT_URL:'http://currentdevelopment.local:3001',
+    CLIENT_URL_REMOTE:'https://ecommerce-x.alligatorcode.pro',
     API_USER_SUBDIR:'user',
     MAINTENANCE_MODE: 'false',
     REACT_APP_GITHUB_CLIENT_ID_DEV: '31ca4b2ec044339b9570',

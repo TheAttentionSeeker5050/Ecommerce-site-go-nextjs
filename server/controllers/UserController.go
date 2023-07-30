@@ -8,6 +8,7 @@ import (
 	"workspace/config"
 	"workspace/models"
 	"workspace/repositories"
+	"workspace/utils"
 
 	"github.com/gin-gonic/gin"
 	"github.com/google/go-github/github"
@@ -113,22 +114,20 @@ func LoginController(
 		return
 	}
 
-	// c.JSON(200, gin.H{
-	// 	"message": "Successfully logged in",
-	// 	"email":   user.Email,
-	// })
+	// now create the jwt token and save them into variables
+	err = GetAccessAndRefreshToken(user, c)
+	if err != nil {
+		c.JSON(500, gin.H{
+			"error":     "Failed to create access token",
+			"errorType": utils.ReturnErrorMessageOnDevMode(err),
+		})
+		return
+	}
 
-	// If login is successful, redirect the user to GitHub OAuth, do it in a way that doesnt affect cors
-	url := config.GithubOauthConfig.AuthCodeURL("state", oauth2.AccessTypeOffline)
-
-	// print the url
-	fmt.Println(url)
-
-	c.JSON(200, gin.H{
-		"message":     "Successfully logged in",
-		"callbackURL": url,
+	c.JSON(http.StatusOK, gin.H{
+		"message": "Successfully logged in",
 	})
-
+	return
 }
 
 func AuthCallbackController(
