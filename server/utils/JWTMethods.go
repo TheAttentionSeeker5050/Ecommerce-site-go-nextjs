@@ -36,7 +36,7 @@ func CreateJWT(
 	if err != nil {
 		return "", fmt.Errorf("create: sign token: %w", err)
 	}
-	fmt.Println("token:", token)
+	// fmt.Println("token:", token)
 
 	return token, nil
 

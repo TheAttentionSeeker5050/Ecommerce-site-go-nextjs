@@ -78,7 +78,7 @@ export const handleLogin = async (
             if (response.status != 200) {
                 // set the token in local storage
                 setErrorMessages([responseData['error']]);
-                console.log(responseData['errorType']);
+                console.log("An error happened on fetch:\n", responseData['errorType']);
             }
 
             return responseData;

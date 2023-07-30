@@ -1,24 +1,22 @@
 'use client';
-import axios from "axios";
+
+import React, { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 
-import React, { useState } from "react";
 
-// use location hook on next.js
-
-
-import { handleRegister } from "@/api/handlers/handleRegister";
 import { handleLogin } from "@/api/handlers/handleLogin";
 
 
 // icons
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGithub, faGoogle } from "@fortawesome/free-brands-svg-icons";
-import { getGitHubURL } from "@/utils/getGitHubURL";
-import Link from "next/link";
 import { SubmitButtonPrimary } from "@/components/buttons/buttonPrimary";
+
+// utils
+import { getGitHubURL } from "@/utils/getGitHubURL";
 import { getCurrentPath } from "@/utils/routeUtils";
-import { useRouter } from "next/navigation";
 
 
 
@@ -30,34 +28,45 @@ export default function LoginPage() {
     // state for the error messages
     const initialErrorMessages: string[] = [];
     const [errorMessages, setErrorMessages] = useState<string[]>(initialErrorMessages);
+    const [redirect, setRedirect] = useState<boolean>(false);
 
     
 
     // handle login from form in api/handlers/handleLogin.tsx
-    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         
         // clear the error messages
         setErrorMessages(initialErrorMessages);
 
+        
         // handle the login form here
-        handleLogin(
+        await handleLogin(
             e,
             email,
             password,
             setErrorMessages,
             errorMessages,
-        ).then((data) => {
-            if (data.error) {
-                const router = useRouter();
-                router.push('/');
-            }
-            console.log(data);
-        }).catch((error) => {
-            console.log(error);
+            ).then((data) => {
+                if (!data.error) {
+                    // redirect to home page
+                    setRedirect(true);
+                }
+                console.log("Response data:\n",data);
+            }).catch((error) => {
+                console.log("An error happened on hook:\n",error);
         });
     };
+    
 
+    const router = useRouter();
+    // redirect to home page if login is successful
+    if (redirect == true) {
+        console.log("Redirect is: ", redirect);
+        router.push('/');
+    };
+
+    // handle the change of the input
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         // change the state of the input
         switch (e.target.name) {
@@ -74,8 +83,6 @@ export default function LoginPage() {
     const apiURL = process.env.NODE_ENV === 'development' ? process.env.API_URL : process.env.API_URL_REMOTE;
     
     // location of the api
-    // const location = window.location;
-    // let path = location.pathname as string || '/';
     let path = getCurrentPath();
 
     return (

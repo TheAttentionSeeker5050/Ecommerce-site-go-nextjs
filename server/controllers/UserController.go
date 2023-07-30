@@ -124,6 +124,10 @@ func LoginController(
 		return
 	}
 
+	// c.SetCookie("accessToken", "accessToken", 3600, "/", "currentdevelopment.local", false, true)
+	// c.SetCookie("accessToken", "accessToken", 3600, "/", "localhost", false, true)
+	// c.SetCookie("accessToken", "accessToken", 3600, "/", "", false, true)
+
 	c.JSON(http.StatusOK, gin.H{
 		"message": "Successfully logged in",
 	})
