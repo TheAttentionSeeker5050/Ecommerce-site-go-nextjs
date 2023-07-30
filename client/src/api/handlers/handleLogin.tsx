@@ -9,7 +9,7 @@ export const handleLogin = async (
     password: string | null | undefined,
     setErrorMessages: React.Dispatch<React.SetStateAction<string[]>>,
     errorMessages: string[],
-    ): Promise<void> => {
+    ): Promise<any> => {
     
     // validation variables
     var emailIsValid, emailError;
@@ -73,21 +73,19 @@ export const handleLogin = async (
             
             // get the response data
             const responseData = await response.json();
-            // return responseData;
             
             // check if the response is ok
             if (response.status != 200) {
                 // set the token in local storage
                 setErrorMessages([responseData['error']]);
                 console.log(responseData['errorType']);
-            } else {
-                // redirect to the home page
-                console.log(responseData);
-                const Router = useRouter();
-                await Router.push(`${controlOrigin}/`);
             }
+
+            return responseData;
         } catch (fetchError) {
+            // console.log(fetchError);
             setErrorMessages(["Something went wrong. Could not login. Please try again."]);
+            return fetchError;
         }
     }
 

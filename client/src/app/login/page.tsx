@@ -18,6 +18,7 @@ import { getGitHubURL } from "@/utils/getGitHubURL";
 import Link from "next/link";
 import { SubmitButtonPrimary } from "@/components/buttons/buttonPrimary";
 import { getCurrentPath } from "@/utils/routeUtils";
+import { useRouter } from "next/navigation";
 
 
 
@@ -46,8 +47,15 @@ export default function LoginPage() {
             password,
             setErrorMessages,
             errorMessages,
-        )
-        
+        ).then((data) => {
+            if (data.error) {
+                const router = useRouter();
+                router.push('/');
+            }
+            console.log(data);
+        }).catch((error) => {
+            console.log(error);
+        });
     };
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
