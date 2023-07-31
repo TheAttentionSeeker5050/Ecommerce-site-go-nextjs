@@ -170,12 +170,14 @@ func GetAccessAndRefreshToken(
 
 	// save the token expiration hours to cookie
 	// var domainName string = os.Getenv("CLIENT_ORIGIN_URL")
-	var domainName string = "currentdevelopment.local"
+	var domainName string = "http://currentdevelopment.local:3001"
+
+	fmt.Println("Token expiration hours:", tokenExpirationHours)
 
 	// set cookies
-	c.SetCookie("access_token", access_token, tokenExpirationHours*60*60, "/", domainName, false, true)
-	c.SetCookie("refresh_token", refresh_token, tokenExpirationHours*60*60, "/", domainName, false, true)
-	c.SetCookie("logged_in", "true", tokenExpirationHours*60*60, "/", domainName, false, true)
+	c.SetCookie("access_token", access_token, tokenExpirationHours*60*60, "/", domainName, false, false)
+	c.SetCookie("refresh_token", refresh_token, tokenExpirationHours*60*60, "/", domainName, false, false)
+	c.SetCookie("logged_in", "true", tokenExpirationHours*60*60, "/", domainName, false, false)
 
 	return nil
 }

@@ -1,9 +1,8 @@
 'use client';
 
-import React, { useEffect, useState } from "react";
+import React, {  useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-
 
 
 import { handleLogin } from "@/api/handlers/handleLogin";
@@ -50,7 +49,7 @@ export default function LoginPage() {
             ).then((data) => {
                 if (!data.error) {
                     // redirect to home page
-                    setRedirect(true);
+                    // setRedirect(true);
                 }
                 console.log("Response data:\n",data);
             }).catch((error) => {
@@ -63,7 +62,7 @@ export default function LoginPage() {
     // redirect to home page if login is successful
     if (redirect == true) {
         console.log("Redirect is: ", redirect);
-        router.push('/');
+        router.replace('/');
     };
 
     // handle the change of the input
