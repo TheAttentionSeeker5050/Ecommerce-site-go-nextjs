@@ -115,7 +115,7 @@ func LoginController(
 	}
 
 	// now create the jwt token and save them into variables
-	err = GetAccessAndRefreshToken(user, c)
+	accessToken, refreshToken, err := GenerateAccessAndRefreshToken(user, c)
 	if err != nil {
 		c.JSON(500, gin.H{
 			"error":     "Failed to create access token",
@@ -124,14 +124,10 @@ func LoginController(
 		return
 	}
 
-	// c.SetCookie("accessToken", "accessToken", 3600, "/", "currentdevelopment.local", false, true)
-	// c.SetCookie("accessToken", "accessToken", 3600, "/", "localhost", false, true)
-	c.SetCookie("accessToken", "fghdethyftgjhdgyhjfgyhjgfyj", 3600, "/", "", false, false)
-
-	// c.SetCookie("accessToken", "accessToken", 3600, "/", "localhost", false, true)
-
 	c.JSON(http.StatusOK, gin.H{
-		"message": "Successfully logged in",
+		"message":      "Successfully logged in",
+		"accessToken":  accessToken,
+		"refreshToken": refreshToken,
 	})
 	return
 }
