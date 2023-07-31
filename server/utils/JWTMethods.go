@@ -2,8 +2,11 @@ package utils
 
 import (
 	"fmt"
+	"os"
+	"strconv"
 	"time"
 
+	"github.com/gin-gonic/gin"
 	"github.com/golang-jwt/jwt/v4"
 )
 
@@ -80,4 +83,36 @@ func ValidateJWT(
 
 	// return the claims
 	return claims["sub"], nil
+}
+
+func GenerateAccessAndRefreshToken(
+	userPayload interface{},
+	c *gin.Context,
+) (
+	access_token string,
+	refresh_token string,
+	err error,
+) {
+	// parse os string token expiration time hours to int
+	tokenExpirationHours, err := strconv.Atoi(os.Getenv("TOKEN_EXPIRES_IN_HOURS"))
+	if err != nil {
+		return "", "", err
+	}
+
+	tokenExpiration := time.Duration(tokenExpirationHours) * time.Hour
+
+	// generate access token
+	access_token, err2 := CreateJWT(tokenExpiration, userPayload, "55748031673b8827ca1a8d905a68baf3118fcfc7")
+	if err2 != nil {
+		return "", "", err2
+	}
+
+	// generate the refresh token
+	refresh_token, err3 := CreateJWT(tokenExpiration, userPayload, "55748031673b8827ca1a8d905a68baf3118fcfc7")
+	if err3 != nil {
+		return "", "", err3
+	}
+
+	// return the access token and refresh token
+	return access_token, refresh_token, nil
 }

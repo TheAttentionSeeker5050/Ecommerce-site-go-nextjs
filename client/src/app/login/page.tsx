@@ -1,6 +1,6 @@
 'use client';
 
-import React, {  useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 
@@ -27,7 +27,8 @@ export default function LoginPage() {
     // state for the error messages
     const initialErrorMessages: string[] = [];
     const [errorMessages, setErrorMessages] = useState<string[]>(initialErrorMessages);
-    const [redirect, setRedirect] = useState<boolean>(false);
+    // const [redirect, setRedirect] = useState<boolean>(false);
+    // const [loginSuccess, setLoginSuccess] = useState<boolean>(false);
 
     
 
@@ -49,22 +50,29 @@ export default function LoginPage() {
             ).then((data) => {
                 if (!data.error) {
                     // redirect to home page
-                    // setRedirect(true);
+                    
+                    // save on local storage with an expiration date
+                    localStorage.setItem('access_token', data.accessToken);
+                    localStorage.setItem('refresh_token', data.refreshToken);
+                    localStorage.setItem('logged_in', 'true');
+                    // expires in 12 hours (seconds * minutes * hours * milliseconds)
+                    localStorage.setItem('expires_at', (Date.now() + (60*60*12*1000)).toString());
+
+                    redirectToHome()
                 }
-                console.log("Response data:\n",data);
             }).catch((error) => {
                 console.log("An error happened on hook:\n",error);
         });
     };
     
-
     const router = useRouter();
-    // redirect to home page if login is successful
-    if (redirect == true) {
-        console.log("Redirect is: ", redirect);
-        router.replace('/');
-    };
 
+    const redirectToHome = () => {
+        // redirect to home page if login is successful
+        // if (redirect == true) {
+            router.push('/');
+        // };
+    };
     // handle the change of the input
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         // change the state of the input

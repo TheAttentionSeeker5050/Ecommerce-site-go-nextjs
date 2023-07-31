@@ -115,7 +115,7 @@ func LoginController(
 	}
 
 	// now create the jwt token and save them into variables
-	accessToken, refreshToken, err := GenerateAccessAndRefreshToken(user, c)
+	accessToken, refreshToken, err := utils.GenerateAccessAndRefreshToken(user, c)
 	if err != nil {
 		c.JSON(500, gin.H{
 			"error":     "Failed to create access token",
@@ -124,10 +124,18 @@ func LoginController(
 		return
 	}
 
+	// save the session to the database
+	err = repositories.NewDatabaseSessionStore(db).SaveSession(
+		fmt.Sprint(user.ID),
+		user.Email,
+		accessToken,
+	)
+
 	c.JSON(http.StatusOK, gin.H{
 		"message":      "Successfully logged in",
 		"accessToken":  accessToken,
 		"refreshToken": refreshToken,
+		"provider":     "local",
 	})
 	return
 }
@@ -211,4 +219,14 @@ func AuthCallbackController(
 	// redirect to main page
 	c.Redirect(http.StatusFound, "http://127.0.0.1:3001/")
 
+}
+
+func LogoutController(
+	c *gin.Context,
+	db *gorm.DB,
+) {
+	// return dummy response
+	c.JSON(http.StatusOK, gin.H{
+		"message": "Successfully logged out",
+	})
 }
