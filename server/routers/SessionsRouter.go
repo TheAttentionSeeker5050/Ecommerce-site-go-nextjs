@@ -20,7 +20,14 @@ func SessionRouter(
 	// this should be a GET request
 	userRouter.GET("/oauth/github", func(c *gin.Context) {
 		controllers.GitHubAuthController(c, db)
-		// controllers.AuthCallbackController(c, db)
+	})
+
+	// this should be a GET request
+	userRouter.GET("/oauth/google", func(c *gin.Context) {
+		// controllers.GitHubAuthController(c, db)
+		c.JSON(http.StatusOK, gin.H{
+			"message": "Hello, Google OAuth!",
+		})
 	})
 
 	userRouter.POST("/logout", func(c *gin.Context) {
