@@ -47,7 +47,7 @@ func CreateJWT(
 
 func ValidateJWT(
 	tokenString string,
-	publicKey string,
+	// publicKey string,
 ) (interface{}, error) {
 	// read file using the file utils
 	key, err := ReadContentsOfFile("/jwtRS256.key.pub")
@@ -80,6 +80,9 @@ func ValidateJWT(
 	if !ok || !parsedToken.Valid {
 		return nil, fmt.Errorf("Invalid token")
 	}
+
+	// print all claims
+	fmt.Println("token claims:", claims)
 
 	// return the claims
 	return claims["sub"], nil

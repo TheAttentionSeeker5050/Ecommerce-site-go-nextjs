@@ -129,6 +129,24 @@ func GitHubAuthController(ctx *gin.Context, db *gorm.DB) {
 		return
 	}
 
+	// save user session using repository
+	sessionRepo := repositories.NewDatabaseSessionStore(db)
+	err = sessionRepo.SaveSession(
+		// save user id as string
+		strconv.Itoa(int(resBody.ID)),
+		access_token,
+		refresh_token,
+	)
+
+	if err != nil {
+		ctx.JSON(http.StatusInternalServerError, gin.H{
+			"message": "Failed to save user session!",
+			// display error message if debug mode is true using conditional operator
+			"error": utils.ReturnErrorMessageOnDevMode(err),
+		})
+		return
+	}
+
 	// add the client domain name to a variable from environment variables
 	var domainName string = os.Getenv("CLIENT_ORIGIN_URL")
 
@@ -140,4 +158,51 @@ func GitHubAuthController(ctx *gin.Context, db *gorm.DB) {
 	// redirect to the client url path
 	ctx.Redirect(http.StatusTemporaryRedirect, fmt.Sprint(os.Getenv("CLIENT_ORIGIN_URL")+pathUrl))
 
+}
+
+func LogoutController(ctx *gin.Context, db *gorm.DB) {
+
+	// get the refresh token from the cookie
+	refreshToken, err := ctx.Cookie("refresh_token")
+
+	if err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{
+			"message": "Failed to get refresh token from cookie!",
+			// display error message if debug mode is true using conditional operator
+			"error": utils.ReturnErrorMessageOnDevMode(err),
+		})
+		return
+	}
+
+	// validate the token
+	_, err = utils.ValidateJWT(refreshToken)
+
+	// a sample response
+	ctx.JSON(http.StatusOK, gin.H{
+		"message": "Successfully logged out!",
+	})
+	return
+
+	// // delete the refresh token from the database
+	// sessionRepo := repositories.NewDatabaseSessionStore(db)
+	// err = sessionRepo.DeleteSession(refreshToken)
+
+	// if err != nil {
+	// 	ctx.JSON(http.StatusInternalServerError, gin.H{
+	// 		"message": "Failed to delete refresh token from database!",
+	// 		// display error message if debug mode is true using conditional operator
+	// 		"error": utils.ReturnErrorMessageOnDevMode(err),
+	// 	})
+	// 	return
+	// }
+
+	// // delete the refresh token from the cookie
+	// ctx.SetCookie("refresh_token", "", -1, "/", os.Getenv("CLIENT_ORIGIN_URL"), false, true)
+	// ctx.SetCookie("access_token", "", -1, "/", os.Getenv("CLIENT_ORIGIN_URL"), false, true)
+	// ctx.SetCookie("logged_in", "", -1, "/", os.Getenv("CLIENT_ORIGIN_URL"), false, true)
+
+	// // return the response
+	// ctx.JSON(http.StatusOK, gin.H{
+	// 	"message": "Successfully logged out!",
+	// })
 }
