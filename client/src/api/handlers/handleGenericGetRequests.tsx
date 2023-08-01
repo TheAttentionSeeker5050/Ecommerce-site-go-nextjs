@@ -15,7 +15,7 @@ export const handleGetRequests = async (
     // create a control origin header based on environment type
     var controlOrigin: string;
     if (process.env.NODE_ENV === 'development') {
-        controlOrigin = "http://currentdevelopment.local:3001";
+        controlOrigin = "http://localhost:3001";
     } else {
         controlOrigin = "https://ecommerce-x.alligatorcode.pro";
     }

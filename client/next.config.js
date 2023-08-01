@@ -11,9 +11,9 @@ const nextConfig = {
   // },
   reactStrictMode: true,
   env: {
-    API_URL:'http://currentdevelopment.local:8081/v1',
+    API_URL:'http://localhost:8081/v1',
     API_URL_REMOTE:'https://ecommerce-x.alligatorcode.pro/api/v1',
-    CLIENT_URL:'http://currentdevelopment.local:3001',
+    CLIENT_URL:'http://localhost:3001',
     CLIENT_URL_REMOTE:'https://ecommerce-x.alligatorcode.pro',
     API_USER_SUBDIR:'user',
     MAINTENANCE_MODE: 'false',
