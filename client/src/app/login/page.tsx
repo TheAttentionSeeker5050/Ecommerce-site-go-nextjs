@@ -16,6 +16,7 @@ import { SubmitButtonPrimary } from "@/components/buttons/buttonPrimary";
 // utils
 import { getGitHubURL } from "@/utils/getGitHubURL";
 import { getCurrentPath } from "@/utils/routeUtils";
+import { deleteCookie, getCookies, setCookie } from "cookies-next";
 
 
 export default function LoginPage() {
@@ -26,11 +27,8 @@ export default function LoginPage() {
     // state for the error messages
     const initialErrorMessages: string[] = [];
     const [errorMessages, setErrorMessages] = useState<string[]>(initialErrorMessages);
-    // const [redirect, setRedirect] = useState<boolean>(false);
-    // const [loginSuccess, setLoginSuccess] = useState<boolean>(false);
 
     
-
     // handle login from form in api/handlers/handleLogin.tsx
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -49,13 +47,16 @@ export default function LoginPage() {
             ).then((data) => {
                 if (!data.error) {
                     // redirect to home page
-                    
-                    // save on local storage with an expiration date
-                    localStorage.setItem('access_token', data.accessToken);
-                    localStorage.setItem('refresh_token', data.refreshToken);
-                    localStorage.setItem('logged_in', 'true');
-                    // expires in 12 hours (seconds * minutes * hours * milliseconds)
-                    localStorage.setItem('expires_at', (Date.now() + (60*60*12*1000)).toString());
+
+                    // delete previous cookies if exist
+                    deleteCookie("access_token");
+                    deleteCookie("refresh_token");
+                    deleteCookie("logged_in");
+
+                    // set cookies
+                    setCookie("access_token", data.accessToken, { expires: new Date(Date.now() + (60*60*12*1000)), path: "/" });
+                    setCookie("refresh_token", data.refreshToken, { expires: new Date(Date.now() + (60*60*12*1000)), path: "/"});
+                    setCookie("logged_in", "true", { expires: new Date(Date.now() + (60*60*12*1000)), path: "/"});
 
                     redirectToHome()
                 }

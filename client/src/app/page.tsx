@@ -1,14 +1,19 @@
 'use client'
 
-import {cookies} from 'next/headers'
+
 import ProductHighlightedContainer from "@/components/containers/main-page/productHighlightedContainer"
 import TrendingProductsContainer from "@/components/containers/main-page/trendingProductsContainer"
-
+import {setCookie, getCookie, getCookies } from "cookies-next"
+import { useEffect } from "react"
 
 export default function Page() {
 
-    
-    
+    useEffect(() => {
+
+        // console.log("isLoggedIn: ", getCookie("logged_in"))
+        console.log("all cookies: ", getCookies())
+
+    }, [])
 
     return (
         <div id="p-content" className="">
