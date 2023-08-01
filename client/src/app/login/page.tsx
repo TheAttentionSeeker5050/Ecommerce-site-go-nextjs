@@ -69,9 +69,7 @@ export default function LoginPage() {
 
     const redirectToHome = () => {
         // redirect to home page if login is successful
-        // if (redirect == true) {
-            router.push('/');
-        // };
+        router.push('/');
     };
     // handle the change of the input
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
