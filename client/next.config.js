@@ -25,6 +25,9 @@ const nextConfig = {
   images: {
     domains: ['localhost', 'currentdevelopment.local', 'ecommerce-x.alligatorcode.pro', "cdn.pixabay.com", "imagedelivery.net"],
   },
+  experimental: {
+    serverActions: true,
+  },
 };
 
 module.exports = nextConfig;

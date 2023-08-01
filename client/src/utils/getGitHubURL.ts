@@ -16,15 +16,12 @@ export function getGitHubURL(path: string): string {
     const options = {
         client_id: clientID,
         redirect_uri: redirectURL,
-        // scope: 'user:email',
-        // // state: path,
-        // state: "tghtrhrtyhtdyjtrdyjtruyjrtuy",
+        scope: 'user:email',
+        state: path,
     };
 
     const queryString = new URLSearchParams(options).toString();
 
-  
-    
-    return `${rootURL}/${clientID}`;
-    // return `${rootURL}`;
+    console.log(`redirect url: ${rootURL}?${queryString}`);
+    return `${rootURL}?${queryString}`;
 };

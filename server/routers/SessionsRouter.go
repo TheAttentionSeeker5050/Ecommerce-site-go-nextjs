@@ -18,7 +18,7 @@ func SessionRouter(
 	// define the user router endpoints
 
 	// this should be a GET request
-	userRouter.POST("/oauth/github", func(c *gin.Context) {
+	userRouter.GET("/oauth/github", func(c *gin.Context) {
 		controllers.GitHubAuthController(c, db)
 		// controllers.AuthCallbackController(c, db)
 	})

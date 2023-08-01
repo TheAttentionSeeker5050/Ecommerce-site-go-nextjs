@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useState } from "react";
+import React, { use, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 
@@ -16,7 +16,6 @@ import { SubmitButtonPrimary } from "@/components/buttons/buttonPrimary";
 // utils
 import { getGitHubURL } from "@/utils/getGitHubURL";
 import { getCurrentPath } from "@/utils/routeUtils";
-
 
 
 export default function LoginPage() {
@@ -88,8 +87,11 @@ export default function LoginPage() {
     const apiURL = process.env.NODE_ENV === 'development' ? process.env.API_URL : process.env.API_URL_REMOTE;
     
     // location of the api
-    let path = getCurrentPath();
-
+    // let path = `http://currentdevelopment.local:3001${getCurrentPath()}` as string | "/";
+    let path = getCurrentPath() as string | "/";
+    
+    // print refresh token in cookies
+    
     return (
         <div id="p-content" className="">
             <h1 className="text-center">Register</h1>
