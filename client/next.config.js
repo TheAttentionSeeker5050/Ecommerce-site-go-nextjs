@@ -11,8 +11,11 @@ const nextConfig = {
     API_USER_SUBDIR:'user',
     MAINTENANCE_MODE: 'false',
     GITHUB_OAUTH_REDIRECT_URL: '/sessions/oauth/github',
-    REACT_APP_GITHUB_CLIENT_ID_DEV: '31ca4b2ec044339b9570',
-    REACT_APP_GITHUB_CLIENT_ID_PROD: '05e0f5394297b8e961ae',
+    GOOGLE_OAUTH_REDIRECT_URL: '/sessions/oauth/google',
+    GITHUB_CLIENT_ID_DEV: '31ca4b2ec044339b9570',
+    GITHUB_CLIENT_ID_PROD: '05e0f5394297b8e961ae',
+    GOOGLE_CLIENT_ID_DEV: '31ca4b2ec044339b9570',
+    GOOGLE_CLIENT_ID_PROD: 'not-yet-implemented',
     // MAINTENANCE_MODE: 'true',
   },
   images: {

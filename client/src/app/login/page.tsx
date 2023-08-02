@@ -14,7 +14,7 @@ import { faGithub, faGoogle } from "@fortawesome/free-brands-svg-icons";
 import { SubmitButtonPrimary } from "@/components/buttons/buttonPrimary";
 
 // utils
-import { getGitHubURL } from "@/utils/getGitHubURL";
+import { getGitHubOAuthURL, getGoogleOAuthURL } from "@/utils/getOAuthURLs";
 import { getCurrentPath } from "@/utils/routeUtils";
 import { deleteCookie, getCookies, setCookie } from "cookies-next";
 
@@ -90,7 +90,8 @@ export default function LoginPage() {
     // location of the api
     // let path = `http://currentdevelopment.local:3001${getCurrentPath()}` as string | "/";
     let path = getCurrentPath() as string | "/";
-    let githubOAuthPath: string = getGitHubURL(path);
+    let githubOAuthPath: string = getGitHubOAuthURL(path);
+    let googleOAuthPath: string = getGoogleOAuthURL(path);
     
     // print refresh token in cookies
     
@@ -138,7 +139,7 @@ export default function LoginPage() {
                     <FontAwesomeIcon icon={faGithub} className="mx-2" />
                 </Link>
                 {/* make a login with google button */}
-                <a href={`${apiURL}/user/auth/google`} className=" py-2 px-4 m-2  rounded-full">
+                <a href={googleOAuthPath} className=" py-2 px-4 m-2  rounded-full">
                     Sign in with Google (not inmplemented yet)
                     <FontAwesomeIcon icon={faGoogle} className="mx-2" />
                 </a>
