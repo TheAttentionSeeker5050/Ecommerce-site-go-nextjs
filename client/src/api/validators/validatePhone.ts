@@ -30,7 +30,6 @@ export const formatPhone = (phone: string | null | undefined): string => {
     // remove all non-digit characters
     phone = phone.replace(/\D/g, "")
 
-    console.log(phone)
     // only use the last 10 digits
     phone = phone.substring(phone.length - 10)
 

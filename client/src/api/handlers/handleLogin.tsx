@@ -1,6 +1,7 @@
 import { validateEmail } from "@/api/validators/validateEmail";
 import { validatePassword } from "@/api/validators/validatePassword";
-import { useRouter } from "next/navigation";
+import { getCorsOrigin, getServerRequestURL } from "@/utils/routeUtils";
+import { get } from "http";
 
 // login request handler with input validation and fetch request
 export const handleLogin = async (
@@ -43,25 +44,14 @@ export const handleLogin = async (
                 'password': password,
             };
             
-            // create an url request string using environment variables
-            // declare the url variable as string
-            let apiURL: string;
-            if (process.env.NODE_ENV === 'development') {
-                apiURL = `${process.env.API_URL}/user/login`;
-            } else {
-                apiURL = `${process.env.API_URL_REMOTE}/user/login`;
-            }
-            
-            // create a control origin header based on environment type
-            var controlOrigin: string;
-            if (process.env.NODE_ENV === 'development') {
-                controlOrigin = process.env.CLIENT_URL as string;
-            } else {
-                controlOrigin = process.env.CLIENT_URL_REMOTE as string;
-            }
+            // get the server request url
+            let url = getServerRequestURL('/user/login');
+
+            // declare the cors origin variable as string
+            let controlOrigin = getCorsOrigin();
 
             // make a post request using fetch, the new user data var and cors headers
-            const response = await fetch(apiURL, {
+            const response = await fetch(url, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -74,16 +64,14 @@ export const handleLogin = async (
             // get the response data
             const responseData = await response.json();
             
-            // check if the response is ok
+            // check if the response is not ok
             if (response.status != 200) {
-                // set the token in local storage
+                // set error message handler
                 setErrorMessages([responseData['error']]);
-                console.log("An error happened on fetch:\n", responseData['errorType']);
             }
 
             return responseData;
         } catch (fetchError) {
-            // console.log(fetchError);
             setErrorMessages(["Something went wrong. Could not login. Please try again."]);
             return fetchError;
         }

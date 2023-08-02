@@ -1,5 +1,7 @@
 // api handler for getting products requests
 
+import { getServerRequestURL } from "@/utils/routeUtils";
+
 export async function getProductsRequest(
     {filters, limit, offset, sortedBy, sortOrder, category, petType}: {filters?: string[], limit?: number, offset?: number, sortedBy?: string, sortOrder?: string, category?: string, petType?: string}
 ) {
@@ -88,15 +90,12 @@ export async function getProductsRequest(
 export async function getProductByIdRequest(
     {productId} : {productId: number}
 ) {
-    // get the base url from the env file
-    let baseURL = process.env.API_URL as string;
-    // if on development, use the development url
-    if (process.env.NODE_ENV !== "development") {
-        baseURL = process.env.API_URL_REMOTE as string;
-    }
+    // this is the go to function for getting several types of products get requests --------------------------
+
+    let url = getServerRequestURL(`/products/products/by-id/${productId}`);
 
     // the fetch request
-    const response = await fetch(`${baseURL}/products/products/by-id/${productId}`)
+    const response = await fetch(url)
 
     const data = await response.json();
 
@@ -107,5 +106,4 @@ export async function getProductByIdRequest(
 
     // return the data
     return data;
-
 }
