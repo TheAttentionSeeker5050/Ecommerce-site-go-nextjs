@@ -53,7 +53,6 @@ export default function ProductBrowseListingByPetTypePage({params}: { params: {p
             setIsLoading(false);
         }
         ).catch((error) => {
-            console.log(error);
             setIsError(true);
         });
         
@@ -65,15 +64,14 @@ export default function ProductBrowseListingByPetTypePage({params}: { params: {p
             {
             isLoading ?
                 <div className="text-center">Loading...</div>
-                : isError ?
+                : isError === true ?
                 <div className="text-center">Something went wrong...</div>
                 :
-            <div className="flex flex-row gap-2 flex-wrap justify-evenly">
-                
-                {/* <ProductFilterContainer sortedBy={sortedBy} ascending={ascending} pagination={pagination} /> */}
-                <ProductBrowseContainer sortedBy={sortedBy} sortOrder={sortOrder} limit={limit} offset={offset} products={products} setSortedBy={setSortedBy} setSortOrder={setSortOrder} setLimit={setLimit} setOffset={setOffset} router={router} />
-            </div>
-
+                <div className="flex flex-row gap-2 flex-wrap justify-evenly">
+                    
+                    {/* <ProductFilterContainer sortedBy={sortedBy} ascending={ascending} pagination={pagination} /> */}
+                    <ProductBrowseContainer sortedBy={sortedBy} sortOrder={sortOrder} limit={limit} offset={offset} products={products} setSortedBy={setSortedBy} setSortOrder={setSortOrder} setLimit={setLimit} setOffset={setOffset} router={router} />
+                </div>
         }
         </div>
     )

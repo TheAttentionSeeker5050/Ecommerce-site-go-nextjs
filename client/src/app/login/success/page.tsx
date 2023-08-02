@@ -1,4 +1,7 @@
-"use server"
+"use client"
+
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 
 
 
@@ -6,10 +9,15 @@
 export default async function LoginSuccessPage() {
 
     // redirect to home page if login is successful
-    // const router = useRouter();
-    
-    
-    
+    const router = useRouter();
+
+    // redirect to home page, it should require some server validation first
+    // will be implemented later
+    useEffect(() => {
+        setTimeout(() => {
+            router.push("/");
+        }, 3000);
+    }, []);
 
     return (
         <div>

@@ -48,7 +48,7 @@ export default function ProductBrowseListingByCategoryPage({params}: { params: {
             setIsLoading(false);
         }
         ).catch((error) => {
-            console.log(error);
+            setIsError(true);
         });
         
     }, [sortedBy, sortOrder, limit, offset]);
@@ -62,9 +62,11 @@ export default function ProductBrowseListingByCategoryPage({params}: { params: {
                 :
             <div className="flex flex-row gap-2 flex-wrap justify-evenly">
                 
-                {/* <ProductFilterContainer sortedBy={sortedBy} ascending={ascending} pagination={pagination} /> */}
-                <ProductBrowseContainer sortedBy={sortedBy} sortOrder={sortOrder} limit={limit} offset={offset} products={products} setSortedBy={setSortedBy} setSortOrder={setSortOrder} setLimit={setLimit} setOffset={setOffset} router={router} />
-
+                {isError === true ? 
+                    <div className="text-center">Something went wrong! Could not fetch from the server 😭 </div> 
+                : 
+                    <ProductBrowseContainer sortedBy={sortedBy} sortOrder={sortOrder} limit={limit} offset={offset} products={products} setSortedBy={setSortedBy} setSortOrder={setSortOrder} setLimit={setLimit} setOffset={setOffset} router={router} />
+                }
             </div>
 
         }

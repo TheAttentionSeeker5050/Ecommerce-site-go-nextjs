@@ -46,8 +46,7 @@ export default function LoginPage() {
             errorMessages,
             ).then((data) => {
                 if (!data.error) {
-                    // redirect to home page
-
+                    // redirect to login success page
                     // delete previous cookies if exist
                     deleteCookie("access_token");
                     deleteCookie("refresh_token");
@@ -58,7 +57,7 @@ export default function LoginPage() {
                     setCookie("refresh_token", data.refreshToken, { expires: new Date(Date.now() + (60*60*12*1000)), path: "/"});
                     setCookie("logged_in", "true", { expires: new Date(Date.now() + (60*60*12*1000)), path: "/"});
 
-                    redirectToHome()
+                    redirectToSuccessPage()
                 }
             }).catch((error) => {
                 console.log("An error happened on hook:\n",error);
@@ -67,10 +66,11 @@ export default function LoginPage() {
     
     const router = useRouter();
 
-    const redirectToHome = () => {
+    const redirectToSuccessPage = () => {
         // redirect to home page if login is successful
-        router.push('/');
+        router.push('/login/success');
     };
+
     // handle the change of the input
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         // change the state of the input
