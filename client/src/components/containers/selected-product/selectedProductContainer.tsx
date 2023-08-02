@@ -1,5 +1,5 @@
 import { ButtonWithActionPrimary } from "@/components/buttons/buttonPrimary";
-import formatCurrency from "@/utils/formatCurrency";
+import {formatCurrency} from "@/utils/stringFormatTools";
 import Image from "next/image";
 
 

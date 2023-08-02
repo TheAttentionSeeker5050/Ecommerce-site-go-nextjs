@@ -1,4 +1,21 @@
-export function formatProductTitleInGridThumbView(
+export const formatCurrency = (value: number) => {
+    return new Intl.NumberFormat('en-US', {
+        style: 'currency',
+        currency: 'USD',
+    }).format(value);
+};
+
+export const formatPercentage = (percentage: number) => {
+    const formattedPercentage = new Intl.NumberFormat('en-US', {
+        style: 'percent',
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 0,
+    }).format(percentage / 100);
+  
+    return formattedPercentage;
+};
+
+export function formatProductTitleInGridView(
     productTitle: string,
 ) {
     // if the product title is longer than 25 characters, truncate it and add ellipsis

@@ -11,8 +11,8 @@ import Link from "next/link";
 import Image from "next/image";
 
 // redux store methods
-import { formatProductTitleInGridThumbView } from "@/utils/formatThumbnailTitle";
-import { useEffect, useState } from "react";
+import { formatProductTitleInGridView, formatProductTitleInListView } from "@/utils/stringFormatTools";
+import { useState } from "react";
 
 // name constants grid and list view
 const LIST_VIEW = "list";
@@ -148,7 +148,7 @@ export default function ProductBrowseContainer(
                                 } />
                                 <p className="text-md text-center">
                                     {
-                                        formatProductTitleInGridThumbView(productData.name)
+                                        formatProductTitleInGridView(productData.name)
                                     }
                                 </p>
                                 <p className="text-md text-center font-bold">
@@ -170,7 +170,7 @@ export default function ProductBrowseContainer(
                                 } />
                                 <p className="text-md text-center col-span-2 sm:col-span-3 md:w-80 p-2">
                                     {
-                                        formatProductTitleInGridThumbView(productData.name)
+                                        formatProductTitleInListView(productData.name)
                                     }
                                 </p>
                                 <p className="text-md text-center col-span-1 p-2 font-bold text-green-700">

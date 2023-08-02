@@ -1,8 +1,5 @@
 // a container for the products category browse page
-import { handleGetRequests } from "@/api/handlers/handleGenericGetRequests";
-import {  productCategories } from "@/data/dummyData/productsDummyData"
 import Link from "next/link";
-import { useEffect } from "react"
 
 export default function CategoriesBrowseContainer(
     // product categories should be list of objects
