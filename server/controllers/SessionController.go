@@ -133,7 +133,7 @@ func GitHubAuthController(ctx *gin.Context, db *gorm.DB) {
 	sessionRepo := repositories.NewDatabaseSessionStore(db)
 	err = sessionRepo.SaveSession(
 		// save user id as string
-		strconv.Itoa(int(resBody.ID)),
+		strconv.Itoa(int(user.ID)),
 		access_token,
 		refresh_token,
 	)
@@ -156,7 +156,7 @@ func GitHubAuthController(ctx *gin.Context, db *gorm.DB) {
 	ctx.SetCookie("logged_in", "true", tokenExpirationHours*60*60, "/", domainName, false, true)
 
 	// redirect to the client url path
-	ctx.Redirect(http.StatusTemporaryRedirect, fmt.Sprint(os.Getenv("CLIENT_ORIGIN_URL")+pathUrl))
+	ctx.Redirect(http.StatusTemporaryRedirect, fmt.Sprint(os.Getenv("CLIENT_ORIGIN_URL")+"/login/success"))
 
 }
 

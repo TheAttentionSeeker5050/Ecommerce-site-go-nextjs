@@ -22,6 +22,5 @@ export function getGitHubURL(path: string): string {
 
     const queryString = new URLSearchParams(options).toString();
 
-    console.log(`redirect url: ${rootURL}?${queryString}`);
     return `${rootURL}?${queryString}`;
 };

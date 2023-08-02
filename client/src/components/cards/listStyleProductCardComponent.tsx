@@ -1,7 +1,7 @@
 // a list style product card component
 // it should show the product name, price, thumbnail and a short description
 
-import formatCurrency from '@/utils/formatCurrency';
+import {formatCurrency} from '@/utils/stringFormatTools';
 import React from 'react'
 
 export default function ListStyleProductCardComponent(

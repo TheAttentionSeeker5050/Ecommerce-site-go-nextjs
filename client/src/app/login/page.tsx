@@ -90,6 +90,7 @@ export default function LoginPage() {
     // location of the api
     // let path = `http://currentdevelopment.local:3001${getCurrentPath()}` as string | "/";
     let path = getCurrentPath() as string | "/";
+    let githubOAuthPath: string = getGitHubURL(path);
     
     // print refresh token in cookies
     
@@ -132,7 +133,7 @@ export default function LoginPage() {
 
             {/* create a sign in with github button */}
             <div className="flex flex-col max-w-xl mx-auto items-center my-5">
-                <Link href={getGitHubURL(path)} className=" py-2 px-4 m-2 rounded-full">
+                <Link href={githubOAuthPath} className=" py-2 px-4 m-2 rounded-full">
                     Sign in with Github
                     <FontAwesomeIcon icon={faGithub} className="mx-2" />
                 </Link>
