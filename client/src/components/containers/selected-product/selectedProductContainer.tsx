@@ -6,6 +6,7 @@ import Image from "next/image";
 export default function IndividualProductPageContainer(
     {product_data}: { product_data: any }
     ) {
+        
     return ( 
         <div id="p-content" className="max-w-4xl my-8 flex flex-col gap-5 mx-auto">
             <div id="upper-prod-container" className="tablet:grid-rows-4 tablet:grid tablet:grid-cols-3 px-4 flex flex-col gap-3">

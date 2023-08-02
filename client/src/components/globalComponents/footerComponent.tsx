@@ -2,20 +2,11 @@
 'use client'
 
 import React from 'react';
-import { ToggleSwitch } from '../buttons/toggleSwitch';
-// import { themeReducer, initialThemeState } from '@/data/reducers/themeReducer';
-import { useReducer } from 'react';
-import { init } from 'next/dist/compiled/@vercel/og/satori';
 import { ToggleThemeSwitch } from './toggleThemeSwitch';
-import PageDisclaimerComponent from './pageDisclaimerComponent';
 
 export default function FooterComponent(
     { isDarkMode, ToggleDarkMode }: { isDarkMode: any, ToggleDarkMode: any }
 ) {
-
-    // reducer for toggling between light and dark theme
-    // -----------------------------------------------------------------------
-    
 
     return (
         <footer className={isDarkMode ? 'dark w-full' : 'w-full'}>
