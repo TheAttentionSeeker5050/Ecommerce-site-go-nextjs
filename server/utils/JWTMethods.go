@@ -13,7 +13,6 @@ import (
 func CreateJWT(
 	ttl time.Duration,
 	payload interface{},
-	privateKeyFileName string,
 ) (string, error) {
 
 	// read file using the file utils
@@ -105,13 +104,13 @@ func GenerateAccessAndRefreshToken(
 	tokenExpiration := time.Duration(tokenExpirationHours) * time.Hour
 
 	// generate access token
-	access_token, err2 := CreateJWT(tokenExpiration, userPayload, "55748031673b8827ca1a8d905a68baf3118fcfc7")
+	access_token, err2 := CreateJWT(tokenExpiration, userPayload)
 	if err2 != nil {
 		return "", "", err2
 	}
 
 	// generate the refresh token
-	refresh_token, err3 := CreateJWT(tokenExpiration, userPayload, "55748031673b8827ca1a8d905a68baf3118fcfc7")
+	refresh_token, err3 := CreateJWT(tokenExpiration, userPayload)
 	if err3 != nil {
 		return "", "", err3
 	}

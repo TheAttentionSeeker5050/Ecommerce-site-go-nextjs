@@ -25,9 +25,7 @@ func SessionRouter(
 	// this should be a GET request
 	userRouter.GET("/oauth/google", func(c *gin.Context) {
 		// controllers.GitHubAuthController(c, db)
-		c.JSON(http.StatusOK, gin.H{
-			"message": "Hello, Google OAuth!",
-		})
+		controllers.GoogleAuthController(c, db)
 	})
 
 	userRouter.POST("/logout", func(c *gin.Context) {

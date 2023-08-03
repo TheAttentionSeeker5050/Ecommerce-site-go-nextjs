@@ -16,16 +16,16 @@ type GoogleOauthToken struct {
 }
 
 type GoogleUserResult struct {
-	ID             string
-	Email          string
-	Verified_email bool
-	FirstName      string
-	LastName       string
-	Photo          string
-	Locale         string
+	ID            string
+	Email         string
+	VerifiedEmail bool
+	FirstName     string
+	LastName      string
+	Photo         string
+	Locale        string
 }
 
-func GetGoogleOauthToken(code string) (*GoogleOauthToken, error) {
+func GetGoogleOAuthToken(code string) (*GoogleOauthToken, error) {
 	// this function will return the auth token based on user code
 
 	// create the root oauth api url
@@ -38,6 +38,8 @@ func GetGoogleOauthToken(code string) (*GoogleOauthToken, error) {
 	values.Add("client_id", os.Getenv("GOOGLE_OAUTH_CLIENT_ID"))
 	values.Add("client_secret", os.Getenv("GOOGLE_OAUTH_CLIENT_SECRET"))
 	values.Add("redirect_uri", os.Getenv("GOOGLE_OAUTH_REDIRECT_URL"))
+
+	fmt.Println(values)
 
 	// encode the querystring params
 	queryParams := values.Encode()
@@ -74,15 +76,6 @@ func GetGoogleOauthToken(code string) (*GoogleOauthToken, error) {
 		return nil, err
 	}
 
-	// // create a new map struct to store the response body from the request to the google oauth api
-	// var GoogleOauthToken map[string]interface{}
-
-	// // unmarshal the response body into the map struct
-	// err = json.Unmarshal(resBody, &GoogleOauthToken)
-	// if err != nil {
-	// 	return nil, err
-	// }
-
 	// parse the response body into a url query
 	resQuery, err := url.ParseQuery(string(resBody))
 	if err != nil {
@@ -100,7 +93,7 @@ func GetGoogleOauthToken(code string) (*GoogleOauthToken, error) {
 
 }
 
-func GetGoogleUser(access_token string, id_token string) (*GoogleUserResult, error) {
+func GetGoogleOAuthUser(access_token string, id_token string) (*GoogleUserResult, error) {
 	// root url for requesting github user
 	rootURL := fmt.Sprintf("https://www.googleapis.com/oauth2/v1/userinfo?alt=json&access_token=%s", access_token)
 
@@ -142,13 +135,13 @@ func GetGoogleUser(access_token string, id_token string) (*GoogleUserResult, err
 
 	// create a new GoogleUserResult struct
 	GoogleUserResult := &GoogleUserResult{
-		ID:             parseQuery.Get("id"),
-		Email:          parseQuery.Get("email"),
-		Verified_email: parseQuery.Get("verified_email") == "true",
-		FirstName:      parseQuery.Get("given_name"),
-		LastName:       parseQuery.Get("family_name"),
-		Photo:          parseQuery.Get("picture"),
-		Locale:         parseQuery.Get("locale"),
+		ID:            parseQuery.Get("id"),
+		Email:         parseQuery.Get("email"),
+		VerifiedEmail: parseQuery.Get("verified_email") == "true",
+		FirstName:     parseQuery.Get("given_name"),
+		LastName:      parseQuery.Get("family_name"),
+		Photo:         parseQuery.Get("picture"),
+		Locale:        parseQuery.Get("locale"),
 	}
 
 	// return the GoogleUserResult struct
