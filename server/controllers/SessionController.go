@@ -26,9 +26,6 @@ func GitHubAuthController(ctx *gin.Context, db *gorm.DB) {
 		pathUrl = ctx.Query("state")
 	}
 
-	// print path url
-	fmt.Println(pathUrl)
-
 	// check if the code is present and not empty
 	if code == "" {
 		ctx.JSON(http.StatusUnauthorized, gin.H{
@@ -77,7 +74,6 @@ func GitHubAuthController(ctx *gin.Context, db *gorm.DB) {
 	userRepo := repositories.NewUserRepository(db)
 	// check if user email already exists
 	user, err := userRepo.GetUserByEmail(resBody.Email)
-	fmt.Println("user:", user)
 
 	if user != nil {
 		// if the user exists, update the user
@@ -97,7 +93,6 @@ func GitHubAuthController(ctx *gin.Context, db *gorm.DB) {
 		})
 		return
 	}
-	fmt.Println("token expiration hours:", tokenExpirationHours)
 
 	// generate access and refresh token usign our util method
 	access_token, refresh_token, err := utils.GenerateAccessAndRefreshToken(resBody.ID, ctx)
@@ -138,7 +133,7 @@ func GitHubAuthController(ctx *gin.Context, db *gorm.DB) {
 	ctx.SetCookie("logged_in", "true", tokenExpirationHours*60*60, "/", domainName, false, true)
 
 	// redirect to the client url path
-	ctx.Redirect(http.StatusTemporaryRedirect, fmt.Sprint(os.Getenv("CLIENT_ORIGIN_URL")+"/login/success"))
+	ctx.Redirect(http.StatusTemporaryRedirect, fmt.Sprint(os.Getenv("CLIENT_ORIGIN_URL")+pathUrl))
 }
 
 func GoogleAuthController(ctx *gin.Context, db *gorm.DB) {
@@ -153,9 +148,6 @@ func GoogleAuthController(ctx *gin.Context, db *gorm.DB) {
 	if ctx.Query("state") != "" {
 		pathUrl = ctx.Query("state")
 	}
-
-	// print path url
-	fmt.Println(pathUrl)
 
 	// check if the code is present and not empty
 	if code == "" {
@@ -205,7 +197,6 @@ func GoogleAuthController(ctx *gin.Context, db *gorm.DB) {
 
 	// check if user email already exists
 	user, err := userRepo.GetUserByEmail(resBody.Email)
-	fmt.Println("user:", user)
 
 	if user != nil {
 		// if the user exists, update the user
@@ -266,7 +257,7 @@ func GoogleAuthController(ctx *gin.Context, db *gorm.DB) {
 	ctx.SetCookie("logged_in", "true", tokenExpirationHours*60*60, "/", domainName, false, true)
 
 	// redirect to the client url path
-	ctx.Redirect(http.StatusTemporaryRedirect, fmt.Sprint(os.Getenv("CLIENT_ORIGIN_URL")+"/login/success"))
+	ctx.Redirect(http.StatusTemporaryRedirect, fmt.Sprint(os.Getenv("CLIENT_ORIGIN_URL")+pathUrl))
 }
 
 func LogoutController(ctx *gin.Context, db *gorm.DB) {

@@ -88,10 +88,9 @@ export default function LoginPage() {
     const apiURL = process.env.NODE_ENV === 'development' ? process.env.API_URL : process.env.API_URL_REMOTE;
     
     // location of the api
-    // let path = `http://currentdevelopment.local:3001${getCurrentPath()}` as string | "/";
-    let path = getCurrentPath() as string | "/";
-    let githubOAuthPath: string = getGitHubOAuthURL(path);
-    let googleOAuthPath: string = getGoogleOAuthURL(path);
+    // let path = getCurrentPath() as string | "/";
+    let githubOAuthPath: string = getGitHubOAuthURL("/login/success");
+    let googleOAuthPath: string = getGoogleOAuthURL("/login/success");
     
     // print refresh token in cookies
     

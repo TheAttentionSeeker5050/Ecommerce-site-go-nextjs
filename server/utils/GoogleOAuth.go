@@ -2,6 +2,7 @@ package utils
 
 import (
 	"bytes"
+	"encoding/json"
 	"fmt"
 	"io/ioutil"
 	"net/http"
@@ -39,8 +40,6 @@ func GetGoogleOAuthToken(code string) (*GoogleOauthToken, error) {
 	values.Add("client_secret", os.Getenv("GOOGLE_OAUTH_CLIENT_SECRET"))
 	values.Add("redirect_uri", os.Getenv("GOOGLE_OAUTH_REDIRECT_URL"))
 
-	fmt.Println(values)
-
 	// encode the querystring params
 	queryParams := values.Encode()
 
@@ -76,20 +75,20 @@ func GetGoogleOAuthToken(code string) (*GoogleOauthToken, error) {
 		return nil, err
 	}
 
-	// parse the response body into a url query
-	resQuery, err := url.ParseQuery(string(resBody))
-	if err != nil {
+	var GoogleOauthTokenRes map[string]interface{}
+
+	if err := json.Unmarshal([]byte(string(resBody)), &GoogleOauthTokenRes); err != nil {
 		return nil, err
 	}
 
 	// create a new GoogleOauthToken struct
-	GoogleOauthToken := &GoogleOauthToken{
-		AccessToken: resQuery.Get("access_token"),
-		IDToken:     resQuery.Get("id_token"),
+	googleOauthToken := &GoogleOauthToken{
+		AccessToken: GoogleOauthTokenRes["access_token"].(string),
+		IDToken:     GoogleOauthTokenRes["id_token"].(string),
 	}
 
 	// return the GoogleOauthToken struct
-	return GoogleOauthToken, nil
+	return googleOauthToken, nil
 
 }
 

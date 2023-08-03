@@ -16,7 +16,7 @@ export default async function LoginSuccessPage() {
     useEffect(() => {
         setTimeout(() => {
             router.push("/");
-        }, 3000);
+        }, 1500);
     }, []);
 
     return (
