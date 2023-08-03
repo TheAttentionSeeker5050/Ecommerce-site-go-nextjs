@@ -12,13 +12,13 @@ import (
 )
 
 type GithubOAuthToken struct {
-	AccessToken string `json:"access_token"`
+	AccessToken string
 }
 
-type GithubOAuthUserResult struct {
-	Name  string `json:"name"`
-	Email string `json:"email"`
-	Photo string `json:"avatar_url"`
+type GithubUser struct {
+	Name  string
+	Email string
+	Photo string
 }
 
 func GetGithubOAuthToken(code string) (*GithubOAuthToken, error) {
@@ -57,6 +57,8 @@ func GetGithubOAuthToken(code string) (*GithubOAuthToken, error) {
 		return nil, err
 	}
 
+	fmt.Println("res: ", res)
+
 	// check for response errors
 	if res.StatusCode != http.StatusOK {
 		return nil, fmt.Errorf("failed to get oauth token")
@@ -68,23 +70,38 @@ func GetGithubOAuthToken(code string) (*GithubOAuthToken, error) {
 		return nil, err
 	}
 
-	// parse the response body into a url query
-	parsedQuery, err := url.ParseQuery(string(resBody))
-	if err != nil {
+	fmt.Println("resBody: ", string(resBody))
+
+	var GithubOAuthTokenRes map[string]interface{}
+
+	if err := json.Unmarshal([]byte(string(resBody)), &GithubOAuthTokenRes); err != nil {
 		return nil, err
 	}
+	fmt.Println("GithubOAuthTokenRes: ", GithubOAuthTokenRes)
 
-	// generate the token
 	token := &GithubOAuthToken{
-		AccessToken: parsedQuery.Get("access_token"),
-		// AccessToken: parsedQuery["access_token"][0],
+		AccessToken: GithubOAuthTokenRes["access_token"].(string),
 	}
+
+	fmt.Println("token: ", token)
+
+	// // parse the response body into a url query
+	// parsedQuery, err := url.ParseQuery(string(resBody))
+	// if err != nil {
+	// 	return nil, err
+	// }
+
+	// // generate the token
+	// token := &GithubOAuthToken{
+	// 	AccessToken: parsedQuery.Get("access_token"),
+	// 	// AccessToken: parsedQuery["access_token"][0],
+	// }
 
 	return token, nil
 
 }
 
-func GetGithubOAuthUser(access_token string) (*GithubOAuthUserResult, error) {
+func GetGithubOAuthUser(access_token string) (*GithubUser, error) {
 	// root url for github user
 	const rootURL = "https://api.github.com/user"
 
@@ -117,19 +134,35 @@ func GetGithubOAuthUser(access_token string) (*GithubOAuthUserResult, error) {
 		return nil, err
 	}
 
-	// parse the response body
-	var githubUser GithubOAuthUserResult
+	var GithubUserRes map[string]interface{}
 
-	if err := json.Unmarshal(resBody, &githubUser); err != nil {
+	if err := json.Unmarshal([]byte(string(resBody)), &GithubUserRes); err != nil {
 		return nil, err
 	}
 
-	// create a new user body
-	userBody := &GithubOAuthUserResult{
-		Name:  githubUser.Name,
-		Email: githubUser.Email,
-		Photo: githubUser.Photo,
+	fmt.Println("GithubUserRes unmarshall: ", GithubUserRes)
+
+	githubUserResult := &GithubUser{
+		Name:  GithubUserRes["name"].(string),
+		Email: GithubUserRes["email"].(string),
+		Photo: GithubUserRes["avatar_url"].(string),
 	}
 
-	return userBody, nil
+	// // parse the response body
+	// var githubUser GithubOAuthUser
+
+	// if err := json.Unmarshal(resBody, &githubUser); err != nil {
+	// 	return nil, err
+	// }
+
+	// // create a new user body
+	// userBody := &GithubOAuthUser{
+	// 	Name:  githubUser.Name,
+	// 	Email: githubUser.Email,
+	// 	Photo: githubUser.Photo,
+	// }
+
+	fmt.Println("githubUserResult map: ", githubUserResult)
+
+	return githubUserResult, nil
 }

@@ -168,6 +168,14 @@ func GoogleAuthController(ctx *gin.Context, db *gorm.DB) {
 		return
 	}
 
+	// if token response doesnt have any values
+	if tokenRes.AccessToken == "" || tokenRes.IDToken == "" {
+		ctx.JSON(http.StatusBadGateway, gin.H{
+			"message": "Could not get access token from the Google OAuth API!",
+		})
+		return
+	}
+
 	// get the user information using the access token
 	userRes, err := utils.GetGoogleOAuthUser(tokenRes.AccessToken, tokenRes.IDToken)
 	if err != nil {
@@ -175,6 +183,14 @@ func GoogleAuthController(ctx *gin.Context, db *gorm.DB) {
 			"message": "Failed to get user information from the access token!",
 			// display error message if debug mode is true using conditional operator
 			"error": utils.ReturnErrorMessageOnDevMode(err),
+		})
+		return
+	}
+
+	// if user response doesnt have any values
+	if userRes.Email == "" || userRes.FirstName == "" || userRes.LastName == "" || userRes.Photo == "" {
+		ctx.JSON(http.StatusBadGateway, gin.H{
+			"message": "Could not get user information from the Google OAuth API!",
 		})
 		return
 	}
