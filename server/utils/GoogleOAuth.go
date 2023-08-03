@@ -118,7 +118,7 @@ func GetGoogleOAuthUser(access_token string, id_token string) (*GoogleUserResult
 
 	// check for response errors
 	if res.StatusCode != http.StatusOK {
-		return nil, fmt.Errorf("failed to get oauth user")
+		return nil, fmt.Errorf("failed to get oauth user %v", res.Status)
 	}
 
 	// read the response body and store it in a variable
