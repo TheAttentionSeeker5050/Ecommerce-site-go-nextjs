@@ -21,6 +21,8 @@ func GitHubAuthController(ctx *gin.Context, db *gorm.DB) {
 	// initiate the from path url variable
 	var pathUrl string = "/"
 
+	var oauthLoginFailed string = "/login/failed"
+
 	// check if the state is present and not empty and assign it to pathUrl
 	if ctx.Query("state") != "" {
 		pathUrl = ctx.Query("state")
@@ -78,13 +80,19 @@ func GitHubAuthController(ctx *gin.Context, db *gorm.DB) {
 	currentTime := time.Now().Unix()
 
 	// name a var email not provided if email is not provided as boolean, true if email value start with no_email__ and false if email value does not start with no_email__
-	var emailNotProvided bool = userRes.Email == "no_email__"+userRes.GitHubUsername
+	var emailNotProvided bool = userRes.Email == ""
+
+	var email string = userRes.Email
+
+	if emailNotProvided == true {
+		email = "no_email__" + userRes.GitHubUsername + "@githubtemp.com"
+	}
 
 	// create a new user struct
 	resBody := &models.User{
 		FirstName: userRes.Name,
 		LastName:  "",
-		Email:     userRes.Email,
+		Email:     email,
 		Photo:     userRes.Photo,
 		Provider:  "github",
 		CreatedAt: currentTime,
@@ -96,11 +104,15 @@ func GitHubAuthController(ctx *gin.Context, db *gorm.DB) {
 	user, err := userRepo.GetUserByEmail(resBody.Email)
 
 	if user != nil {
-		// if the user exists, update the user
-		userRepo.DB.Model(&user).Updates(resBody)
+		// if the user is registered using a different provider, redirect to error page
+		if user.Provider != "github" {
+			ctx.Redirect(http.StatusTemporaryRedirect, fmt.Sprint(os.Getenv("CLIENT_ORIGIN_URL")+oauthLoginFailed+"?error=email-already-exists"))
+			return
+		}
+
 	} else {
 		// if the user does not exist, create the user
-		userRepo.CreateUser(resBody)
+		user, _ = userRepo.CreateUser(resBody)
 	}
 
 	// parse os string token expiration time hours to int
@@ -173,6 +185,8 @@ func GoogleAuthController(ctx *gin.Context, db *gorm.DB) {
 	// initiate the from path url variable
 	var pathUrl string = "/"
 
+	var oauthLoginFailed string = "/login/failed"
+
 	// check if the state is present and not empty and assign it to pathUrl
 	if ctx.Query("state") != "" {
 		pathUrl = ctx.Query("state")
@@ -217,7 +231,7 @@ func GoogleAuthController(ctx *gin.Context, db *gorm.DB) {
 	}
 
 	// if user response doesnt have any values
-	if userRes.Email == "" || userRes.FirstName == "" || userRes.LastName == "" || userRes.Photo == "" {
+	if userRes.FirstName == "" || userRes.LastName == "" || userRes.Photo == "" {
 		ctx.JSON(http.StatusInternalServerError, gin.H{
 			"message": "Could not get user information from the Google OAuth API!",
 		})
@@ -244,8 +258,11 @@ func GoogleAuthController(ctx *gin.Context, db *gorm.DB) {
 	user, err := userRepo.GetUserByEmail(resBody.Email)
 
 	if user != nil {
-		// if the user exists, update the user
-		userRepo.DB.Model(&user).Updates(resBody)
+		// if the user is registered using a different provider, redirect to error page
+		if user.Provider != "google" {
+			ctx.Redirect(http.StatusTemporaryRedirect, fmt.Sprint(os.Getenv("CLIENT_ORIGIN_URL")+oauthLoginFailed+"?error=email-already-exists"))
+			return
+		}
 	} else {
 		// if the user does not exist, create the user
 		userRepo.CreateUser(resBody)
