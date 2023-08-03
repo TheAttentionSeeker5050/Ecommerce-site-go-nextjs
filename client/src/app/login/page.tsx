@@ -115,10 +115,10 @@ export default function LoginPage() {
             <form method="POST" className=" flex flex-col max-w-xl px-3 mx-auto gap-1.5" onSubmit={handleSubmit}>
                 
                 <label htmlFor="email">Email</label>
-                <input type="text" id="email" className="p-1 px-2 text-black rounded-md" name="email" autoComplete="email" onChange={handleChange} />
+                <input type="text" id="email" className="p-1 px-2 text-black rounded-md border-2 border-gray-dark dark:border-white" name="email" autoComplete="email" onChange={handleChange} />
             
                 <label htmlFor="password">Password</label>
-                <input type="password" className="p-1 px-2 text-black rounded-md" id="password" name="password" onChange={handleChange} />
+                <input type="password" className="p-1 px-2 text-black rounded-md border-2 border-gray-dark dark:border-white" id="password" name="password" onChange={handleChange} />
             
                 <a href="">Forgot Password?</a>
             
@@ -128,7 +128,7 @@ export default function LoginPage() {
 
             {/* if need to sign up */}
             <div className="flex max-w-xl gap-2 mx-auto  my-5">
-                Need an Account? <Link href="/register"> Sign up here </Link> 
+                Need an Account? <Link href="/register" className="text-primary-light dark:text-brand-electric"> Sign up here </Link> 
             </div>
 
             {/* create a sign in with github button */}

@@ -68,7 +68,7 @@ export function SubmitButtonPrimary(
     props: ButtonPrimaryProps,
 ) {
     return (
-        <button type="submit"  className="bg-primary dark:bg-primary-dark dark:text-black text-white py-2 px-8 my-4 mx-auto w-max rounded-full hover:bg-primary-hover">
+        <button type="submit"  className="bg-brand-vivid dark:bg-brand-light dark:text-black text-white py-2 px-8 my-4 mx-auto w-max rounded-full hover:bg-primary-hover">
             {props.text}
         </button>
     )
