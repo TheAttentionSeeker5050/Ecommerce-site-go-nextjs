@@ -16,7 +16,7 @@ type GoogleOauthToken struct {
 	IDToken     string
 }
 
-type GoogleUserResult struct {
+type GoogleUser struct {
 	ID            string
 	Email         string
 	VerifiedEmail bool
@@ -92,7 +92,7 @@ func GetGoogleOAuthToken(code string) (*GoogleOauthToken, error) {
 
 }
 
-func GetGoogleOAuthUser(access_token string, id_token string) (*GoogleUserResult, error) {
+func GetGoogleOAuthUser(access_token string, id_token string) (*GoogleUser, error) {
 	// root url for requesting github user
 	rootURL := fmt.Sprintf("https://www.googleapis.com/oauth2/v1/userinfo?alt=json&access_token=%s", access_token)
 
@@ -126,23 +126,24 @@ func GetGoogleOAuthUser(access_token string, id_token string) (*GoogleUserResult
 		return nil, err
 	}
 
-	// parse the response body into a url query
-	parseQuery, err := url.ParseQuery(string(resBody))
-	if err != nil {
+	// we will unmarshal the response body into an any typed map
+	var GoogleUserRes map[string]interface{}
+
+	if err := json.Unmarshal([]byte(string(resBody)), &GoogleUserRes); err != nil {
 		return nil, err
 	}
 
-	// create a new GoogleUserResult struct
-	GoogleUserResult := &GoogleUserResult{
-		ID:            parseQuery.Get("id"),
-		Email:         parseQuery.Get("email"),
-		VerifiedEmail: parseQuery.Get("verified_email") == "true",
-		FirstName:     parseQuery.Get("given_name"),
-		LastName:      parseQuery.Get("family_name"),
-		Photo:         parseQuery.Get("picture"),
-		Locale:        parseQuery.Get("locale"),
+	// read the response body and store it in a variable
+	googleUserResult := &GoogleUser{
+		ID:            GoogleUserRes["id"].(string),
+		Email:         GoogleUserRes["email"].(string),
+		VerifiedEmail: GoogleUserRes["verified_email"].(bool),
+		FirstName:     GoogleUserRes["given_name"].(string),
+		LastName:      GoogleUserRes["family_name"].(string),
+		Photo:         GoogleUserRes["picture"].(string),
+		Locale:        GoogleUserRes["locale"].(string),
 	}
 
 	// return the GoogleUserResult struct
-	return GoogleUserResult, nil
+	return googleUserResult, nil
 }
