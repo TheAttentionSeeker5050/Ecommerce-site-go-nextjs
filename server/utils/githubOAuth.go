@@ -13,12 +13,15 @@ import (
 
 type GithubOAuthToken struct {
 	AccessToken string
+	Scope       string
+	TokenType   string
 }
 
 type GithubUser struct {
-	Name  string
-	Email string
-	Photo string
+	Name           string
+	Email          string
+	Photo          string
+	GitHubUsername string
 }
 
 func GetGithubOAuthToken(code string) (*GithubOAuthToken, error) {
@@ -57,7 +60,7 @@ func GetGithubOAuthToken(code string) (*GithubOAuthToken, error) {
 		return nil, err
 	}
 
-	fmt.Println("res: ", res)
+	// fmt.Println("res: ", res)
 
 	// check for response errors
 	if res.StatusCode != http.StatusOK {
@@ -70,32 +73,18 @@ func GetGithubOAuthToken(code string) (*GithubOAuthToken, error) {
 		return nil, err
 	}
 
-	fmt.Println("resBody: ", string(resBody))
-
-	var GithubOAuthTokenRes map[string]interface{}
-
-	if err := json.Unmarshal([]byte(string(resBody)), &GithubOAuthTokenRes); err != nil {
+	// parse the response body into a url query
+	parsedQuery, err := url.ParseQuery(string(resBody))
+	if err != nil {
 		return nil, err
 	}
-	fmt.Println("GithubOAuthTokenRes: ", GithubOAuthTokenRes)
 
+	// generate the token
 	token := &GithubOAuthToken{
-		AccessToken: GithubOAuthTokenRes["access_token"].(string),
+		AccessToken: parsedQuery.Get("access_token"),
+		Scope:       parsedQuery.Get("scope"),
+		TokenType:   parsedQuery.Get("token_type"),
 	}
-
-	fmt.Println("token: ", token)
-
-	// // parse the response body into a url query
-	// parsedQuery, err := url.ParseQuery(string(resBody))
-	// if err != nil {
-	// 	return nil, err
-	// }
-
-	// // generate the token
-	// token := &GithubOAuthToken{
-	// 	AccessToken: parsedQuery.Get("access_token"),
-	// 	// AccessToken: parsedQuery["access_token"][0],
-	// }
 
 	return token, nil
 
@@ -134,35 +123,53 @@ func GetGithubOAuthUser(access_token string) (*GithubUser, error) {
 		return nil, err
 	}
 
+	// we will unmarshal the response body into an any typed map
 	var GithubUserRes map[string]interface{}
 
 	if err := json.Unmarshal([]byte(string(resBody)), &GithubUserRes); err != nil {
 		return nil, err
 	}
 
-	fmt.Println("GithubUserRes unmarshall: ", GithubUserRes)
+	// if email is not public, return "" as email
+	if GithubUserRes["email"] == nil {
+		GithubUserRes["email"] = ""
+	}
+
+	// fmt.Println("email: ", GithubUserRes["email"].(string))
+	// fmt.Println("name: ", GithubUserRes["name"].(string))
+	// fmt.Println("avatar_url: ", GithubUserRes["avatar_url"].(string))
+	// fmt.Println("login: ", GithubUserRes["login"].(string))
 
 	githubUserResult := &GithubUser{
-		Name:  GithubUserRes["name"].(string),
-		Email: GithubUserRes["email"].(string),
-		Photo: GithubUserRes["avatar_url"].(string),
+		Name:           GithubUserRes["name"].(string),
+		Email:          GithubUserRes["email"].(string),
+		Photo:          GithubUserRes["avatar_url"].(string),
+		GitHubUsername: GithubUserRes["login"].(string),
 	}
 
 	// // parse the response body
-	// var githubUser GithubOAuthUser
-
-	// if err := json.Unmarshal(resBody, &githubUser); err != nil {
+	// parsedQuery, err := url.ParseQuery(string(resBody))
+	// if err != nil {
 	// 	return nil, err
 	// }
 
-	// // create a new user body
-	// userBody := &GithubOAuthUser{
-	// 	Name:  githubUser.Name,
-	// 	Email: githubUser.Email,
-	// 	Photo: githubUser.Photo,
+	// // fmt.Println("parsedQuery: ", parsedQuery)
+	// fmt.Println("name: ", parsedQuery.Get("name"))
+	// fmt.Println("email: ", parsedQuery.Get("email"))
+	// fmt.Println("avatar_url: ", parsedQuery.Get("avatar_url"))
+	// fmt.Println("login: ", parsedQuery.Get("login"))
+
+	// // generate the token
+	// githubUserResult := &GithubUser{
+	// 	Name:           parsedQuery["name"][0],
+	// 	Email:          parsedQuery.Get("email"),
+	// 	Photo:          parsedQuery.Get("avatar_url"),
+	// 	GitHubUsername: parsedQuery.Get("login"),
 	// }
 
-	fmt.Println("githubUserResult map: ", githubUserResult)
+	fmt.Println("githubUserResult: ", githubUserResult)
+	// fmt.Println("githubUserResult.Email: ", githubUserResult.Email)
+	// fmt.Println("githubUserResult.Login: ", githubUserResult.GitHubUsername)
 
 	return githubUserResult, nil
 }

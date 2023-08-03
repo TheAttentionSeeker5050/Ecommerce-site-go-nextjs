@@ -77,7 +77,8 @@ func GitHubAuthController(ctx *gin.Context, db *gorm.DB) {
 	// save time as an int
 	currentTime := time.Now().Unix()
 
-	// name a var email in case the user email is not public
+	// name a var email not provided if email is not provided as boolean, true if email value start with no_email__ and false if email value does not start with no_email__
+	var emailNotProvided bool = userRes.Email == "no_email__"+userRes.GitHubUsername
 
 	// create a new user struct
 	resBody := &models.User{
@@ -151,8 +152,17 @@ func GitHubAuthController(ctx *gin.Context, db *gorm.DB) {
 	ctx.SetCookie("refresh_token", refresh_token, tokenExpirationHours*60*60, "/", domainName, false, true)
 	ctx.SetCookie("logged_in", "true", tokenExpirationHours*60*60, "/", domainName, false, true)
 
-	// redirect to the client url path
-	ctx.Redirect(http.StatusTemporaryRedirect, fmt.Sprint(os.Getenv("CLIENT_ORIGIN_URL")+pathUrl))
+	var redirectEmailNotProvided string = "/account/update-email"
+
+	// if email is not provided, redirect to the update email page
+	if emailNotProvided {
+		ctx.Redirect(http.StatusTemporaryRedirect, fmt.Sprint(os.Getenv("CLIENT_ORIGIN_URL")+redirectEmailNotProvided))
+		return
+	} else {
+		// redirect to the client default url login success path if email is provided
+		ctx.Redirect(http.StatusTemporaryRedirect, fmt.Sprint(os.Getenv("CLIENT_ORIGIN_URL")+pathUrl))
+		return
+	}
 }
 
 func GoogleAuthController(ctx *gin.Context, db *gorm.DB) {
