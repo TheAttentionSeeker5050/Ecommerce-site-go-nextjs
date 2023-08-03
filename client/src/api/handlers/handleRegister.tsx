@@ -10,6 +10,7 @@ import { validateInputText } from '@/api/validators/validateInputText';
 import { formatPhone, validatePhone } from '@/api/validators/validatePhone';
 import { error } from 'console';
 import { validatePassword } from '../validators/validatePassword';
+import { getCorsOrigin, getServerRequestURL } from '@/utils/routeUtils';
 
 dotenv.config();
 // this will handle the register page form using fetch
@@ -70,14 +71,14 @@ export const handleRegister = async (
         
     }
 
+    let formattedPhone: string = '';
     // validate phone
     if (validatePhone(phone) === false) {
         errorsArray.push('Phone is not valid or empty!');
 
     } else {
         // convert the phone number to a valid one
-        var formattedPhone = formatPhone(phone);
-        console.log('FORMATTED PHONE:', formattedPhone);
+        formattedPhone = formatPhone(phone);
     }
     
     
@@ -94,32 +95,29 @@ export const handleRegister = async (
                 'email': email,
                 'first_name': first_name,
                 'last_name': last_name,
-                'phone': phone,
+                'phone': formattedPhone,
                 'middle_name': middle_name,
                 'password': password,
                 'password2': password2,
             };
-            // create an url request string using environment variables
-            // declare the url variable as string
-            var url: string;
-            if (process.env.NODE_ENV === 'development') {
-                url = `${process.env.API_URL}/user/register`;
-            } else {
-                url = `${process.env.API_URL_REMOTE}/user/register`;
-            }
+
+            // get the server request url
+            let url = getServerRequestURL('/user/register');
+
+            // create a control origin header based on environment type
+            let controlOrigin = getCorsOrigin();
+
             // make a post request using fetch, the new user data var and cors headers
             const response = await fetch(url, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Access-Control-Allow-Origin': 'https://ecommerce-x.alligatorcode.pro',
-                    // 'Accept': 'application/json',
-                    // 'Access-Control-Allow-Origin': 'http://159.65.225.127:3001',
-                    // "no-cors": "true",
-
+                    'Accept': 'application/json',
+                    'Access-Control-Allow-Origin': controlOrigin,
                 },
                 body: JSON.stringify(newUserData),
             });
+
             // get the response data
             const responseData = await response.json();
             // check if the response is ok
@@ -128,7 +126,6 @@ export const handleRegister = async (
                 window.location.replace('/login');
             } else {
                 // do something if the response is not ok
-                // alert('Something went wrong!');
                 setErrorMessages([...errorMessages, responseData['error']]);
             }
         } catch (err) {

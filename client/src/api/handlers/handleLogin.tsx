@@ -1,5 +1,7 @@
 import { validateEmail } from "@/api/validators/validateEmail";
 import { validatePassword } from "@/api/validators/validatePassword";
+import { getCorsOrigin, getServerRequestURL } from "@/utils/routeUtils";
+import { get } from "http";
 
 // login request handler with input validation and fetch request
 export const handleLogin = async (
@@ -8,7 +10,7 @@ export const handleLogin = async (
     password: string | null | undefined,
     setErrorMessages: React.Dispatch<React.SetStateAction<string[]>>,
     errorMessages: string[],
-    ): Promise<void> => {
+    ): Promise<any> => {
     
     // validation variables
     var emailIsValid, emailError;
@@ -42,22 +44,11 @@ export const handleLogin = async (
                 'password': password,
             };
             
-            // create an url request string using environment variables
-            // declare the url variable as string
-            var url: string;
-            if (process.env.NODE_ENV === 'development') {
-                url = `${process.env.API_URL}/user/login`;
-            } else {
-                url = `${process.env.API_URL_REMOTE}/user/login`;
-            }
-            
-            // create a control origin header based on environment type
-            var controlOrigin: string;
-            if (process.env.NODE_ENV === 'development') {
-                controlOrigin = 'http://127.0.0.1:3001';
-            } else {
-                controlOrigin = 'https://ecommerce-x.alligatorcode.pro';
-            }
+            // get the server request url
+            let url = getServerRequestURL('/user/login');
+
+            // declare the cors origin variable as string
+            let controlOrigin = getCorsOrigin();
 
             // make a post request using fetch, the new user data var and cors headers
             const response = await fetch(url, {
@@ -66,8 +57,6 @@ export const handleLogin = async (
                     'Content-Type': 'application/json',
                     'Accept': 'application/json',
                     'Access-Control-Allow-Origin': controlOrigin,
-                    // 'Access-Control-Allow-Origin': 'https://ecommerce-x.alligatorcode.pro',
-                    // 'Access-Control-Allow-Origin': 'http://127.0.0.1:3000',
                 },
                 body: JSON.stringify(loginData),
             });
@@ -75,18 +64,16 @@ export const handleLogin = async (
             // get the response data
             const responseData = await response.json();
             
-            // check if the response is ok
-            if (response.ok) {
-                // set the token in local storage
-                console.log(responseData['callbackURL']);
-                window.location.href = responseData['callbackURL'];
-            } else {
-                // set the error messages
+            // check if the response is not ok
+            if (response.status != 200) {
+                // set error message handler
                 setErrorMessages([responseData['error']]);
             }
-        
+
+            return responseData;
         } catch (fetchError) {
             setErrorMessages(["Something went wrong. Could not login. Please try again."]);
+            return fetchError;
         }
     }
 

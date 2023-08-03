@@ -23,6 +23,8 @@ type GithubOAuthUserResult struct {
 
 func GetGithubOAuthToken(code string) (*GithubOAuthToken, error) {
 	// this will return the auth token based on user code
+
+	// create the root oauth api url
 	const rootURL = "https://github.com/login/oauth/access_token"
 
 	// create a url querystring struct
@@ -66,7 +68,7 @@ func GetGithubOAuthToken(code string) (*GithubOAuthToken, error) {
 		return nil, err
 	}
 
-	// parse the response body
+	// parse the response body into a url query
 	parsedQuery, err := url.ParseQuery(string(resBody))
 	if err != nil {
 		return nil, err
@@ -82,7 +84,7 @@ func GetGithubOAuthToken(code string) (*GithubOAuthToken, error) {
 
 }
 
-func GetGithubOAuthUser(token string) (*GithubOAuthUserResult, error) {
+func GetGithubOAuthUser(access_token string) (*GithubOAuthUserResult, error) {
 	// root url for github user
 	const rootURL = "https://api.github.com/user"
 
@@ -93,7 +95,7 @@ func GetGithubOAuthUser(token string) (*GithubOAuthUserResult, error) {
 	}
 
 	// add headers and timeout to the request
-	req.Header.Set("Authorization", fmt.Sprintf("Bearer %s", token))
+	req.Header.Set("Authorization", fmt.Sprintf("Bearer %s", access_token))
 	client := http.Client{
 		Timeout: time.Second * 20,
 	}

@@ -2,15 +2,17 @@ package utils
 
 import (
 	"fmt"
+	"os"
+	"strconv"
 	"time"
 
+	"github.com/gin-gonic/gin"
 	"github.com/golang-jwt/jwt/v4"
 )
 
 func CreateJWT(
 	ttl time.Duration,
 	payload interface{},
-	privateKeyFileName string,
 ) (string, error) {
 
 	// read file using the file utils
@@ -36,7 +38,7 @@ func CreateJWT(
 	if err != nil {
 		return "", fmt.Errorf("create: sign token: %w", err)
 	}
-	fmt.Println("token:", token)
+	// fmt.Println("token:", token)
 
 	return token, nil
 
@@ -44,7 +46,7 @@ func CreateJWT(
 
 func ValidateJWT(
 	tokenString string,
-	publicKey string,
+	// publicKey string,
 ) (interface{}, error) {
 	// read file using the file utils
 	key, err := ReadContentsOfFile("/jwtRS256.key.pub")
@@ -78,6 +80,41 @@ func ValidateJWT(
 		return nil, fmt.Errorf("Invalid token")
 	}
 
+	// print all claims
+	fmt.Println("token claims:", claims)
+
 	// return the claims
 	return claims["sub"], nil
+}
+
+func GenerateAccessAndRefreshToken(
+	userPayload interface{},
+	c *gin.Context,
+) (
+	access_token string,
+	refresh_token string,
+	err error,
+) {
+	// parse os string token expiration time hours to int
+	tokenExpirationHours, err := strconv.Atoi(os.Getenv("TOKEN_EXPIRES_IN_HOURS"))
+	if err != nil {
+		return "", "", err
+	}
+
+	tokenExpiration := time.Duration(tokenExpirationHours) * time.Hour
+
+	// generate access token
+	access_token, err2 := CreateJWT(tokenExpiration, userPayload)
+	if err2 != nil {
+		return "", "", err2
+	}
+
+	// generate the refresh token
+	refresh_token, err3 := CreateJWT(tokenExpiration, userPayload)
+	if err3 != nil {
+		return "", "", err3
+	}
+
+	// return the access token and refresh token
+	return access_token, refresh_token, nil
 }

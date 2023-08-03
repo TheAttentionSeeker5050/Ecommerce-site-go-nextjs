@@ -23,11 +23,9 @@ func UserRouter(
 		controllers.LoginController(c, db)
 	})
 
-	// userRouter.POST("/logout", func(c *gin.Context) {
-	// 	c.JSON(http.StatusOK, gin.H{
-	// 		"message": "Hello, logout!",
-	// 	})
-	// })
+	userRouter.POST("/logout", func(c *gin.Context) {
+		controllers.LogoutController(c, db)
+	})
 
 	return userRouter
 }

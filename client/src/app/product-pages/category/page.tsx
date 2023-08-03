@@ -9,6 +9,7 @@ export default function ProductCategoriesPage() {
     // declare state variables
     const [productCategories, setProductCategories] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
+    const [isError, setIsError] = useState(false);
     
     
     useEffect(() => {
@@ -20,8 +21,7 @@ export default function ProductCategoriesPage() {
             setIsLoading(false);
         })
         .catch((error) => {
-            console.log("catch was called");
-            console.log(error);
+            setIsError(true);
         })
     }, [])
 
@@ -30,9 +30,13 @@ export default function ProductCategoriesPage() {
         <div id="p-content" className="w-full">
             {isLoading ?
                 <div className="text-center">Loading...</div>
-                :
+            :
+            isError === true ?
+                <div className="text-center">Something went wrong! Could not fetch from the server 😭 </div> 
+            :
                 <CategoriesBrowseContainer displayType={"Category"} productCategories={productCategories} />
             }
+
         </div>
     )
 }

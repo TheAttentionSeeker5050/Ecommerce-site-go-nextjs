@@ -1,6 +1,5 @@
 // in this file we will define the filters that we will use to filter the search results
 
-import { dummyProductSearchFilters, product } from "@/data/dummyData/productsDummyData";
 import { changeMinRating, changePriceMax, changePriceMin, changeProductFeatureSelected } from "@/data/redux/productFilterStore";
 import { reduxStore } from "@/data/redux/reduxStore";
 import { getQuerysetFromURL } from "./routeUtils";

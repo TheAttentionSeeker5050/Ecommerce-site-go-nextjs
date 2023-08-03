@@ -1,6 +1,5 @@
 import { changeProductFeatureSelected } from "@/data/redux/productFilterStore";
 import { reduxStore } from "@/data/redux/reduxStore";
-import { useState } from "react";
 
 
 export default function DisplayCheckboxFilters(

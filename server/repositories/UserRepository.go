@@ -2,6 +2,7 @@ package repositories
 
 // the repository for the crud operations for the user model
 import (
+	"fmt"
 	"workspace/models"
 
 	"golang.org/x/crypto/bcrypt"
@@ -22,6 +23,19 @@ func NewUserRepository(db *gorm.DB) *UserRepository {
 
 // create a new user but hashing the password first
 func (userRepo *UserRepository) CreateUser(user *models.User) (*models.User, error) {
+
+	// check if the user already exists
+	prevUser, err := userRepo.GetUserByEmail(user.Email)
+	// check for errors
+	if err == nil {
+		return nil, fmt.Errorf("Error checking if user exists")
+	}
+
+	// if the user exist, return an error
+	if prevUser != nil {
+		return nil, fmt.Errorf("user already exists")
+	}
+
 	// hash the password using bcrypt using salt
 	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(user.Password), bcrypt.DefaultCost)
 	// check for errors

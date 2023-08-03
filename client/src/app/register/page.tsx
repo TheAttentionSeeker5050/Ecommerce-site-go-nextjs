@@ -98,25 +98,25 @@ export default function RegisterPage() {
             <form method="POST" className=" flex flex-col max-w-xl px-3 mx-auto gap-1.5" onSubmit={handleSubmit}>
                 
                 <label htmlFor="email">Email</label>
-                <input type="text" id="email" name="email" className="p-1 px-2 text-black rounded-md" autoComplete="email" onChange={handleChange} />
+                <input type="text" id="email" name="email" className="p-1 px-2 text-black rounded-md border-2 border-gray-dark dark:border-white" autoComplete="email" onChange={handleChange} />
 
                 <label htmlFor="firstName">First Name</label>
-                <input type="text" id="firstName" className="p-1 px-2 text-black rounded-md" name="first_name" onChange={handleChange} />
+                <input type="text" id="firstName" className="p-1 px-2 text-black rounded-md border-2 border-gray-dark dark:border-white" name="first_name" onChange={handleChange} />
 
                 <label htmlFor="lastName">Last Name</label>
-                <input type="text" className="p-1 px-2 text-black rounded-md" id="lastName" name="last_name" onChange={handleChange} />
+                <input type="text" className="p-1 px-2 text-black rounded-md border-2 border-gray-dark dark:border-white" id="lastName" name="last_name" onChange={handleChange} />
 
                 <label htmlFor="phone">Phone</label>
-                <input type="text" className="p-1 px-2 text-black rounded-md" id="phone" name="phone" onChange={handleChange} />
+                <input type="text" className="p-1 px-2 text-black rounded-md border-2 border-gray-dark dark:border-white" id="phone" name="phone" onChange={handleChange} />
 
                 <label htmlFor="middleName">Middle Name</label>
-                <input type="text" className="p-1 px-2 text-black rounded-md" id="middleName" name="middle_name" onChange={handleChange} />
+                <input type="text" className="p-1 px-2 text-black rounded-md border-2 border-gray-dark dark:border-white" id="middleName" name="middle_name" onChange={handleChange} />
 
                 <label htmlFor="password">Password</label>
-                <input type="password" className="p-1 px-2 text-black rounded-md" id="password" name="password" onChange={handleChange} />
+                <input type="password" className="p-1 px-2 text-black rounded-md border-2 border-gray-dark dark:border-white" id="password" name="password" onChange={handleChange} />
 
                 <label htmlFor="password2">Confirm Password</label>
-                <input type="password" className="p-1 px-2 text-black rounded-md" id="password2" name="password2" onChange={handleChange} />
+                <input type="password" className="p-1 px-2 text-black rounded-md border-2 border-gray-dark dark:border-white" id="password2" name="password2" onChange={handleChange} />
 
                 <SubmitButtonPrimary text="Register" />
                 
@@ -124,7 +124,7 @@ export default function RegisterPage() {
 
             {/* if you need to register instead */}
             <div className="flex max-w-xl gap-2 mx-auto  my-5">
-                Already have an account? <Link href="/register">Sign In here</Link>
+                Already have an account? <Link href="/register" className="text-primary-light dark:text-brand-electric">Sign In here</Link>
             </div>
 
         </div>

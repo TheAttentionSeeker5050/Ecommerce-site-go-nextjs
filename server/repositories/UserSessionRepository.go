@@ -29,9 +29,22 @@ func (s *DatabaseSessionStore) SaveSession(userID, email, accessToken string) er
 		AccessToken: accessToken,
 	}
 
-	result := s.db.Create(&session)
-	if result.Error != nil {
-		return result.Error
+	// find session by userID first and if found, update it
+	// otherwise, create a new session
+	previousSessionsByUserResult := s.db.First(&models.UserSession{}, "user_id = ?", userID)
+	// if user session is found, update it
+	if previousSessionsByUserResult.RowsAffected > 0 {
+		previousSessionsByUserResult = s.db.Model(&models.UserSession{}).Where("user_id = ?", userID).Updates(&session)
+		if previousSessionsByUserResult.Error != nil {
+			return previousSessionsByUserResult.Error
+		}
+		return nil
+	}
+
+	// else if user session is not found, create a new one
+	newSessionResult := s.db.Create(&session)
+	if newSessionResult.Error != nil {
+		return newSessionResult.Error
 	}
 	return nil
 }

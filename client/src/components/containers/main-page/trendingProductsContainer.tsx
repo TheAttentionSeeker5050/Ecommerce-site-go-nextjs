@@ -13,9 +13,6 @@ export default function TrendingProductsContainer(
                     return (
                         <Link href={productData.productLink}>
                         <div className="w-32 mx-auto p-2 dark:hover:shadow-white hover:shadow-lg hover:shadow-zinc-500 ">
-                            {/* <img className="w-28 rounded-md mx-auto" src={
-                                productData.productImageSrc
-                            } /> */}
                             <Image width={120} height={120} alt={productData.productName} className="w-28 rounded-md mx-auto" src={
                                 productData.productImageSrc
                             } />

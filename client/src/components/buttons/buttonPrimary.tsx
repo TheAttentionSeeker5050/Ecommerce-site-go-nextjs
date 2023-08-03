@@ -37,7 +37,7 @@ interface ButtonPrimaryProps {
 export function ButtonWithActionPrimary(props: ButtonPrimaryProps) {
     return (
         <button
-        className={`bg-primary text-white py-2 px-4 m-2 rounded-full ${
+        className={`bg-brand-vivid text-white py-2 px-4 m-2 rounded-full ${
             props.disabled ? 'opacity-50 cursor-not-allowed' : ''
         }
         hover:bg-primary-hover
@@ -68,7 +68,7 @@ export function SubmitButtonPrimary(
     props: ButtonPrimaryProps,
 ) {
     return (
-        <button type="submit"  className="bg-primary dark:bg-primary-dark dark:text-black text-white py-2 px-8 my-4 mx-auto w-max rounded-full hover:bg-primary-hover">
+        <button type="submit"  className="bg-brand-vivid dark:bg-brand-light dark:text-black text-white py-2 px-8 my-4 mx-auto w-max rounded-full hover:bg-primary-hover">
             {props.text}
         </button>
     )

@@ -11,8 +11,8 @@ import Link from "next/link";
 import Image from "next/image";
 
 // redux store methods
-import { formatProductTitleInGridThumbView } from "@/utils/formatThumbnailTitle";
-import { useEffect, useState } from "react";
+import { formatProductTitleInGridView, formatProductTitleInListView } from "@/utils/stringFormatTools";
+import { useState } from "react";
 
 // name constants grid and list view
 const LIST_VIEW = "list";
@@ -105,9 +105,9 @@ export default function ProductBrowseContainer(
         
 
         <div id="products-container-wrapper" className="flex flex-col my-5 w-auto mx-4">
-            <div id="products-container-upper-view-opts " className="bg-primary-light dark:bg-primary-dark dark:text-black text-white p-4 rounded-t-xl border-2 border-black dark:border-white flex flex-col flex-wrap  gap-3 ">
+            <div id="products-container-upper-view-opts " className="bg-brand-vivid dark:bg-primary-dark dark:text-black text-white p-4 rounded-t-xl border-2 border-black dark:border-white flex flex-col flex-wrap  gap-3 ">
                 <div id="sorting" className="flex flex-row gap-3 justify-center">
-                    <Link href="" onClick={(e) => handleSorting(e, "price")}>
+                    <Link href="" onClick={(e) => handleSorting(e, "price")} className="cursor-pointer">
                         <ArrowIconComponent sortByInput="price" />
                         <FontAwesomeIcon icon={faDollarSign} />
                     </Link>
@@ -123,22 +123,21 @@ export default function ProductBrowseContainer(
                         <ArrowIconComponent sortByInput="popularity" />
                         <FontAwesomeIcon icon={faFire} />
                     </Link>
-                    <Link href="" className="ml-auto" onClick={(e) => toggleListGridView(e, LIST_VIEW)}>
+                    <Link href="" className="cursor-pointer" onClick={(e) => toggleListGridView(e, LIST_VIEW)}>
                         <FontAwesomeIcon icon={faList} />
                     </Link>
-                    <Link href="" onClick={(e) => toggleListGridView(e, GRID_VIEW)} >
+                    <Link href="" className="cursor-pointer" onClick={(e) => toggleListGridView(e, GRID_VIEW)} >
                         <FontAwesomeIcon icon={faTableCells} />
                     </Link>
                 </div>
                 <div id="pagination" className="flex flex-row gap-3 justify-center">
-                    <Link href="" onClick={(e) => handlePagination(e, "-")}>Previous</Link>
-                    <Link href="" onClick={(e) => handlePagination(e, "+")}>Next</Link>
+                    <Link href="" onClick={(e) => handlePagination(e, "-")} className="cursor-pointer">Previous</Link>
+                    <Link href="" onClick={(e) => handlePagination(e, "+")} className="cursor-pointer">Next</Link>
                 </div>
             </div>
 
             { view === GRID_VIEW ?
                 <div id="products-container-grid" className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4  gap-3 px-3 py-5  border-black dark:border-primary-dark border-2 border-t-0 rounded-b-xl">
-                    {/* <DisplayProducts /> */}
 
                     {products.map((productData) => {
                         return (
@@ -149,10 +148,10 @@ export default function ProductBrowseContainer(
                                 } />
                                 <p className="text-md text-center">
                                     {
-                                        formatProductTitleInGridThumbView(productData.name)
+                                        formatProductTitleInGridView(productData.name)
                                     }
                                 </p>
-                                <p className="text-md text-center font-bold">
+                                <p className="text-md text-center font-bold text-brand-vivid dark:text-brand-electric">
                                     ${productData.price}
                                 </p>
                             </Link>
@@ -171,10 +170,10 @@ export default function ProductBrowseContainer(
                                 } />
                                 <p className="text-md text-center col-span-2 sm:col-span-3 md:w-80 p-2">
                                     {
-                                        formatProductTitleInGridThumbView(productData.name)
+                                        formatProductTitleInListView(productData.name)
                                     }
                                 </p>
-                                <p className="text-md text-center col-span-1 p-2 font-bold text-green-700">
+                                <p className="text-md text-center col-span-1 p-2 font-bold text-brand-vivid dark:text-brand-electric">
                                     ${productData.price}
                                 </p>
                             </Link>

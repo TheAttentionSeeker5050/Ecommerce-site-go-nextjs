@@ -3,7 +3,6 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBars, faLocationDot, faPaw, faUser } from '@fortawesome/free-solid-svg-icons';
 import {faMagnifyingGlass} from '@fortawesome/free-solid-svg-icons';
-import {faShoppingCart} from '@fortawesome/free-solid-svg-icons';
 import React from 'react';
 import ShoppingCartWidgetComponent from './shoppingCartWidgetComponent';
 import Link from 'next/link';
@@ -20,8 +19,8 @@ export default function HeaderComponent(ToggleDarkMode: any, isDarkMode: any) {
                     <div id='desktop-header-search' className='w-96'>
 
                         <form id='desktop-search-bar-form' className='w-full border-2 px-3 py-2 rounded-full border-gray hover:bg-slate-200 hover:text-black text-inherit my-2 flex flex-row justify-between'>
-                            <input id='search-bar-input' className='w-40 dark:bg-inherit focus:outline-none border:border-0'  type='text' placeholder='Search for products' />
-                            <button id='search-bar-button' type='submit'>
+                            <input id='desktop-search-bar-input' className='w-40 dark:bg-inherit focus:outline-none border:border-0'  type='text' placeholder='Search for products' />
+                            <button id='desktop-search-bar-button' type='submit'>
                                 <FontAwesomeIcon icon={faMagnifyingGlass} color='gray' style={{width:20,}} />
                             </button>
                         </form>
@@ -53,9 +52,9 @@ export default function HeaderComponent(ToggleDarkMode: any, isDarkMode: any) {
                 </div>
                 <div id='mobile-header-search' className='col-start-1 col-span-8 row-start-2 row-span-1 px-4 w-full '>
                     {/* Bottom Search Bar */}
-                    <form id='desktop-search-bar-form' className='border-2 px-3 py-2 rounded-full border-gray hover:bg-slate-200 hover:text-black text-inherit my-2 flex flex-row justify-between'>
-                        <input id='search-bar-input' className='w-40 dark:bg-inherit focus:outline-none border:border-0'  type='text' placeholder='Search for products' />
-                        <button id='search-bar-button' type='submit'>
+                    <form id='mobile-search-bar-form' className='border-2 px-3 py-2 rounded-full border-gray hover:bg-slate-200 hover:text-black text-inherit my-2 flex flex-row justify-between'>
+                        <input id='mobile-search-bar-input' className='w-40 dark:bg-inherit focus:outline-none border:border-0'  type='text' placeholder='Search for products' />
+                        <button id='mobile-search-bar-button' type='submit'>
                             <FontAwesomeIcon icon={faMagnifyingGlass} color='gray' style={{width:20,}} />
                         </button>
                     </form>    
