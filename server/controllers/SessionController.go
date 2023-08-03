@@ -109,7 +109,6 @@ func GitHubAuthController(ctx *gin.Context, db *gorm.DB) {
 			ctx.Redirect(http.StatusTemporaryRedirect, fmt.Sprint(os.Getenv("CLIENT_ORIGIN_URL")+oauthLoginFailed+"?error=email-already-exists"))
 			return
 		}
-
 	} else {
 		// if the user does not exist, create the user
 		user, _ = userRepo.CreateUser(resBody)
@@ -133,7 +132,6 @@ func GitHubAuthController(ctx *gin.Context, db *gorm.DB) {
 			"message": "Failed to generate access token!",
 			// display error message if debug mode is true using conditional operator
 			"error": utils.ReturnErrorMessageOnDevMode(err),
-			// "type":  errorType,
 		})
 		return
 	}
@@ -164,7 +162,7 @@ func GitHubAuthController(ctx *gin.Context, db *gorm.DB) {
 	ctx.SetCookie("refresh_token", refresh_token, tokenExpirationHours*60*60, "/", domainName, false, true)
 	ctx.SetCookie("logged_in", "true", tokenExpirationHours*60*60, "/", domainName, false, true)
 
-	var redirectEmailNotProvided string = "/account/update-email"
+	const redirectEmailNotProvided string = "/account/update-email"
 
 	// if email is not provided, redirect to the update email page
 	if emailNotProvided {
@@ -265,7 +263,7 @@ func GoogleAuthController(ctx *gin.Context, db *gorm.DB) {
 		}
 	} else {
 		// if the user does not exist, create the user
-		userRepo.CreateUser(resBody)
+		user, _ = userRepo.CreateUser(resBody)
 	}
 
 	// parse os string token expiration time hours to int

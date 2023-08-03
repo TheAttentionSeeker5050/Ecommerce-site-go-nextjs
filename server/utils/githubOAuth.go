@@ -60,8 +60,6 @@ func GetGithubOAuthToken(code string) (*GithubOAuthToken, error) {
 		return nil, err
 	}
 
-	// fmt.Println("res: ", res)
-
 	// check for response errors
 	if res.StatusCode != http.StatusOK {
 		return nil, fmt.Errorf("failed to get oauth token")
@@ -135,41 +133,12 @@ func GetGithubOAuthUser(access_token string) (*GithubUser, error) {
 		GithubUserRes["email"] = ""
 	}
 
-	// fmt.Println("email: ", GithubUserRes["email"].(string))
-	// fmt.Println("name: ", GithubUserRes["name"].(string))
-	// fmt.Println("avatar_url: ", GithubUserRes["avatar_url"].(string))
-	// fmt.Println("login: ", GithubUserRes["login"].(string))
-
 	githubUserResult := &GithubUser{
 		Name:           GithubUserRes["name"].(string),
 		Email:          GithubUserRes["email"].(string),
 		Photo:          GithubUserRes["avatar_url"].(string),
 		GitHubUsername: GithubUserRes["login"].(string),
 	}
-
-	// // parse the response body
-	// parsedQuery, err := url.ParseQuery(string(resBody))
-	// if err != nil {
-	// 	return nil, err
-	// }
-
-	// // fmt.Println("parsedQuery: ", parsedQuery)
-	// fmt.Println("name: ", parsedQuery.Get("name"))
-	// fmt.Println("email: ", parsedQuery.Get("email"))
-	// fmt.Println("avatar_url: ", parsedQuery.Get("avatar_url"))
-	// fmt.Println("login: ", parsedQuery.Get("login"))
-
-	// // generate the token
-	// githubUserResult := &GithubUser{
-	// 	Name:           parsedQuery["name"][0],
-	// 	Email:          parsedQuery.Get("email"),
-	// 	Photo:          parsedQuery.Get("avatar_url"),
-	// 	GitHubUsername: parsedQuery.Get("login"),
-	// }
-
-	fmt.Println("githubUserResult: ", githubUserResult)
-	// fmt.Println("githubUserResult.Email: ", githubUserResult.Email)
-	// fmt.Println("githubUserResult.Login: ", githubUserResult.GitHubUsername)
 
 	return githubUserResult, nil
 }

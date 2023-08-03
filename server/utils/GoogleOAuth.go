@@ -143,7 +143,6 @@ func GetGoogleOAuthUser(access_token string, id_token string) (*GoogleUser, erro
 		Photo:         GoogleUserRes["picture"].(string),
 		Locale:        GoogleUserRes["locale"].(string),
 	}
-	fmt.Println("GoogleUserResult: ", googleUserResult)
 
 	// return the GoogleUserResult struct
 	return googleUserResult, nil
