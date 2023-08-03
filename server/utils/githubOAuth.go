@@ -12,13 +12,16 @@ import (
 )
 
 type GithubOAuthToken struct {
-	AccessToken string `json:"access_token"`
+	AccessToken string
+	Scope       string
+	TokenType   string
 }
 
-type GithubOAuthUserResult struct {
-	Name  string `json:"name"`
-	Email string `json:"email"`
-	Photo string `json:"avatar_url"`
+type GithubUser struct {
+	Name           string
+	Email          string
+	Photo          string
+	GitHubUsername string
 }
 
 func GetGithubOAuthToken(code string) (*GithubOAuthToken, error) {
@@ -77,14 +80,15 @@ func GetGithubOAuthToken(code string) (*GithubOAuthToken, error) {
 	// generate the token
 	token := &GithubOAuthToken{
 		AccessToken: parsedQuery.Get("access_token"),
-		// AccessToken: parsedQuery["access_token"][0],
+		Scope:       parsedQuery.Get("scope"),
+		TokenType:   parsedQuery.Get("token_type"),
 	}
 
 	return token, nil
 
 }
 
-func GetGithubOAuthUser(access_token string) (*GithubOAuthUserResult, error) {
+func GetGithubOAuthUser(access_token string) (*GithubUser, error) {
 	// root url for github user
 	const rootURL = "https://api.github.com/user"
 
@@ -117,19 +121,24 @@ func GetGithubOAuthUser(access_token string) (*GithubOAuthUserResult, error) {
 		return nil, err
 	}
 
-	// parse the response body
-	var githubUser GithubOAuthUserResult
+	// we will unmarshal the response body into an any typed map
+	var GithubUserRes map[string]interface{}
 
-	if err := json.Unmarshal(resBody, &githubUser); err != nil {
+	if err := json.Unmarshal([]byte(string(resBody)), &GithubUserRes); err != nil {
 		return nil, err
 	}
 
-	// create a new user body
-	userBody := &GithubOAuthUserResult{
-		Name:  githubUser.Name,
-		Email: githubUser.Email,
-		Photo: githubUser.Photo,
+	// if email is not public, return "" as email
+	if GithubUserRes["email"] == nil {
+		GithubUserRes["email"] = ""
 	}
 
-	return userBody, nil
+	githubUserResult := &GithubUser{
+		Name:           GithubUserRes["name"].(string),
+		Email:          GithubUserRes["email"].(string),
+		Photo:          GithubUserRes["avatar_url"].(string),
+		GitHubUsername: GithubUserRes["login"].(string),
+	}
+
+	return githubUserResult, nil
 }
