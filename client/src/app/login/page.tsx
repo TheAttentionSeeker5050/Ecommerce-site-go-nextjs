@@ -133,13 +133,13 @@ export default function LoginPage() {
 
             {/* create a sign in with github button */}
             <div className="flex flex-col max-w-xl mx-auto items-center my-5">
-                <Link href={githubOAuthPath} className=" py-2 px-4 m-2 rounded-full">
+                <Link href={githubOAuthPath} className=" py-2 px-8 m-2 bg-gray text-black rounded-full">
                     Sign in with Github
                     <FontAwesomeIcon icon={faGithub} className="mx-2" />
                 </Link>
                 {/* make a login with google button */}
-                <a href={googleOAuthPath} className=" py-2 px-4 m-2  rounded-full">
-                    Sign in with Google (not inmplemented yet)
+                <a href={googleOAuthPath} className=" py-2 px-8 m-2 bg-gray text-black rounded-full">
+                    Sign in with Google
                     <FontAwesomeIcon icon={faGoogle} className="mx-2" />
                 </a>
             </div>
