@@ -37,7 +37,7 @@ interface ButtonPrimaryProps {
 export function ButtonWithActionPrimary(props: ButtonPrimaryProps) {
     return (
         <button
-        className={`bg-primary text-white py-2 px-4 m-2 rounded-full ${
+        className={`bg-brand-vivid text-white py-2 px-4 m-2 rounded-full ${
             props.disabled ? 'opacity-50 cursor-not-allowed' : ''
         }
         hover:bg-primary-hover

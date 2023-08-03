@@ -20,7 +20,7 @@ export default function CategoriesBrowseContainer(
                 {productCategories.map((categoryData) => {
                     return (
                         <Link href={`${productsRedirectURL}${categoryData.url_formatted_name}`} key={categoryData.id}> 
-                            <div className="max-w-xs w-9/12 h-52 mx-auto phone:w-44 phone:h-44 text-white bg-blue-500 grid place-content-center rounded-xl" style={
+                            <div className="max-w-xs w-9/12 h-52 mx-auto phone:w-44 phone:h-44 text-white bg-brand-vivid grid place-content-center rounded-xl" style={
                                 {
                                     backgroundImage: `url(${categoryData.image_thumbnail_url})`,
                                     backgroundSize: "cover",

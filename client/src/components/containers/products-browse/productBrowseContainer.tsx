@@ -105,7 +105,7 @@ export default function ProductBrowseContainer(
         
 
         <div id="products-container-wrapper" className="flex flex-col my-5 w-auto mx-4">
-            <div id="products-container-upper-view-opts " className="bg-primary-light dark:bg-primary-dark dark:text-black text-white p-4 rounded-t-xl border-2 border-black dark:border-white flex flex-col flex-wrap  gap-3 ">
+            <div id="products-container-upper-view-opts " className="bg-brand-vivid dark:bg-primary-dark dark:text-black text-white p-4 rounded-t-xl border-2 border-black dark:border-white flex flex-col flex-wrap  gap-3 ">
                 <div id="sorting" className="flex flex-row gap-3 justify-center">
                     <Link href="" onClick={(e) => handleSorting(e, "price")} className="cursor-pointer">
                         <ArrowIconComponent sortByInput="price" />
@@ -151,7 +151,7 @@ export default function ProductBrowseContainer(
                                         formatProductTitleInGridView(productData.name)
                                     }
                                 </p>
-                                <p className="text-md text-center font-bold">
+                                <p className="text-md text-center font-bold text-brand-vivid dark:text-brand-electric">
                                     ${productData.price}
                                 </p>
                             </Link>
@@ -173,7 +173,7 @@ export default function ProductBrowseContainer(
                                         formatProductTitleInListView(productData.name)
                                     }
                                 </p>
-                                <p className="text-md text-center col-span-1 p-2 font-bold text-green-700">
+                                <p className="text-md text-center col-span-1 p-2 font-bold text-brand-vivid dark:text-brand-electric">
                                     ${productData.price}
                                 </p>
                             </Link>
