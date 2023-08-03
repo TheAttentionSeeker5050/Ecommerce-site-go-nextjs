@@ -46,6 +46,14 @@ func GitHubAuthController(ctx *gin.Context, db *gorm.DB) {
 		return
 	}
 
+	// if token response doesnt have any values
+	if tokenRes.AccessToken == "" {
+		ctx.JSON(http.StatusInternalServerError, gin.H{
+			"message": "Could not get access token from the Github OAuth API!",
+		})
+		return
+	}
+
 	// get the user information using the access token
 	userRes, err := utils.GetGithubOAuthUser(tokenRes.AccessToken)
 
@@ -58,9 +66,20 @@ func GitHubAuthController(ctx *gin.Context, db *gorm.DB) {
 		return
 	}
 
+	// if user response doesnt have any values
+	if userRes.Name == "" || userRes.Photo == "" {
+		ctx.JSON(http.StatusInternalServerError, gin.H{
+			"message": "Could not get user information from the Github OAuth API!",
+		})
+		return
+	}
+
 	// save time as an int
 	currentTime := time.Now().Unix()
 
+	// name a var email in case the user email is not public
+
+	// create a new user struct
 	resBody := &models.User{
 		FirstName: userRes.Name,
 		LastName:  "",
@@ -170,7 +189,7 @@ func GoogleAuthController(ctx *gin.Context, db *gorm.DB) {
 
 	// if token response doesnt have any values
 	if tokenRes.AccessToken == "" || tokenRes.IDToken == "" {
-		ctx.JSON(http.StatusBadGateway, gin.H{
+		ctx.JSON(http.StatusInternalServerError, gin.H{
 			"message": "Could not get access token from the Google OAuth API!",
 		})
 		return
@@ -189,7 +208,7 @@ func GoogleAuthController(ctx *gin.Context, db *gorm.DB) {
 
 	// if user response doesnt have any values
 	if userRes.Email == "" || userRes.FirstName == "" || userRes.LastName == "" || userRes.Photo == "" {
-		ctx.JSON(http.StatusBadGateway, gin.H{
+		ctx.JSON(http.StatusInternalServerError, gin.H{
 			"message": "Could not get user information from the Google OAuth API!",
 		})
 		return
