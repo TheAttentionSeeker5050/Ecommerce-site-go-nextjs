@@ -92,11 +92,10 @@ func TestCreateAndRetrieveUser(t *testing.T) {
 		return
 	}
 
-	// now edit the user data
-	user.FirstName = "Test2"
+	// now edit the user data ----------------------------------------------
 
 	// save the user
-	updDataUser, err := userRepo.UpdateUser(user)
+	updDataUser, err := userRepo.UpdateUser(user, int(user.ID))
 	// check for errors
 	if err != nil {
 		t.Errorf("this is the error updating the user: %v\n", err)
