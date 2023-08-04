@@ -1,7 +1,6 @@
 package routers
 
 import (
-	"net/http"
 	"workspace/controllers"
 
 	"github.com/gin-gonic/gin"
@@ -28,11 +27,10 @@ func SessionRouter(
 		controllers.GoogleAuthController(c, db)
 	})
 
-	userRouter.POST("/logout", func(c *gin.Context) {
-		c.JSON(http.StatusOK, gin.H{
-			"message": "Hello, logout!",
-		})
-	})
+	// // return a refresh token
+	// userRouter.POST("/token-refresh", func(c *gin.Context) {
+	// 	controllers.RefreshTokenController(c, db)
+	// })
 
 	return userRouter
 }

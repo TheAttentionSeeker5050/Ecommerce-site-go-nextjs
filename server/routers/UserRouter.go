@@ -27,5 +27,17 @@ func UserRouter(
 		controllers.LogoutController(c, db)
 	})
 
+	userRouter.POST("/account/change-email", func(c *gin.Context) {
+		controllers.ChangeEmailController(c, db)
+	})
+
+	userRouter.POST("/account/change-password", func(c *gin.Context) {
+		controllers.ChangePasswordController(c, db)
+	})
+
+	userRouter.GET("/account", func(c *gin.Context) {
+		controllers.GetAccountController(c, db)
+	})
+
 	return userRouter
 }

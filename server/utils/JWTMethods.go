@@ -7,7 +7,7 @@ import (
 	"time"
 
 	"github.com/gin-gonic/gin"
-	"github.com/golang-jwt/jwt/v4"
+	"github.com/golang-jwt/jwt/v5"
 )
 
 func CreateJWT(
@@ -49,22 +49,22 @@ func ValidateJWT(
 	// publicKey string,
 ) (interface{}, error) {
 	// read file using the file utils
-	key, err := ReadContentsOfFile("/jwtRS256.key.pub")
+	key, err := ReadContentsOfFile("/jwtRS256Pub.key")
 	if err != nil {
-		return "", err
+		return "", fmt.Errorf("could not read contents of file: %w", err)
 	}
 
 	// parse the public key
 	parsedPublicKey, err := jwt.ParseRSAPublicKeyFromPEM([]byte(key))
 	if err != nil {
-		return nil, err
+		return "", fmt.Errorf("could not parse key: %w", err)
 	}
 
 	// parse the token
 	parsedToken, err := jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {
 		// if the token is not valid add error to err variable
 		if _, ok := token.Method.(*jwt.SigningMethodRSA); !ok {
-			return nil, fmt.Errorf("Invalid signing method")
+			return nil, fmt.Errorf("Unexpected signing method: %v", token.Header["alg"])
 		}
 		// if it is valid return the parsed token and assign it to var
 		return parsedPublicKey, nil
@@ -79,9 +79,6 @@ func ValidateJWT(
 	if !ok || !parsedToken.Valid {
 		return nil, fmt.Errorf("Invalid token")
 	}
-
-	// print all claims
-	fmt.Println("token claims:", claims)
 
 	// return the claims
 	return claims["sub"], nil

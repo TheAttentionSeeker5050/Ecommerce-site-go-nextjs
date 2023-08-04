@@ -5,6 +5,7 @@ package controllers
 import (
 	"fmt"
 	"net/http"
+	"os"
 	"workspace/models"
 	"workspace/repositories"
 	"workspace/utils"
@@ -123,6 +124,11 @@ func LoginController(
 		accessToken,
 	)
 
+	// delete the refresh token from the cookie
+	c.SetCookie("refresh_token", refreshToken, 6*60*60, "/", os.Getenv("CLIENT_ORIGIN_URL"), false, true)
+	c.SetCookie("access_token", accessToken, 6*60*60, "/", os.Getenv("CLIENT_ORIGIN_URL"), false, true)
+	c.SetCookie("logged_in", "true", 6*60*60, "/", os.Getenv("CLIENT_ORIGIN_URL"), false, true)
+
 	c.JSON(http.StatusOK, gin.H{
 		"message":      "Successfully logged in",
 		"accessToken":  accessToken,
@@ -130,4 +136,34 @@ func LoginController(
 		"provider":     "local",
 	})
 	return
+}
+
+func ChangeEmailController(
+	c *gin.Context,
+	db *gorm.DB,
+) {
+	// a dummy response for now
+	c.JSON(200, gin.H{
+		"message": "Successfully changed email",
+	})
+}
+
+func ChangePasswordController(
+	c *gin.Context,
+	db *gorm.DB,
+) {
+	// a dummy response for now
+	c.JSON(200, gin.H{
+		"message": "Successfully changed password",
+	})
+}
+
+func GetAccountController(
+	c *gin.Context,
+	db *gorm.DB,
+) {
+	// a dummy response for now
+	c.JSON(200, gin.H{
+		"message": "Successfully got account",
+	})
 }
