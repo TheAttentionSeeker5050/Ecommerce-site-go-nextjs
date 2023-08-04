@@ -2,6 +2,7 @@ package routers
 
 import (
 	"workspace/controllers"
+	"workspace/middlewares"
 
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
@@ -29,7 +30,7 @@ func UserRouter(
 
 	userRouter.POST("/account/change-email", func(c *gin.Context) {
 		controllers.ChangeEmailController(c, db)
-	})
+	}).Use(middlewares.TokenAuthMiddleware())
 
 	userRouter.POST("/account/change-password", func(c *gin.Context) {
 		controllers.ChangePasswordController(c, db)

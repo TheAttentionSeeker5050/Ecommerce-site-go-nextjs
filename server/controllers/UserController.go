@@ -142,6 +142,25 @@ func ChangeEmailController(
 	c *gin.Context,
 	db *gorm.DB,
 ) {
+
+	// test to see what is inside the token claims
+
+	// first get the refresh_token from the cookies
+	refreshToken, err := c.Cookie("refresh_token")
+	// check for errors
+	if err != nil || refreshToken == "" || len(refreshToken) == 0 {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": "Bad Request: No refresh token found",
+		})
+		c.Abort()
+		return
+	}
+
+	// validate the refresh token
+	tokenUserClaims, err := utils.ValidateJWT(refreshToken)
+
+	fmt.Println("tokenUserClaims:\n", tokenUserClaims)
+
 	// a dummy response for now
 	c.JSON(200, gin.H{
 		"message": "Successfully changed email",
@@ -152,6 +171,7 @@ func ChangePasswordController(
 	c *gin.Context,
 	db *gorm.DB,
 ) {
+
 	// a dummy response for now
 	c.JSON(200, gin.H{
 		"message": "Successfully changed password",
