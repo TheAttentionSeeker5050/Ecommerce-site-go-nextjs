@@ -102,7 +102,12 @@ func (userRepo *UserRepository) GetUserByEmail(email string) (*models.User, erro
 
 	// check for errors
 	if result.Error != nil {
-		return nil, result.Error
+		return nil, fmt.Errorf("Something went wrong when retrieving the user information")
+	}
+
+	// if no user found return nil user and not found error
+	if result.RowsAffected == 0 {
+		return nil, fmt.Errorf("User not found")
 	}
 
 	// return the user
@@ -118,12 +123,12 @@ func (userRepo *UserRepository) ComparePassword(hashedPassword string, password 
 // ---------------------------other methods--------------------------------
 
 // update user data, but only information that is stated in the request
-func (userRepo *UserRepository) UpdateUser(newUserData *models.User) (*models.User, error) {
+func (userRepo *UserRepository) UpdateUser(newUserData *models.User, userID int) (*models.User, error) {
 	// // find user by id and save new data
-	// result := userRepo.DB.Model(&models.User{}).Where("id = ?", userID).Updates(newUserData)
+	result := userRepo.DB.Model(&models.User{}).Where("id = ?", userID).Updates(newUserData)
 
 	// update the user
-	result := userRepo.DB.Model(&newUserData).Where("email = ID", newUserData.ID).Updates(newUserData)
+	// result := userRepo.DB.Model(&newUserData).Where("email = ID", newUserData.ID).Updates(newUserData)
 
 	// check for errors
 	if result.Error != nil {
@@ -162,6 +167,26 @@ func (userRepo *UserRepository) ChangePassword(user *models.User, password strin
 
 	// update the user
 	result := userRepo.DB.Model(&user).Where("id = ?", user.ID).Update("password", user.Password)
+
+	// check for errors
+	if result.Error != nil {
+		return nil, result.Error
+	}
+
+	// return the user
+	return user, nil
+}
+
+// change user email
+func (userRepo *UserRepository) ChangeEmail(user *models.User, newEmail string) (*models.User, error) {
+
+	// in case new email is empty
+	if newEmail == "" {
+		return nil, fmt.Errorf("new email cannot be empty")
+	}
+
+	// update the user
+	result := userRepo.DB.Model(&user).Update("email", newEmail)
 
 	// check for errors
 	if result.Error != nil {

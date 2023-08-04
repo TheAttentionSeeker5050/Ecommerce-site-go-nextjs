@@ -28,9 +28,9 @@ func UserRouter(
 		controllers.LogoutController(c, db)
 	})
 
-	userRouter.POST("/account/change-email", func(c *gin.Context) {
+	userRouter.Use(middlewares.TokenAuthMiddleware()).POST("/account/change-email", func(c *gin.Context) {
 		controllers.ChangeEmailController(c, db)
-	}).Use(middlewares.TokenAuthMiddleware())
+	})
 
 	userRouter.POST("/account/change-password", func(c *gin.Context) {
 		controllers.ChangePasswordController(c, db)

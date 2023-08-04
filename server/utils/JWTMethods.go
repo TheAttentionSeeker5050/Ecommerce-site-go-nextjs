@@ -17,12 +17,6 @@ type TokenClaims struct {
 	FirstName string `json:"first_name"`
 	LastName  string `json:"last_name"`
 	Provider  string `json:"provider"`
-
-	// CreatedAt time.Time `json:"created_at"`
-	// DeletedAt time.Time `json:"deleted_at"`
-	// UpdatedAt time.Time `json:"updated_at"`
-	// created_at float64 `json:"created_at"`
-
 }
 
 // map[CreatedAt:0001-01-01T00:00:00Z DeletedAt:<nil> ID:0 UpdatedAt:0001-01-01T00:00:00Z created_at:1.691109193e+09 email:user3@name.com first_name:user3 id:14 last_name:name middle_name:m password:$2a$10$bkmkH9n306yv15KLclYWCu24264IdsU1XMsnjouDd1IoqcwR5oHnK phone:3333333333 photo: preferred_address:0 provider: role:customer updated_at:1.691109193e+09]

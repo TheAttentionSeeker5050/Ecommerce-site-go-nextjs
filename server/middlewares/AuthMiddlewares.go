@@ -33,8 +33,9 @@ func TokenAuthMiddleware() gin.HandlerFunc {
 			var tokenClaims utils.TokenClaims
 			tokenClaims = tokenUserClaims.(utils.TokenClaims)
 
-			// set the token email in claims to the context
+			// set the token email and user id in claims to the context
 			c.Set("email", tokenClaims.Email)
+			c.Set("id", tokenClaims.ID)
 			c.Next()
 			return
 		} else {

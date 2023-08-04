@@ -145,24 +145,61 @@ func ChangeEmailController(
 
 	// test to see what is inside the token claims
 
-	// first get the refresh_token from the cookies
-	refreshToken, err := c.Cookie("refresh_token")
-	// check for errors
-	if err != nil || refreshToken == "" || len(refreshToken) == 0 {
+	// get the user email from the claim
+	email := c.GetString("email")
+	// if the email is empty return an error
+	if email == "" {
 		c.JSON(http.StatusBadRequest, gin.H{
-			"error": "Bad Request: No refresh token found",
+			"error": "Bad Request: No email found in token",
 		})
 		c.Abort()
 		return
 	}
 
-	// validate the refresh token
-	tokenUserClaims, err := utils.ValidateJWT(refreshToken)
+	// get the user by email from the database
+	userRepo := repositories.NewUserRepository(db)
+	user, err := userRepo.GetUserByEmail(email)
 
-	fmt.Println("tokenUserClaims:\n", tokenUserClaims)
+	// check for errors
+	if err != nil {
+		c.JSON(http.StatusNotFound, gin.H{
+			"error": err.Error(), // I have coded these errors messages so they are safe to return to the client
+		})
+		c.Abort()
+		return
+	}
 
-	// a dummy response for now
-	c.JSON(200, gin.H{
+	// get the new email from the request body
+	var newEmail struct {
+		Email string `json:"email"`
+	}
+
+	// parse the request body
+	err = c.ShouldBindJSON(&newEmail)
+
+	// if new email is empty return an error
+	if newEmail.Email == "" {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": "Bad Request: No email found in request body",
+		})
+		c.Abort()
+		return
+	}
+
+	// check for errors
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": "Invalid request body",
+		})
+		c.Abort()
+		return
+	}
+
+	// update the user email using our repository
+	user, err = userRepo.ChangeEmail(user, newEmail.Email)
+
+	// return success REST response
+	c.JSON(http.StatusOK, gin.H{
 		"message": "Successfully changed email",
 	})
 }
