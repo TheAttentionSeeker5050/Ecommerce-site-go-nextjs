@@ -83,20 +83,22 @@ func GitHubAuthController(c *gin.Context, db *gorm.DB) {
 	var emailNotProvided bool = userRes.Email == ""
 
 	var email string = userRes.Email
-
+	var needs_email_update bool = false
 	if emailNotProvided == true {
 		email = "no_email__" + userRes.GitHubUsername + "@githubtemp.com"
+		needs_email_update = true
 	}
 
 	// create a new user struct
 	resBody := &models.User{
-		FirstName: userRes.Name,
-		LastName:  "",
-		Email:     email,
-		Photo:     userRes.Photo,
-		Provider:  "github",
-		CreatedAt: currentTime,
-		UpdatedAt: currentTime,
+		FirstName:        userRes.Name,
+		LastName:         "",
+		Email:            email,
+		NeedsEmailUpdate: needs_email_update,
+		Photo:            userRes.Photo,
+		Provider:         "github",
+		CreatedAt:        currentTime,
+		UpdatedAt:        currentTime,
 	}
 
 	userRepo := repositories.NewUserRepository(db)

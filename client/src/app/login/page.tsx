@@ -95,8 +95,8 @@ export default function LoginPage() {
     // print refresh token in cookies
     
     return (
-        <div id="p-content" className="">
-            <h1 className="text-center">Register</h1>
+        <div id="p-content" className="px-3">
+            <h1 className="text-center text-center  text-2xl font-bold my-5 ">Login</h1>
 
             {errorMessages.length > 0 ? (
 
