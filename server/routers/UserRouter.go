@@ -33,7 +33,7 @@ func UserRouter(
 	accountGroup := userRouter.Group("/account")
 	accountGroup.Use(middlewares.TokenAuthMiddleware())
 
-	accountGroup.PUT("/change-email", func(c *gin.Context) {
+	accountGroup.POST("/change-email", func(c *gin.Context) {
 		controllers.ChangeEmailController(c, db)
 	})
 

@@ -58,17 +58,17 @@ func CreateJWT(
 func ValidateJWT(
 	tokenString string,
 	// publicKey string,
-) (interface{}, error) {
+) (TokenClaims, error) {
 	// read file using the file utils
 	key, err := ReadContentsOfFile("/jwtRS256Pub.key")
 	if err != nil {
-		return "", fmt.Errorf("could not read contents of file: %w", err)
+		return TokenClaims{}, fmt.Errorf("could not read contents of file: %w", err)
 	}
 
 	// parse the public key
 	parsedPublicKey, err := jwt.ParseRSAPublicKeyFromPEM([]byte(key))
 	if err != nil {
-		return "", fmt.Errorf("could not parse key: %w", err)
+		return TokenClaims{}, fmt.Errorf("could not parse key: %w", err)
 	}
 
 	// parse the token
@@ -82,23 +82,41 @@ func ValidateJWT(
 	})
 
 	if err != nil {
-		return nil, err
+		return TokenClaims{}, err
 	}
 
 	// check if the token is valid
 	claims, ok := parsedToken.Claims.(jwt.MapClaims)
 	if !ok || !parsedToken.Valid {
-		return nil, fmt.Errorf("Invalid token")
+		return TokenClaims{}, fmt.Errorf("Invalid token")
 	}
+
+	// print the claims to see the contents of it
+	fmt.Println("the claims from middleware:", claims)
+
+	// a try catch block to catch any errors
 
 	// bind the claims to the TokenClaims struct
 	var tokenClaims TokenClaims
-	subClaims := claims["sub"].(map[string]interface{})
-	tokenClaims.ID = uint(subClaims["id"].(float64))
-	tokenClaims.Email = subClaims["email"].(string)
-	tokenClaims.FirstName = subClaims["first_name"].(string)
-	tokenClaims.LastName = subClaims["last_name"].(string)
-	tokenClaims.Provider = subClaims["provider"].(string)
+	if subClaims, ok := claims["sub"].(map[string]interface{}); ok {
+		if id, ok := subClaims["id"].(uint); ok {
+			tokenClaims.ID = id
+		}
+		if email, ok := subClaims["email"].(string); ok {
+			tokenClaims.Email = email
+		}
+		if firstName, ok := subClaims["first_name"].(string); ok {
+			tokenClaims.FirstName = firstName
+		}
+		if lastName, ok := subClaims["last_name"].(string); ok {
+			tokenClaims.LastName = lastName
+		}
+		if provider, ok := subClaims["provider"].(string); ok {
+			tokenClaims.Provider = provider
+		}
+	} else {
+		return TokenClaims{}, fmt.Errorf("Invalid 'sub' claim format, the claims as a string: %v", claims)
+	}
 
 	// return the claims
 	return tokenClaims, nil

@@ -16,7 +16,7 @@ export const handleChangeEmail = async (
 
     // make the request using the token in cookies
     const response = await fetch(url, {
-        method: "PUT",
+        method: "POST",
         mode: "cors",
         credentials: "include",
         headers: {

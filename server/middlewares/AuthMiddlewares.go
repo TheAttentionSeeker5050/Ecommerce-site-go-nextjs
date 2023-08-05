@@ -22,6 +22,8 @@ func TokenAuthMiddleware() gin.HandlerFunc {
 			return
 		}
 
+		fmt.Println("refresh token from the middleware", refreshToken)
+
 		// validate the refresh token
 		tokenUserClaims, err := utils.ValidateJWT(refreshToken)
 		// check for errors if no errors then the token is valid return success middleware
@@ -31,7 +33,7 @@ func TokenAuthMiddleware() gin.HandlerFunc {
 
 			// bind the result to tokenClaims struct
 			var tokenClaims utils.TokenClaims
-			tokenClaims = tokenUserClaims.(utils.TokenClaims)
+			tokenClaims = tokenUserClaims
 
 			// set the token email and user id in claims to the context
 			c.Set("email", tokenClaims.Email)
@@ -40,7 +42,8 @@ func TokenAuthMiddleware() gin.HandlerFunc {
 			return
 		} else {
 			c.JSON(http.StatusUnauthorized, gin.H{
-				"error": "Unauthorized: Invalid refresh token",
+				// "error": "Unauthorized: Invalid refresh token",
+				"error": err.Error(),
 			})
 			c.Abort()
 			return
