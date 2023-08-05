@@ -28,15 +28,20 @@ func UserRouter(
 		controllers.LogoutController(c, db)
 	})
 
-	userRouter.Use(middlewares.TokenAuthMiddleware()).POST("/account/change-email", func(c *gin.Context) {
+	// define the account router, this router will be protected by the auth middleware
+	// and will facilitate retrieving and updating user account information
+	accountGroup := userRouter.Group("/account")
+	accountGroup.Use(middlewares.TokenAuthMiddleware())
+
+	accountGroup.PUT("/change-email", func(c *gin.Context) {
 		controllers.ChangeEmailController(c, db)
 	})
 
-	userRouter.POST("/account/change-password", func(c *gin.Context) {
+	accountGroup.POST("/change-password", func(c *gin.Context) {
 		controllers.ChangePasswordController(c, db)
 	})
 
-	userRouter.GET("/account", func(c *gin.Context) {
+	accountGroup.GET("", func(c *gin.Context) {
 		controllers.GetAccountController(c, db)
 	})
 

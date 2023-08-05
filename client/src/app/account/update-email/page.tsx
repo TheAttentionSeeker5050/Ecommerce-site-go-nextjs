@@ -16,7 +16,7 @@ export default function AccountUpdateEmailPage() {
     const [successMessage, setSuccessMessage] = useState<string>("");
 
     // handler for submit button
-    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         // clear the error messages
         setErrorMessages(initialErrorMessages);
@@ -28,10 +28,14 @@ export default function AccountUpdateEmailPage() {
         if (!emailIsValid) {
             setErrorMessages((errorMessages) => [...errorMessages, emailErrorMessage]);
             return;
+        } else {
+            console.log("email is valid according to the validator");
         }
 
+
         // if the email is valid, send the email request to the backend using a handler function
-        handleChangeEmail("/users/account/change-email", email)
+        await handleChangeEmail("/user/account/change-password", email)
+        // await handleChangeEmail("/users/account/change-email", email)
             .then((data) => {
                 if (!data.error) {
                     // if the email change was successful, display a success message
@@ -43,7 +47,7 @@ export default function AccountUpdateEmailPage() {
             })
             .catch((error) => {
                 // if the email change was not successful, display the error message
-                setErrorMessages((errorMessages) => [...errorMessages, error.message]);
+                setErrorMessages((errorMessages) => [...errorMessages, `Some other catch: ${error.message}`]);
             });
 
     };

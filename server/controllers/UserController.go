@@ -145,6 +145,8 @@ func ChangeEmailController(
 
 	// test to see what is inside the token claims
 
+	fmt.Println("start of change email controller")
+
 	// get the user email from the claim
 	email := c.GetString("email")
 	// if the email is empty return an error
@@ -156,14 +158,20 @@ func ChangeEmailController(
 		return
 	}
 
+	fmt.Println("email from the middleware param", email)
+
 	// get the user by email from the database
 	userRepo := repositories.NewUserRepository(db)
 	user, err := userRepo.GetUserByEmail(email)
 
+	fmt.Println("user from the middleware param db call", user)
+	fmt.Println("error from the middleware param db call", err)
+
 	// check for errors
 	if err != nil {
 		c.JSON(http.StatusNotFound, gin.H{
-			"error": err.Error(), // I have coded these errors messages so they are safe to return to the client
+			// "error": err.Error(), // I have coded these errors messages so they are safe to return to the client
+			"error": "Somethign went wrong while getting the user from the database",
 		})
 		c.Abort()
 		return
