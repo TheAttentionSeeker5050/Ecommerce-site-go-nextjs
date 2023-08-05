@@ -12,7 +12,7 @@ import (
 
 // make structure for the token claims
 type TokenClaims struct {
-	ID        uint   `json:"id"`
+	ID        string `json:"id"`
 	Email     string `json:"email"`
 	FirstName string `json:"first_name"`
 	LastName  string `json:"last_name"`
@@ -23,7 +23,7 @@ type TokenClaims struct {
 
 func CreateJWT(
 	ttl time.Duration,
-	payload interface{},
+	payload TokenClaims,
 ) (string, error) {
 
 	// read file using the file utils
@@ -120,7 +120,7 @@ func ValidateJWT(
 	// bind the claims to the TokenClaims struct
 	var tokenClaims TokenClaims
 	if subClaims, ok := claims["sub"].(map[string]interface{}); ok {
-		if id, ok := subClaims["id"].(uint); ok {
+		if id, ok := subClaims["id"].(string); ok {
 			tokenClaims.ID = id
 		}
 		if email, ok := subClaims["email"].(string); ok {
@@ -144,7 +144,7 @@ func ValidateJWT(
 }
 
 func GenerateAccessAndRefreshToken(
-	userPayload interface{},
+	userPayload TokenClaims,
 	c *gin.Context,
 ) (
 	access_token string,
@@ -161,7 +161,7 @@ func GenerateAccessAndRefreshToken(
 	fmt.Println("user payload:", userPayload)
 
 	// if user payload is empty return error
-	if userPayload == nil {
+	if userPayload == (TokenClaims{}) {
 		return "", "", fmt.Errorf("GenerateAccessAndRefreshToken error: User payload is empty")
 	}
 

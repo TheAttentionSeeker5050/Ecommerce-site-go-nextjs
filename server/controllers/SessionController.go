@@ -89,7 +89,7 @@ func GitHubAuthController(c *gin.Context, db *gorm.DB) {
 		needs_email_update = true
 	}
 
-	// create a new user struct
+	// create a new user struct for the github user
 	resBody := &models.User{
 		FirstName:        userRes.Name,
 		LastName:         "",
@@ -116,6 +116,8 @@ func GitHubAuthController(c *gin.Context, db *gorm.DB) {
 		user, _ = userRepo.CreateUser(resBody)
 	}
 
+	// bind the found user to the user struct
+
 	// parse os string token expiration time hours to int
 	tokenExpirationHours, err := strconv.Atoi(os.Getenv("TOKEN_EXPIRES_IN_HOURS"))
 	if err != nil {
@@ -127,8 +129,18 @@ func GitHubAuthController(c *gin.Context, db *gorm.DB) {
 		return
 	}
 
+	// build the token claims payload struct
+	tokenPayload := utils.TokenClaims{
+		// convert user id into string
+		ID:        strconv.Itoa(int(user.ID)),
+		Email:     user.Email,
+		FirstName: user.FirstName,
+		LastName:  user.LastName,
+		Provider:  user.Provider,
+	}
+
 	// generate access and refresh token usign our util method
-	access_token, refresh_token, err := utils.GenerateAccessAndRefreshToken(resBody.ID, c)
+	access_token, refresh_token, err := utils.GenerateAccessAndRefreshToken(tokenPayload, c)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"message": "Failed to generate access token!",
@@ -280,8 +292,18 @@ func GoogleAuthController(c *gin.Context, db *gorm.DB) {
 		return
 	}
 
+	// build the token claims payload struct
+	tokenPayload := utils.TokenClaims{
+		// convert user id into string
+		ID:        strconv.Itoa(int(user.ID)),
+		Email:     user.Email,
+		FirstName: user.FirstName,
+		LastName:  user.LastName,
+		Provider:  user.Provider,
+	}
+
 	// generate access and refresh token usign our util method
-	access_token, refresh_token, err := utils.GenerateAccessAndRefreshToken(resBody.ID, c)
+	access_token, refresh_token, err := utils.GenerateAccessAndRefreshToken(tokenPayload, c)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"message": "Failed to generate access token!",

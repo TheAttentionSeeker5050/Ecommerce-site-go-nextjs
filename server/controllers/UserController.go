@@ -107,8 +107,17 @@ func LoginController(
 		return
 	}
 
+	// build the token claims payload
+	tokenClaims := utils.TokenClaims{
+		ID:        fmt.Sprint(user.ID),
+		Email:     user.Email,
+		FirstName: user.FirstName,
+		LastName:  user.LastName,
+		Provider:  user.Provider,
+	}
+
 	// now create the jwt token and save them into variables
-	accessToken, refreshToken, err := utils.GenerateAccessAndRefreshToken(user, c)
+	accessToken, refreshToken, err := utils.GenerateAccessAndRefreshToken(tokenClaims, c)
 	if err != nil {
 		c.JSON(500, gin.H{
 			"error":     "Failed to create access token",
