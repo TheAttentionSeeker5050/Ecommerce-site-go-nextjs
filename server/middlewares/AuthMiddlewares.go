@@ -12,9 +12,9 @@ func TokenAuthMiddleware() gin.HandlerFunc {
 	// return anonymous function with auth middleware result as a return value
 	return func(c *gin.Context) {
 		// first get the refresh_token from the cookies
-		refreshToken, err := c.Cookie("refresh_token")
+		refreshToken, err := c.Cookie("access_token")
 		// check for errors
-		if err != nil || refreshToken == "" || len(refreshToken) == 0 {
+		if err != nil {
 			c.JSON(http.StatusBadRequest, gin.H{
 				"error": "Bad Request: No refresh token found",
 			})
@@ -22,7 +22,14 @@ func TokenAuthMiddleware() gin.HandlerFunc {
 			return
 		}
 
-		fmt.Println("refresh token from the middleware", refreshToken)
+		// verify if the refresh token from cookies is empty
+		if refreshToken == "" {
+			c.JSON(http.StatusBadRequest, gin.H{
+				"error": "Middleware error: Refresh token is empty",
+			})
+			c.Abort()
+			return
+		}
 
 		// validate the refresh token
 		tokenUserClaims, err := utils.ValidateJWT(refreshToken)

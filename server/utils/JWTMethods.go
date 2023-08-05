@@ -59,16 +59,32 @@ func ValidateJWT(
 	tokenString string,
 	// publicKey string,
 ) (TokenClaims, error) {
+
+	// verify if the token is empty
+	if tokenString == "" {
+		return TokenClaims{}, fmt.Errorf("ValidateJWT error: Token param is empty")
+	}
+
 	// read file using the file utils
 	key, err := ReadContentsOfFile("/jwtRS256Pub.key")
 	if err != nil {
 		return TokenClaims{}, fmt.Errorf("could not read contents of file: %w", err)
 	}
 
+	// verify if the key is empty
+	if key == "" {
+		return TokenClaims{}, fmt.Errorf("ValidateJWT error: Key is empty")
+	}
+
 	// parse the public key
 	parsedPublicKey, err := jwt.ParseRSAPublicKeyFromPEM([]byte(key))
 	if err != nil {
 		return TokenClaims{}, fmt.Errorf("could not parse key: %w", err)
+	}
+
+	// validate if the parsePublicKey is empty
+	if parsedPublicKey == nil {
+		return TokenClaims{}, fmt.Errorf("ValidateJWT error: Parsed public key is empty")
 	}
 
 	// parse the token
@@ -81,6 +97,11 @@ func ValidateJWT(
 		return parsedPublicKey, nil
 	})
 
+	// if parsed token is empty return error
+	if parsedToken == nil {
+		return TokenClaims{}, fmt.Errorf("ValidateJWT error: Parsed token is empty")
+	}
+
 	if err != nil {
 		return TokenClaims{}, err
 	}
@@ -88,7 +109,7 @@ func ValidateJWT(
 	// check if the token is valid
 	claims, ok := parsedToken.Claims.(jwt.MapClaims)
 	if !ok || !parsedToken.Valid {
-		return TokenClaims{}, fmt.Errorf("Invalid token")
+		return TokenClaims{}, fmt.Errorf("ValidateJWT error: Could not get token claims from parsed token")
 	}
 
 	// print the claims to see the contents of it
@@ -115,7 +136,7 @@ func ValidateJWT(
 			tokenClaims.Provider = provider
 		}
 	} else {
-		return TokenClaims{}, fmt.Errorf("Invalid 'sub' claim format, the claims as a string: %v", claims)
+		return TokenClaims{}, fmt.Errorf("Invalid 'sub' claim format, the claims as a string: %v", claims["sub"])
 	}
 
 	// return the claims
@@ -136,7 +157,17 @@ func GenerateAccessAndRefreshToken(
 		return "", "", err
 	}
 
+	fmt.Println("token expiration hours:", tokenExpirationHours)
+	fmt.Println("user payload:", userPayload)
+
+	// if user payload is empty return error
+	if userPayload == nil {
+		return "", "", fmt.Errorf("GenerateAccessAndRefreshToken error: User payload is empty")
+	}
+
 	tokenExpiration := time.Duration(tokenExpirationHours) * time.Hour
+
+	fmt.Println("token expiration:", tokenExpiration)
 
 	// generate access token
 	access_token, err2 := CreateJWT(tokenExpiration, userPayload)
