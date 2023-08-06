@@ -34,7 +34,7 @@ export default function AccountUpdateEmailPage() {
 
 
         // if the email is valid, send the email request to the backend using a handler function
-        await handleChangeEmail("/user/account/change-password", email)
+        await handleChangeEmail("/user/account/change-email", email)
         // await handleChangeEmail("/users/account/change-email", email)
             .then((data) => {
                 if (!data.error) {
@@ -44,10 +44,13 @@ export default function AccountUpdateEmailPage() {
                     // if the email change was not successful, display the error message
                     setErrorMessages((errorMessages) => [...errorMessages, data.error]);
                 }
+                console.log(data);
             })
             .catch((error) => {
                 // if the email change was not successful, display the error message
                 setErrorMessages((errorMessages) => [...errorMessages, `Some other catch: ${error.message}`]);
+                
+                console.log(error);
             });
 
     };

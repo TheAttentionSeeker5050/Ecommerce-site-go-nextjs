@@ -113,7 +113,7 @@ func ValidateJWT(
 	}
 
 	// print the claims to see the contents of it
-	fmt.Println("the claims from middleware:", claims)
+	// fmt.Println("the claims from middleware:", claims)
 
 	// a try catch block to catch any errors
 
@@ -157,8 +157,8 @@ func GenerateAccessAndRefreshToken(
 		return "", "", err
 	}
 
-	fmt.Println("token expiration hours:", tokenExpirationHours)
-	fmt.Println("user payload:", userPayload)
+	// fmt.Println("token expiration hours:", tokenExpirationHours)
+	// fmt.Println("user payload:", userPayload)
 
 	// if user payload is empty return error
 	if userPayload == (TokenClaims{}) {
@@ -167,7 +167,7 @@ func GenerateAccessAndRefreshToken(
 
 	tokenExpiration := time.Duration(tokenExpirationHours) * time.Hour
 
-	fmt.Println("token expiration:", tokenExpiration)
+	// fmt.Println("token expiration:", tokenExpiration)
 
 	// generate access token
 	access_token, err2 := CreateJWT(tokenExpiration, userPayload)

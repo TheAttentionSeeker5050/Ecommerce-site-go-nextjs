@@ -16,7 +16,7 @@ func TokenAuthMiddleware() gin.HandlerFunc {
 		// check for errors
 		if err != nil {
 			c.JSON(http.StatusBadRequest, gin.H{
-				"error": "Bad Request: No refresh token found",
+				"error": "Bad Request: No access token found",
 			})
 			c.Abort()
 			return
@@ -25,7 +25,7 @@ func TokenAuthMiddleware() gin.HandlerFunc {
 		// verify if the refresh token from cookies is empty
 		if refreshToken == "" {
 			c.JSON(http.StatusBadRequest, gin.H{
-				"error": "Middleware error: Refresh token is empty",
+				"error": "Middleware error: Access token is empty",
 			})
 			c.Abort()
 			return
@@ -35,16 +35,10 @@ func TokenAuthMiddleware() gin.HandlerFunc {
 		tokenUserClaims, err := utils.ValidateJWT(refreshToken)
 		// check for errors if no errors then the token is valid return success middleware
 		if err == nil {
-			// print the token claims to see the contents of it
-			fmt.Println(tokenUserClaims)
-
-			// bind the result to tokenClaims struct
-			var tokenClaims utils.TokenClaims
-			tokenClaims = tokenUserClaims
-
+			fmt.Println("Token claims from middleware", tokenUserClaims)
 			// set the token email and user id in claims to the context
-			c.Set("email", tokenClaims.Email)
-			c.Set("id", tokenClaims.ID)
+			c.Set("email", tokenUserClaims.Email)
+			c.Set("id", tokenUserClaims.ID)
 			c.Next()
 			return
 		} else {

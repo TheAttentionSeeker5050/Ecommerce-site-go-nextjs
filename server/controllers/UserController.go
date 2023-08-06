@@ -154,7 +154,7 @@ func ChangeEmailController(
 
 	// test to see what is inside the token claims
 
-	fmt.Println("start of change email controller")
+	fmt.Print("start of change email controller")
 
 	// get the user email from the claim
 	email := c.GetString("email")
@@ -163,7 +163,7 @@ func ChangeEmailController(
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error": "Bad Request: No email found in token",
 		})
-		c.Abort()
+		// c.Abort()
 		return
 	}
 
@@ -182,7 +182,7 @@ func ChangeEmailController(
 			// "error": err.Error(), // I have coded these errors messages so they are safe to return to the client
 			"error": "Somethign went wrong while getting the user from the database",
 		})
-		c.Abort()
+		// c.Abort()
 		return
 	}
 
@@ -199,7 +199,7 @@ func ChangeEmailController(
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error": "Bad Request: No email found in request body",
 		})
-		c.Abort()
+		// c.Abort()
 		return
 	}
 
@@ -208,17 +208,40 @@ func ChangeEmailController(
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error": "Invalid request body",
 		})
-		c.Abort()
+		// c.Abort()
 		return
 	}
 
+	fmt.Println("old user", user)
+
 	// update the user email using our repository
-	user, err = userRepo.ChangeEmail(user, newEmail.Email)
+	changedUser, err := userRepo.ChangeEmail(user, newEmail.Email)
+
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": err.Error(),
+		})
+		// c.Abort()
+		return
+	}
+
+	fmt.Println("updated user", changedUser)
+
+	if changedUser == nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": "Failed to change email",
+		})
+		// c.Abort()
+		return
+	}
 
 	// return success REST response
 	c.JSON(http.StatusOK, gin.H{
-		"message": "Successfully changed email",
+		"message":          "Successfully changed email",
+		"newEmail":         newEmail.Email,
+		"changedUserEmail": changedUser.Email,
 	})
+	return
 }
 
 func ChangePasswordController(
