@@ -185,12 +185,20 @@ func (userRepo *UserRepository) ChangeEmail(user *models.User, newEmail string) 
 		return nil, fmt.Errorf("new email cannot be empty")
 	}
 
+	fmt.Println("User id uint", user.ID)
+	fmt.Println("User id uint64", user.ID)
+
 	// update the user
-	result := userRepo.DB.Model(&user).Update("email", newEmail)
+	result := userRepo.DB.Model(&user).Where("id = ?", user.ID).Update("email", newEmail)
 
 	// check for errors
 	if result.Error != nil {
 		return nil, result.Error
+	}
+
+	// if the result is 0, then no user was updated
+	if result.RowsAffected == 0 {
+		return nil, fmt.Errorf("No user could be found or updated")
 	}
 
 	// return the user
