@@ -17,6 +17,7 @@ type TokenClaims struct {
 	FirstName string `json:"first_name"`
 	LastName  string `json:"last_name"`
 	Provider  string `json:"provider"`
+	GitHubUsername string `json:"github_username"`
 }
 
 // map[CreatedAt:0001-01-01T00:00:00Z DeletedAt:<nil> ID:0 UpdatedAt:0001-01-01T00:00:00Z created_at:1.691109193e+09 email:user3@name.com first_name:user3 id:14 last_name:name middle_name:m password:$2a$10$bkmkH9n306yv15KLclYWCu24264IdsU1XMsnjouDd1IoqcwR5oHnK phone:3333333333 photo: preferred_address:0 provider: role:customer updated_at:1.691109193e+09]
@@ -49,7 +50,6 @@ func CreateJWT(
 	if err != nil {
 		return "", fmt.Errorf("create: sign token: %w", err)
 	}
-	// fmt.Println("token:", token)
 
 	return token, nil
 
@@ -112,11 +112,6 @@ func ValidateJWT(
 		return TokenClaims{}, fmt.Errorf("ValidateJWT error: Could not get token claims from parsed token")
 	}
 
-	// print the claims to see the contents of it
-	// fmt.Println("the claims from middleware:", claims)
-
-	// a try catch block to catch any errors
-
 	// bind the claims to the TokenClaims struct
 	var tokenClaims TokenClaims
 	if subClaims, ok := claims["sub"].(map[string]interface{}); ok {
@@ -157,17 +152,12 @@ func GenerateAccessAndRefreshToken(
 		return "", "", err
 	}
 
-	// fmt.Println("token expiration hours:", tokenExpirationHours)
-	// fmt.Println("user payload:", userPayload)
-
 	// if user payload is empty return error
 	if userPayload == (TokenClaims{}) {
 		return "", "", fmt.Errorf("GenerateAccessAndRefreshToken error: User payload is empty")
 	}
 
 	tokenExpiration := time.Duration(tokenExpirationHours) * time.Hour
-
-	// fmt.Println("token expiration:", tokenExpiration)
 
 	// generate access token
 	access_token, err2 := CreateJWT(tokenExpiration, userPayload)

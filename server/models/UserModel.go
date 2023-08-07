@@ -14,6 +14,7 @@ type User struct {
 	MiddleName       string `gorm:"size:255" json:"middle_name"`
 	Email            string `gorm:"size:100;not null;unique" json:"email"`
 	NeedsEmailUpdate bool   `gorm:"default:false" json:"needs_email_update"`
+	GitHubUsername   string `gorm:"size:100; unique" json:"github_username"`
 	Password         string `gorm:"size:100;not null;" json:"password"`
 	Phone            string `gorm:"size:100;not null;" json:"phone"`
 	Provider         string `gorm:"size:100;" json:"provider"`

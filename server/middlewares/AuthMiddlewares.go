@@ -1,7 +1,6 @@
 package middlewares
 
 import (
-	"fmt"
 	"net/http"
 	"workspace/utils"
 
@@ -35,7 +34,6 @@ func TokenAuthMiddleware() gin.HandlerFunc {
 		tokenUserClaims, err := utils.ValidateJWT(refreshToken)
 		// check for errors if no errors then the token is valid return success middleware
 		if err == nil {
-			fmt.Println("Token claims from middleware", tokenUserClaims)
 			// set the token email and user id in claims to the context
 			c.Set("email", tokenUserClaims.Email)
 			c.Set("id", tokenUserClaims.ID)

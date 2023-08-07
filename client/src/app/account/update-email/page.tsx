@@ -80,7 +80,17 @@ export default function AccountUpdateEmailPage() {
                     </ul>
                 </div>
                 )
-            : null}
+            : successMessage.length > 0 ? (
+                <div className=" max-w-xl mx-auto my-5 w-full text-white bg-brand-light rounded-lg" role="alert" 
+                // hidden
+                >
+                    <ul className="list-disc p-2 mx-4 my-1">
+                        <li>{successMessage}</li>
+                    </ul>
+                </div>
+            ) :
+            
+            null}
 
             <form method="POST" className=" flex flex-col max-w-xl w-full my-3 mx-auto gap-1.5" 
                 onSubmit={handleSubmit}>

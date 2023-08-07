@@ -9,6 +9,7 @@ import (
 	"workspace/models"
 	"workspace/repositories"
 	"workspace/utils"
+	// "strconv"
 
 	"github.com/gin-gonic/gin"
 
@@ -152,12 +153,10 @@ func ChangeEmailController(
 	db *gorm.DB,
 ) {
 
-	// test to see what is inside the token claims
-
-	fmt.Print("start of change email controller")
 
 	// get the user email from the claim
 	email := c.GetString("email")
+	userID := c.GetString("id")
 	// if the email is empty return an error
 	if email == "" {
 		c.JSON(http.StatusBadRequest, gin.H{
@@ -167,14 +166,9 @@ func ChangeEmailController(
 		return
 	}
 
-	fmt.Println("email from the middleware param", email)
-
 	// get the user by email from the database
 	userRepo := repositories.NewUserRepository(db)
-	user, err := userRepo.GetUserByEmail(email)
-
-	fmt.Println("user from the middleware param db call", user)
-	fmt.Println("error from the middleware param db call", err)
+	user, err := userRepo.GetUserById(userID)
 
 	// check for errors
 	if err != nil {
@@ -211,8 +205,6 @@ func ChangeEmailController(
 		// c.Abort()
 		return
 	}
-
-	fmt.Println("old user", user)
 
 	// update the user email using our repository
 	changedUser, err := userRepo.ChangeEmail(user, newEmail.Email)
@@ -275,8 +267,6 @@ func ChangeEmailController(
 	c.SetCookie("refresh_token", refreshToken, 6*60*60, "/", os.Getenv("CLIENT_ORIGIN_URL"), false, true)
 	c.SetCookie("access_token", accessToken, 6*60*60, "/", os.Getenv("CLIENT_ORIGIN_URL"), false, true)
 	c.SetCookie("logged_in", "true", 6*60*60, "/", os.Getenv("CLIENT_ORIGIN_URL"), false, true)
-	
-
 	
 
 	// return success REST response

@@ -25,11 +25,11 @@ func NewUserRepository(db *gorm.DB) *UserRepository {
 func (userRepo *UserRepository) CreateUser(user *models.User) (*models.User, error) {
 
 	// check if the user already exists
-	prevUser, err := userRepo.GetUserByEmail(user.Email)
-	// check for errors
-	if err == nil {
-		return nil, fmt.Errorf("Error checking if user exists")
-	}
+	prevUser, _ := userRepo.GetUserByEmail(user.Email)
+	// // check for errors
+	// if err != nil {
+	// 	return nil, fmt.Errorf("Error checking if user exists")
+	// }
 
 	// if the user exist, return an error
 	if prevUser != nil {
@@ -76,12 +76,34 @@ func (userRepo *UserRepository) BeforeSave(user *models.User) error {
 }
 
 // create a method to retrieve a user by id
-func (userRepo *UserRepository) GetUserById(id uint64) (*models.User, error) {
+func (userRepo *UserRepository) GetUserById(id string) (*models.User, error) {
 	// create a user model
 	user := &models.User{}
 
 	// find the user by id
 	result := userRepo.DB.First(&user, id)
+
+	// check for errors
+	if result.Error != nil {
+		return nil, fmt.Errorf("Something went wrong when retrieving the user information")
+	}
+
+	// if no user found return nil user and not found error
+	if result.RowsAffected == 0 {
+		return nil, fmt.Errorf("User not found")
+	}
+
+	// return the user
+	return user, nil
+}
+
+// get user by github username
+func (userRepo *UserRepository) GetUserByGithubUsername(githubUsername string) (*models.User, error) {
+	// create a user model
+	user := &models.User{}
+
+	// find the user gituhub username
+	result := userRepo.DB.Where("git_hub_username = ?", githubUsername).First(&user)
 
 	// check for errors
 	if result.Error != nil {
@@ -190,16 +212,17 @@ func (userRepo *UserRepository) ChangeEmail(user *models.User, newEmail string) 
 		return nil, fmt.Errorf("new email cannot be empty")
 	}
 
-	fmt.Println("User id uint", user.ID)
-	fmt.Println("User id uint64", user.ID)
+	// modify the user email
+	user.Email = newEmail
+	user.NeedsEmailUpdate = false
 
-	// update the user
-	result := userRepo.DB.Model(&user).Where("id = ?", user.ID).Update("email", newEmail)
+	// save the user
+	result := userRepo.DB.Save(&user)
 
-	// check for errors
-	if result.Error != nil {
-		return nil, result.Error
-	}
+	// // check for errors
+	// if result.Error != nil {
+	// 	return nil, result.Error
+	// }
 
 	// if the result is 0, then no user was updated
 	if result.RowsAffected == 0 {

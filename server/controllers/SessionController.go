@@ -83,10 +83,9 @@ func GitHubAuthController(c *gin.Context, db *gorm.DB) {
 	var emailNotProvided bool = userRes.Email == ""
 
 	var email string = userRes.Email
-	var needs_email_update bool = false
+	// var needs_email_update bool = false
 	if emailNotProvided == true {
 		email = "no_email__" + userRes.GitHubUsername + "@githubtemp.com"
-		needs_email_update = true
 	}
 
 	// create a new user struct for the github user
@@ -94,16 +93,17 @@ func GitHubAuthController(c *gin.Context, db *gorm.DB) {
 		FirstName:        userRes.Name,
 		LastName:         "",
 		Email:            email,
-		NeedsEmailUpdate: needs_email_update,
+		NeedsEmailUpdate: emailNotProvided,
 		Photo:            userRes.Photo,
 		Provider:         "github",
 		CreatedAt:        currentTime,
 		UpdatedAt:        currentTime,
+		GitHubUsername:   userRes.GitHubUsername,
 	}
 
 	userRepo := repositories.NewUserRepository(db)
 	// check if user email already exists
-	user, err := userRepo.GetUserByEmail(resBody.Email)
+	user, err := userRepo.GetUserByGithubUsername(resBody.GitHubUsername)
 
 	if user != nil {
 		// if the user is registered using a different provider, redirect to error page
@@ -111,9 +111,15 @@ func GitHubAuthController(c *gin.Context, db *gorm.DB) {
 			c.Redirect(http.StatusTemporaryRedirect, fmt.Sprint(os.Getenv("CLIENT_ORIGIN_URL")+oauthLoginFailed+"?error=email-already-exists"))
 			return
 		}
+
+		// if the retrieved user already changed email, then change needs email update to false
+		if user.NeedsEmailUpdate == false {
+			emailNotProvided = false
+		}
+		
 	} else {
 		// if the user does not exist, create the user
-		user, _ = userRepo.CreateUser(resBody)
+		user, err = userRepo.CreateUser(resBody)
 	}
 
 	// bind the found user to the user struct
@@ -137,6 +143,7 @@ func GitHubAuthController(c *gin.Context, db *gorm.DB) {
 		FirstName: user.FirstName,
 		LastName:  user.LastName,
 		Provider:  user.Provider,
+		GitHubUsername: user.GitHubUsername,
 	}
 
 	// generate access and refresh token usign our util method
