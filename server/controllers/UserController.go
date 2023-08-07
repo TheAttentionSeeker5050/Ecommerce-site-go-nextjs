@@ -225,8 +225,6 @@ func ChangeEmailController(
 		return
 	}
 
-	fmt.Println("updated user", changedUser)
-
 	if changedUser == nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error": "Failed to change email",
@@ -234,6 +232,52 @@ func ChangeEmailController(
 		// c.Abort()
 		return
 	}
+
+	// create a new user payload to be used for the jwt token
+	tokenClaims := utils.TokenClaims{
+		ID:        fmt.Sprint(changedUser.ID),
+		Email:     changedUser.Email,
+		FirstName: changedUser.FirstName,
+		LastName:  changedUser.LastName,
+		Provider:  changedUser.Provider,
+	}
+
+	// now create the jwt token and save them into variables
+	accessToken, refreshToken, err := utils.GenerateAccessAndRefreshToken(tokenClaims, c)
+
+	// check for errors
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error": "Failed to create access token",
+		})
+
+		// c.Abort()
+		return
+	}
+
+	// save the session to the database
+	err = repositories.NewDatabaseSessionStore(db).SaveSession(
+		fmt.Sprint(changedUser.ID),
+		changedUser.Email,
+		accessToken,
+	)
+
+	// if there is an error saving the session to the database
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error": "Failed to save session to database",
+		})
+		// c.Abort()
+		return
+	}
+
+	// update the refresh token from the cookie
+	c.SetCookie("refresh_token", refreshToken, 6*60*60, "/", os.Getenv("CLIENT_ORIGIN_URL"), false, true)
+	c.SetCookie("access_token", accessToken, 6*60*60, "/", os.Getenv("CLIENT_ORIGIN_URL"), false, true)
+	c.SetCookie("logged_in", "true", 6*60*60, "/", os.Getenv("CLIENT_ORIGIN_URL"), false, true)
+	
+
+	
 
 	// return success REST response
 	c.JSON(http.StatusOK, gin.H{

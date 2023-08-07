@@ -85,7 +85,12 @@ func (userRepo *UserRepository) GetUserById(id uint64) (*models.User, error) {
 
 	// check for errors
 	if result.Error != nil {
-		return nil, result.Error
+		return nil, fmt.Errorf("Something went wrong when retrieving the user information")
+	}
+
+	// if no user found return nil user and not found error
+	if result.RowsAffected == 0 {
+		return nil, fmt.Errorf("User not found")
 	}
 
 	// return the user

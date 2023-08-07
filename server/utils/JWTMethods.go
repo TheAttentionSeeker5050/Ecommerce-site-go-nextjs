@@ -66,7 +66,7 @@ func ValidateJWT(
 	}
 
 	// read file using the file utils
-	key, err := ReadContentsOfFile("/jwtRS256Pub.key")
+	key, err := ReadContentsOfFile("/jwtRS256.key.pub")
 	if err != nil {
 		return TokenClaims{}, fmt.Errorf("could not read contents of file: %w", err)
 	}
