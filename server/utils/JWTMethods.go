@@ -7,12 +7,24 @@ import (
 	"time"
 
 	"github.com/gin-gonic/gin"
-	"github.com/golang-jwt/jwt/v4"
+	"github.com/golang-jwt/jwt/v5"
 )
+
+// make structure for the token claims
+type TokenClaims struct {
+	ID        string `json:"id"`
+	Email     string `json:"email"`
+	FirstName string `json:"first_name"`
+	LastName  string `json:"last_name"`
+	Provider  string `json:"provider"`
+	GitHubUsername string `json:"github_username"`
+}
+
+// map[CreatedAt:0001-01-01T00:00:00Z DeletedAt:<nil> ID:0 UpdatedAt:0001-01-01T00:00:00Z created_at:1.691109193e+09 email:user3@name.com first_name:user3 id:14 last_name:name middle_name:m password:$2a$10$bkmkH9n306yv15KLclYWCu24264IdsU1XMsnjouDd1IoqcwR5oHnK phone:3333333333 photo: preferred_address:0 provider: role:customer updated_at:1.691109193e+09]
 
 func CreateJWT(
 	ttl time.Duration,
-	payload interface{},
+	payload TokenClaims,
 ) (string, error) {
 
 	// read file using the file utils
@@ -38,7 +50,6 @@ func CreateJWT(
 	if err != nil {
 		return "", fmt.Errorf("create: sign token: %w", err)
 	}
-	// fmt.Println("token:", token)
 
 	return token, nil
 
@@ -47,48 +58,88 @@ func CreateJWT(
 func ValidateJWT(
 	tokenString string,
 	// publicKey string,
-) (interface{}, error) {
+) (TokenClaims, error) {
+
+	// verify if the token is empty
+	if tokenString == "" {
+		return TokenClaims{}, fmt.Errorf("ValidateJWT error: Token param is empty")
+	}
+
 	// read file using the file utils
 	key, err := ReadContentsOfFile("/jwtRS256.key.pub")
 	if err != nil {
-		return "", err
+		return TokenClaims{}, fmt.Errorf("could not read contents of file: %w", err)
+	}
+
+	// verify if the key is empty
+	if key == "" {
+		return TokenClaims{}, fmt.Errorf("ValidateJWT error: Key is empty")
 	}
 
 	// parse the public key
 	parsedPublicKey, err := jwt.ParseRSAPublicKeyFromPEM([]byte(key))
 	if err != nil {
-		return nil, err
+		return TokenClaims{}, fmt.Errorf("could not parse key: %w", err)
+	}
+
+	// validate if the parsePublicKey is empty
+	if parsedPublicKey == nil {
+		return TokenClaims{}, fmt.Errorf("ValidateJWT error: Parsed public key is empty")
 	}
 
 	// parse the token
 	parsedToken, err := jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {
 		// if the token is not valid add error to err variable
 		if _, ok := token.Method.(*jwt.SigningMethodRSA); !ok {
-			return nil, fmt.Errorf("Invalid signing method")
+			return nil, fmt.Errorf("Unexpected signing method: %v", token.Header["alg"])
 		}
 		// if it is valid return the parsed token and assign it to var
 		return parsedPublicKey, nil
 	})
 
+	// if parsed token is empty return error
+	if parsedToken == nil {
+		return TokenClaims{}, fmt.Errorf("ValidateJWT error: Parsed token is empty")
+	}
+
 	if err != nil {
-		return nil, err
+		return TokenClaims{}, err
 	}
 
 	// check if the token is valid
 	claims, ok := parsedToken.Claims.(jwt.MapClaims)
 	if !ok || !parsedToken.Valid {
-		return nil, fmt.Errorf("Invalid token")
+		return TokenClaims{}, fmt.Errorf("ValidateJWT error: Could not get token claims from parsed token")
 	}
 
-	// print all claims
-	fmt.Println("token claims:", claims)
+	// bind the claims to the TokenClaims struct
+	var tokenClaims TokenClaims
+	if subClaims, ok := claims["sub"].(map[string]interface{}); ok {
+		if id, ok := subClaims["id"].(string); ok {
+			tokenClaims.ID = id
+		}
+		if email, ok := subClaims["email"].(string); ok {
+			tokenClaims.Email = email
+		}
+		if firstName, ok := subClaims["first_name"].(string); ok {
+			tokenClaims.FirstName = firstName
+		}
+		if lastName, ok := subClaims["last_name"].(string); ok {
+			tokenClaims.LastName = lastName
+		}
+		if provider, ok := subClaims["provider"].(string); ok {
+			tokenClaims.Provider = provider
+		}
+	} else {
+		return TokenClaims{}, fmt.Errorf("Invalid 'sub' claim format, the claims as a string: %v", claims["sub"])
+	}
 
 	// return the claims
-	return claims["sub"], nil
+	return tokenClaims, nil
 }
 
 func GenerateAccessAndRefreshToken(
-	userPayload interface{},
+	userPayload TokenClaims,
 	c *gin.Context,
 ) (
 	access_token string,
@@ -99,6 +150,11 @@ func GenerateAccessAndRefreshToken(
 	tokenExpirationHours, err := strconv.Atoi(os.Getenv("TOKEN_EXPIRES_IN_HOURS"))
 	if err != nil {
 		return "", "", err
+	}
+
+	// if user payload is empty return error
+	if userPayload == (TokenClaims{}) {
+		return "", "", fmt.Errorf("GenerateAccessAndRefreshToken error: User payload is empty")
 	}
 
 	tokenExpiration := time.Duration(tokenExpirationHours) * time.Hour

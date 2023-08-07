@@ -77,8 +77,8 @@ export default function RegisterPage() {
     };
 
     return (
-        <div id="p-content" className="">
-            <h1 className="text-center">Register</h1>
+        <div id="p-content" className="px-3">
+            <h1 className="text-center  text-2xl font-bold my-5 ">Register</h1>
 
             {/* only display errors if the errors array is not empty */}
             {errorMessages.length > 0 ? (

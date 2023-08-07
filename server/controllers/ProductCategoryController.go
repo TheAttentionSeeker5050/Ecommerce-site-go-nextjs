@@ -9,7 +9,7 @@ import (
 )
 
 // This controller will get a list of product categories
-func GetProductCategoryList(ctx *gin.Context, db *gorm.DB) {
+func GetProductCategoryList(c *gin.Context, db *gorm.DB) {
 	// prepare the json response
 
 	// initiate the product category repository
@@ -18,7 +18,7 @@ func GetProductCategoryList(ctx *gin.Context, db *gorm.DB) {
 	// use the repository to return all the product categories to a list, and catch any errors
 	productCategoryList, err := productCategoryRepository.GetAllCategories()
 	if err != nil {
-		ctx.JSON(http.StatusInternalServerError, gin.H{
+		c.JSON(http.StatusInternalServerError, gin.H{
 			"error":      err.Error(),
 			"error type": "Cannot perform query to get all product categories using the repository methods",
 		}) // we need to change this error message for a more user friendly app secure one
@@ -26,7 +26,7 @@ func GetProductCategoryList(ctx *gin.Context, db *gorm.DB) {
 	}
 
 	// if no errors, return the list of product categories
-	ctx.JSON(http.StatusOK,
+	c.JSON(http.StatusOK,
 		gin.H{
 			"message":             "Request Successful",
 			"productCategoryList": productCategoryList,
@@ -34,7 +34,7 @@ func GetProductCategoryList(ctx *gin.Context, db *gorm.DB) {
 	return
 }
 
-func GetPetTypeList(ctx *gin.Context, db *gorm.DB) {
+func GetPetTypeList(c *gin.Context, db *gorm.DB) {
 
 	// initiate the pet type repository
 	petTypeRepository := repositories.NewCategoryRepository(db)
@@ -42,7 +42,7 @@ func GetPetTypeList(ctx *gin.Context, db *gorm.DB) {
 	// use the repository to return all the pet types to a list, and catch any errors
 	petTypeList, err := petTypeRepository.GetAllPetTypes()
 	if err != nil {
-		ctx.JSON(http.StatusInternalServerError, gin.H{
+		c.JSON(http.StatusInternalServerError, gin.H{
 			"error":      err.Error(),
 			"error type": "Cannot perform query to get all pet types using the repository methods",
 		})
@@ -50,7 +50,7 @@ func GetPetTypeList(ctx *gin.Context, db *gorm.DB) {
 	}
 
 	// if no errors, return the list of pet types
-	ctx.JSON(http.StatusOK,
+	c.JSON(http.StatusOK,
 		gin.H{
 			"message":     "Request Successful",
 			"petTypeList": petTypeList,
