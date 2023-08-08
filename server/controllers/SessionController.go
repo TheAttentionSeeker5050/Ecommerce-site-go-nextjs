@@ -14,9 +14,9 @@ import (
 	"gorm.io/gorm"
 )
 
-func GitHubAuthController(ctx *gin.Context, db *gorm.DB) {
+func GitHubAuthController(c *gin.Context, db *gorm.DB) {
 	// get the code from the query string
-	code := ctx.Query("code")
+	code := c.Query("code")
 
 	// initiate the from path url variable
 	var pathUrl string = "/"
@@ -24,13 +24,13 @@ func GitHubAuthController(ctx *gin.Context, db *gorm.DB) {
 	var oauthLoginFailed string = "/login/failed"
 
 	// check if the state is present and not empty and assign it to pathUrl
-	if ctx.Query("state") != "" {
-		pathUrl = ctx.Query("state")
+	if c.Query("state") != "" {
+		pathUrl = c.Query("state")
 	}
 
 	// check if the code is present and not empty
 	if code == "" {
-		ctx.JSON(http.StatusUnauthorized, gin.H{
+		c.JSON(http.StatusUnauthorized, gin.H{
 			"message": "Authorization code not provided!",
 		})
 		return
@@ -40,7 +40,7 @@ func GitHubAuthController(ctx *gin.Context, db *gorm.DB) {
 	tokenRes, err := utils.GetGithubOAuthToken(code)
 
 	if err != nil {
-		ctx.JSON(http.StatusBadGateway, gin.H{
+		c.JSON(http.StatusBadGateway, gin.H{
 			"message": "Failed to get access token!",
 			// display error message if debug mode is true using conditional operator, but first encodes the error message to string
 			"error": utils.ReturnErrorMessageOnDevMode(err),
@@ -50,7 +50,7 @@ func GitHubAuthController(ctx *gin.Context, db *gorm.DB) {
 
 	// if token response doesnt have any values
 	if tokenRes.AccessToken == "" {
-		ctx.JSON(http.StatusInternalServerError, gin.H{
+		c.JSON(http.StatusInternalServerError, gin.H{
 			"message": "Could not get access token from the Github OAuth API!",
 		})
 		return
@@ -60,7 +60,7 @@ func GitHubAuthController(ctx *gin.Context, db *gorm.DB) {
 	userRes, err := utils.GetGithubOAuthUser(tokenRes.AccessToken)
 
 	if err != nil {
-		ctx.JSON(http.StatusBadGateway, gin.H{
+		c.JSON(http.StatusBadGateway, gin.H{
 			"message": "Failed to get user information from the access token!",
 			// display error message if debug mode is true using conditional operator
 			"error": utils.ReturnErrorMessageOnDevMode(err),
@@ -70,7 +70,7 @@ func GitHubAuthController(ctx *gin.Context, db *gorm.DB) {
 
 	// if user response doesnt have any values
 	if userRes.Name == "" || userRes.Photo == "" {
-		ctx.JSON(http.StatusInternalServerError, gin.H{
+		c.JSON(http.StatusInternalServerError, gin.H{
 			"message": "Could not get user information from the Github OAuth API!",
 		})
 		return
@@ -83,41 +83,51 @@ func GitHubAuthController(ctx *gin.Context, db *gorm.DB) {
 	var emailNotProvided bool = userRes.Email == ""
 
 	var email string = userRes.Email
-
+	// var needs_email_update bool = false
 	if emailNotProvided == true {
 		email = "no_email__" + userRes.GitHubUsername + "@githubtemp.com"
 	}
 
-	// create a new user struct
+	// create a new user struct for the github user
 	resBody := &models.User{
-		FirstName: userRes.Name,
-		LastName:  "",
-		Email:     email,
-		Photo:     userRes.Photo,
-		Provider:  "github",
-		CreatedAt: currentTime,
-		UpdatedAt: currentTime,
+		FirstName:        userRes.Name,
+		LastName:         "",
+		Email:            email,
+		NeedsEmailUpdate: emailNotProvided,
+		Photo:            userRes.Photo,
+		Provider:         "github",
+		CreatedAt:        currentTime,
+		UpdatedAt:        currentTime,
+		GitHubUsername:   userRes.GitHubUsername,
 	}
 
 	userRepo := repositories.NewUserRepository(db)
 	// check if user email already exists
-	user, err := userRepo.GetUserByEmail(resBody.Email)
+	user, err := userRepo.GetUserByGithubUsername(resBody.GitHubUsername)
 
 	if user != nil {
 		// if the user is registered using a different provider, redirect to error page
 		if user.Provider != "github" {
-			ctx.Redirect(http.StatusTemporaryRedirect, fmt.Sprint(os.Getenv("CLIENT_ORIGIN_URL")+oauthLoginFailed+"?error=email-already-exists"))
+			c.Redirect(http.StatusTemporaryRedirect, fmt.Sprint(os.Getenv("CLIENT_ORIGIN_URL")+oauthLoginFailed+"?error=email-already-exists"))
 			return
 		}
+
+		// if the retrieved user already changed email, then change needs email update to false
+		if user.NeedsEmailUpdate == false {
+			emailNotProvided = false
+		}
+		
 	} else {
 		// if the user does not exist, create the user
-		user, _ = userRepo.CreateUser(resBody)
+		user, err = userRepo.CreateUser(resBody)
 	}
+
+	// bind the found user to the user struct
 
 	// parse os string token expiration time hours to int
 	tokenExpirationHours, err := strconv.Atoi(os.Getenv("TOKEN_EXPIRES_IN_HOURS"))
 	if err != nil {
-		ctx.JSON(http.StatusInternalServerError, gin.H{
+		c.JSON(http.StatusInternalServerError, gin.H{
 			"message": "Failed to parse token expiration hours!",
 			// display error message if debug mode is true using conditional operator
 			"error": utils.ReturnErrorMessageOnDevMode(err),
@@ -125,10 +135,21 @@ func GitHubAuthController(ctx *gin.Context, db *gorm.DB) {
 		return
 	}
 
+	// build the token claims payload struct
+	tokenPayload := utils.TokenClaims{
+		// convert user id into string
+		ID:        strconv.Itoa(int(user.ID)),
+		Email:     user.Email,
+		FirstName: user.FirstName,
+		LastName:  user.LastName,
+		Provider:  user.Provider,
+		GitHubUsername: user.GitHubUsername,
+	}
+
 	// generate access and refresh token usign our util method
-	access_token, refresh_token, err := utils.GenerateAccessAndRefreshToken(resBody.ID, ctx)
+	access_token, refresh_token, err := utils.GenerateAccessAndRefreshToken(tokenPayload, c)
 	if err != nil {
-		ctx.JSON(http.StatusBadRequest, gin.H{
+		c.JSON(http.StatusBadRequest, gin.H{
 			"message": "Failed to generate access token!",
 			// display error message if debug mode is true using conditional operator
 			"error": utils.ReturnErrorMessageOnDevMode(err),
@@ -146,7 +167,7 @@ func GitHubAuthController(ctx *gin.Context, db *gorm.DB) {
 	)
 
 	if err != nil {
-		ctx.JSON(http.StatusInternalServerError, gin.H{
+		c.JSON(http.StatusInternalServerError, gin.H{
 			"message": "Failed to save user session!",
 			// display error message if debug mode is true using conditional operator
 			"error": utils.ReturnErrorMessageOnDevMode(err),
@@ -158,27 +179,27 @@ func GitHubAuthController(ctx *gin.Context, db *gorm.DB) {
 	var domainName string = os.Getenv("CLIENT_ORIGIN_URL")
 
 	// set cookies
-	ctx.SetCookie("access_token", access_token, tokenExpirationHours*60*60, "/", domainName, false, true)
-	ctx.SetCookie("refresh_token", refresh_token, tokenExpirationHours*60*60, "/", domainName, false, true)
-	ctx.SetCookie("logged_in", "true", tokenExpirationHours*60*60, "/", domainName, false, true)
+	c.SetCookie("access_token", access_token, tokenExpirationHours*60*60, "/", domainName, false, true)
+	c.SetCookie("refresh_token", refresh_token, tokenExpirationHours*60*60, "/", domainName, false, true)
+	c.SetCookie("logged_in", "true", tokenExpirationHours*60*60, "/", domainName, false, true)
 
 	const redirectEmailNotProvided string = "/account/update-email"
 
 	// if email is not provided, redirect to the update email page
 	if emailNotProvided {
-		ctx.Redirect(http.StatusTemporaryRedirect, fmt.Sprint(os.Getenv("CLIENT_ORIGIN_URL")+redirectEmailNotProvided))
+		c.Redirect(http.StatusTemporaryRedirect, fmt.Sprint(os.Getenv("CLIENT_ORIGIN_URL")+redirectEmailNotProvided))
 		return
 	} else {
 		// redirect to the client default url login success path if email is provided
-		ctx.Redirect(http.StatusTemporaryRedirect, fmt.Sprint(os.Getenv("CLIENT_ORIGIN_URL")+pathUrl))
+		c.Redirect(http.StatusTemporaryRedirect, fmt.Sprint(os.Getenv("CLIENT_ORIGIN_URL")+pathUrl))
 		return
 	}
 }
 
-func GoogleAuthController(ctx *gin.Context, db *gorm.DB) {
+func GoogleAuthController(c *gin.Context, db *gorm.DB) {
 
 	// get the code from the query string
-	code := ctx.Query("code")
+	code := c.Query("code")
 
 	// initiate the from path url variable
 	var pathUrl string = "/"
@@ -186,13 +207,13 @@ func GoogleAuthController(ctx *gin.Context, db *gorm.DB) {
 	var oauthLoginFailed string = "/login/failed"
 
 	// check if the state is present and not empty and assign it to pathUrl
-	if ctx.Query("state") != "" {
-		pathUrl = ctx.Query("state")
+	if c.Query("state") != "" {
+		pathUrl = c.Query("state")
 	}
 
 	// check if the code is present and not empty
 	if code == "" {
-		ctx.JSON(http.StatusUnauthorized, gin.H{
+		c.JSON(http.StatusUnauthorized, gin.H{
 			"message": "Authorization code not provided!",
 		})
 		return
@@ -201,7 +222,7 @@ func GoogleAuthController(ctx *gin.Context, db *gorm.DB) {
 	// with the code now get the id and the access token
 	tokenRes, err := utils.GetGoogleOAuthToken(code)
 	if err != nil {
-		ctx.JSON(http.StatusBadGateway, gin.H{
+		c.JSON(http.StatusBadGateway, gin.H{
 			"message": "Failed to get access token!",
 			// display error message if debug mode is true using conditional operator, but first encodes the error message to string
 			"error": utils.ReturnErrorMessageOnDevMode(err),
@@ -211,7 +232,7 @@ func GoogleAuthController(ctx *gin.Context, db *gorm.DB) {
 
 	// if token response doesnt have any values
 	if tokenRes.AccessToken == "" || tokenRes.IDToken == "" {
-		ctx.JSON(http.StatusInternalServerError, gin.H{
+		c.JSON(http.StatusInternalServerError, gin.H{
 			"message": "Could not get access token from the Google OAuth API!",
 		})
 		return
@@ -220,7 +241,7 @@ func GoogleAuthController(ctx *gin.Context, db *gorm.DB) {
 	// get the user information using the access token
 	userRes, err := utils.GetGoogleOAuthUser(tokenRes.AccessToken, tokenRes.IDToken)
 	if err != nil {
-		ctx.JSON(http.StatusBadGateway, gin.H{
+		c.JSON(http.StatusBadGateway, gin.H{
 			"message": "Failed to get user information from the access token!",
 			// display error message if debug mode is true using conditional operator
 			"error": utils.ReturnErrorMessageOnDevMode(err),
@@ -230,7 +251,7 @@ func GoogleAuthController(ctx *gin.Context, db *gorm.DB) {
 
 	// if user response doesnt have any values
 	if userRes.FirstName == "" || userRes.LastName == "" || userRes.Photo == "" {
-		ctx.JSON(http.StatusInternalServerError, gin.H{
+		c.JSON(http.StatusInternalServerError, gin.H{
 			"message": "Could not get user information from the Google OAuth API!",
 		})
 		return
@@ -258,7 +279,7 @@ func GoogleAuthController(ctx *gin.Context, db *gorm.DB) {
 	if user != nil {
 		// if the user is registered using a different provider, redirect to error page
 		if user.Provider != "google" {
-			ctx.Redirect(http.StatusTemporaryRedirect, fmt.Sprint(os.Getenv("CLIENT_ORIGIN_URL")+oauthLoginFailed+"?error=email-already-exists"))
+			c.Redirect(http.StatusTemporaryRedirect, fmt.Sprint(os.Getenv("CLIENT_ORIGIN_URL")+oauthLoginFailed+"?error=email-already-exists"))
 			return
 		}
 	} else {
@@ -270,7 +291,7 @@ func GoogleAuthController(ctx *gin.Context, db *gorm.DB) {
 	tokenExpirationHours, err := strconv.Atoi(os.Getenv("TOKEN_EXPIRES_IN_HOURS"))
 
 	if err != nil {
-		ctx.JSON(http.StatusInternalServerError, gin.H{
+		c.JSON(http.StatusInternalServerError, gin.H{
 			"message": "Failed to parse token expiration hours!",
 			// display error message if debug mode is true using conditional operator
 			"error": utils.ReturnErrorMessageOnDevMode(err),
@@ -278,10 +299,20 @@ func GoogleAuthController(ctx *gin.Context, db *gorm.DB) {
 		return
 	}
 
+	// build the token claims payload struct
+	tokenPayload := utils.TokenClaims{
+		// convert user id into string
+		ID:        strconv.Itoa(int(user.ID)),
+		Email:     user.Email,
+		FirstName: user.FirstName,
+		LastName:  user.LastName,
+		Provider:  user.Provider,
+	}
+
 	// generate access and refresh token usign our util method
-	access_token, refresh_token, err := utils.GenerateAccessAndRefreshToken(resBody.ID, ctx)
+	access_token, refresh_token, err := utils.GenerateAccessAndRefreshToken(tokenPayload, c)
 	if err != nil {
-		ctx.JSON(http.StatusBadRequest, gin.H{
+		c.JSON(http.StatusBadRequest, gin.H{
 			"message": "Failed to generate access token!",
 			// display error message if debug mode is true using conditional operator
 			"error": utils.ReturnErrorMessageOnDevMode(err),
@@ -300,7 +331,7 @@ func GoogleAuthController(ctx *gin.Context, db *gorm.DB) {
 	)
 
 	if err != nil {
-		ctx.JSON(http.StatusInternalServerError, gin.H{
+		c.JSON(http.StatusInternalServerError, gin.H{
 			"message": "Failed to save user session!",
 			// display error message if debug mode is true using conditional operator
 			"error": utils.ReturnErrorMessageOnDevMode(err),
@@ -312,21 +343,21 @@ func GoogleAuthController(ctx *gin.Context, db *gorm.DB) {
 	var domainName string = os.Getenv("CLIENT_ORIGIN_URL")
 
 	// set cookies
-	ctx.SetCookie("access_token", access_token, tokenExpirationHours*60*60, "/", domainName, false, true)
-	ctx.SetCookie("refresh_token", refresh_token, tokenExpirationHours*60*60, "/", domainName, false, true)
-	ctx.SetCookie("logged_in", "true", tokenExpirationHours*60*60, "/", domainName, false, true)
+	c.SetCookie("access_token", access_token, tokenExpirationHours*60*60, "/", domainName, false, true)
+	c.SetCookie("refresh_token", refresh_token, tokenExpirationHours*60*60, "/", domainName, false, true)
+	c.SetCookie("logged_in", "true", tokenExpirationHours*60*60, "/", domainName, false, true)
 
 	// redirect to the client url path
-	ctx.Redirect(http.StatusTemporaryRedirect, fmt.Sprint(os.Getenv("CLIENT_ORIGIN_URL")+pathUrl))
+	c.Redirect(http.StatusTemporaryRedirect, fmt.Sprint(os.Getenv("CLIENT_ORIGIN_URL")+pathUrl))
 }
 
-func LogoutController(ctx *gin.Context, db *gorm.DB) {
+func LogoutController(c *gin.Context, db *gorm.DB) {
 
 	// get the refresh token from the cookie
-	refreshToken, err := ctx.Cookie("refresh_token")
+	refreshToken, err := c.Cookie("refresh_token")
 
 	if err != nil {
-		ctx.JSON(http.StatusBadRequest, gin.H{
+		c.JSON(http.StatusBadRequest, gin.H{
 			"message": "Failed to get refresh token from cookie!",
 			// display error message if debug mode is true using conditional operator
 			"error": utils.ReturnErrorMessageOnDevMode(err),
@@ -334,35 +365,26 @@ func LogoutController(ctx *gin.Context, db *gorm.DB) {
 		return
 	}
 
-	// validate the token
-	_, err = utils.ValidateJWT(refreshToken)
+	// delete the refresh token from the database
+	sessionRepo := repositories.NewDatabaseSessionStore(db)
+	err = sessionRepo.DeleteSession(refreshToken)
 
-	// a sample response
-	ctx.JSON(http.StatusOK, gin.H{
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"message": "Failed to delete refresh token from database!",
+			// display error message if debug mode is true using conditional operator
+			"error": utils.ReturnErrorMessageOnDevMode(err),
+		})
+		return
+	}
+
+	// delete the refresh token from the cookie
+	c.SetCookie("refresh_token", "", -1, "/", os.Getenv("CLIENT_ORIGIN_URL"), false, true)
+	c.SetCookie("access_token", "", -1, "/", os.Getenv("CLIENT_ORIGIN_URL"), false, true)
+	c.SetCookie("logged_in", "", -1, "/", os.Getenv("CLIENT_ORIGIN_URL"), false, true)
+
+	// return the response
+	c.JSON(http.StatusOK, gin.H{
 		"message": "Successfully logged out!",
 	})
-	return
-
-	// // delete the refresh token from the database
-	// sessionRepo := repositories.NewDatabaseSessionStore(db)
-	// err = sessionRepo.DeleteSession(refreshToken)
-
-	// if err != nil {
-	// 	ctx.JSON(http.StatusInternalServerError, gin.H{
-	// 		"message": "Failed to delete refresh token from database!",
-	// 		// display error message if debug mode is true using conditional operator
-	// 		"error": utils.ReturnErrorMessageOnDevMode(err),
-	// 	})
-	// 	return
-	// }
-
-	// // delete the refresh token from the cookie
-	// ctx.SetCookie("refresh_token", "", -1, "/", os.Getenv("CLIENT_ORIGIN_URL"), false, true)
-	// ctx.SetCookie("access_token", "", -1, "/", os.Getenv("CLIENT_ORIGIN_URL"), false, true)
-	// ctx.SetCookie("logged_in", "", -1, "/", os.Getenv("CLIENT_ORIGIN_URL"), false, true)
-
-	// // return the response
-	// ctx.JSON(http.StatusOK, gin.H{
-	// 	"message": "Successfully logged out!",
-	// })
 }

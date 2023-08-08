@@ -25,11 +25,11 @@ func NewUserRepository(db *gorm.DB) *UserRepository {
 func (userRepo *UserRepository) CreateUser(user *models.User) (*models.User, error) {
 
 	// check if the user already exists
-	prevUser, err := userRepo.GetUserByEmail(user.Email)
-	// check for errors
-	if err == nil {
-		return nil, fmt.Errorf("Error checking if user exists")
-	}
+	prevUser, _ := userRepo.GetUserByEmail(user.Email)
+	// // check for errors
+	// if err != nil {
+	// 	return nil, fmt.Errorf("Error checking if user exists")
+	// }
 
 	// if the user exist, return an error
 	if prevUser != nil {
@@ -76,7 +76,7 @@ func (userRepo *UserRepository) BeforeSave(user *models.User) error {
 }
 
 // create a method to retrieve a user by id
-func (userRepo *UserRepository) GetUserById(id uint64) (*models.User, error) {
+func (userRepo *UserRepository) GetUserById(id string) (*models.User, error) {
 	// create a user model
 	user := &models.User{}
 
@@ -85,7 +85,34 @@ func (userRepo *UserRepository) GetUserById(id uint64) (*models.User, error) {
 
 	// check for errors
 	if result.Error != nil {
-		return nil, result.Error
+		return nil, fmt.Errorf("Something went wrong when retrieving the user information")
+	}
+
+	// if no user found return nil user and not found error
+	if result.RowsAffected == 0 {
+		return nil, fmt.Errorf("User not found")
+	}
+
+	// return the user
+	return user, nil
+}
+
+// get user by github username
+func (userRepo *UserRepository) GetUserByGithubUsername(githubUsername string) (*models.User, error) {
+	// create a user model
+	user := &models.User{}
+
+	// find the user gituhub username
+	result := userRepo.DB.Where("git_hub_username = ?", githubUsername).First(&user)
+
+	// check for errors
+	if result.Error != nil {
+		return nil, fmt.Errorf("Something went wrong when retrieving the user information")
+	}
+
+	// if no user found return nil user and not found error
+	if result.RowsAffected == 0 {
+		return nil, fmt.Errorf("User not found")
 	}
 
 	// return the user
@@ -102,7 +129,12 @@ func (userRepo *UserRepository) GetUserByEmail(email string) (*models.User, erro
 
 	// check for errors
 	if result.Error != nil {
-		return nil, result.Error
+		return nil, fmt.Errorf("Something went wrong when retrieving the user information")
+	}
+
+	// if no user found return nil user and not found error
+	if result.RowsAffected == 0 {
+		return nil, fmt.Errorf("User not found")
 	}
 
 	// return the user
@@ -118,12 +150,12 @@ func (userRepo *UserRepository) ComparePassword(hashedPassword string, password 
 // ---------------------------other methods--------------------------------
 
 // update user data, but only information that is stated in the request
-func (userRepo *UserRepository) UpdateUser(newUserData *models.User) (*models.User, error) {
+func (userRepo *UserRepository) UpdateUser(newUserData *models.User, userID int) (*models.User, error) {
 	// // find user by id and save new data
-	// result := userRepo.DB.Model(&models.User{}).Where("id = ?", userID).Updates(newUserData)
+	result := userRepo.DB.Model(&models.User{}).Where("id = ?", userID).Updates(newUserData)
 
 	// update the user
-	result := userRepo.DB.Model(&newUserData).Where("email = ID", newUserData.ID).Updates(newUserData)
+	// result := userRepo.DB.Model(&newUserData).Where("email = ID", newUserData.ID).Updates(newUserData)
 
 	// check for errors
 	if result.Error != nil {
@@ -166,6 +198,35 @@ func (userRepo *UserRepository) ChangePassword(user *models.User, password strin
 	// check for errors
 	if result.Error != nil {
 		return nil, result.Error
+	}
+
+	// return the user
+	return user, nil
+}
+
+// change user email
+func (userRepo *UserRepository) ChangeEmail(user *models.User, newEmail string) (*models.User, error) {
+
+	// in case new email is empty
+	if newEmail == "" {
+		return nil, fmt.Errorf("new email cannot be empty")
+	}
+
+	// modify the user email
+	user.Email = newEmail
+	user.NeedsEmailUpdate = false
+
+	// save the user
+	result := userRepo.DB.Save(&user)
+
+	// // check for errors
+	// if result.Error != nil {
+	// 	return nil, result.Error
+	// }
+
+	// if the result is 0, then no user was updated
+	if result.RowsAffected == 0 {
+		return nil, fmt.Errorf("No user could be found or updated")
 	}
 
 	// return the user
