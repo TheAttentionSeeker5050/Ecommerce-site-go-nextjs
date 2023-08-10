@@ -25,10 +25,13 @@ export default function HeaderComponent(ToggleDarkMode: any, isDarkMode: any) {
                             </button>
                         </form>
                     </div>
-                    <Link href={"#"} id='desktop-header-account' className='my-auto'>
+                    <Link href={"/account"} id='desktop-header-account' className='my-auto'>
                         <FontAwesomeIcon icon={faUser} />
                     </Link>
                     <Link href={"/login"} id="desktop-header-login" className='my-auto'>
+                        Log In
+                    </Link>
+                    <Link href={"/logout"} id="desktop-header-logout" className='my-auto'>
                         Log In
                     </Link>
                     <div id='desktop-header-cart' className='my-auto'>
