@@ -1,6 +1,7 @@
 "use client"
 import { reduxStore } from "@/data/redux/reduxStore";
 import { setSessionIsOpen } from "@/data/redux/sessionIsOpenStore";
+import { handlePostRequests } from "@/functions/handlers/handleGenericRequests";
 import { deleteCookie } from "cookies-next";
 // import router from "next/router";
 import { useRouter } from "next/navigation";
@@ -15,10 +16,8 @@ export default function LogoutPage({params}: {params: { edit_section: string } }
         // get the edit_section from the params
         reduxStore.dispatch(setSessionIsOpen(false));
 
-        // delete the cookies
-        deleteCookie("refresh_token");
-        deleteCookie("access_token");
-        deleteCookie("logged_in");
+        // delete the cookies a request to the server
+        handlePostRequests("/user/logout", {})
 
         // redirect to home page
         router.push("/login");

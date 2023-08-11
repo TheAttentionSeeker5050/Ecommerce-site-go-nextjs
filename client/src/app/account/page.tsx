@@ -1,5 +1,5 @@
 "use client";
-import { handleGetRequests } from "@/functions/handlers/handleGenericGetRequests";
+import { handleGetRequests } from "@/functions/handlers/handleGenericRequests";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { setSessionIsOpen } from "@/data/redux/sessionIsOpenStore";

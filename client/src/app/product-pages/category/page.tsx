@@ -1,5 +1,5 @@
 "use client";
-import { handleGetRequests } from "@/functions/handlers/handleGenericGetRequests";
+import { handleGetRequests } from "@/functions/handlers/handleGenericRequests";
 import CategoriesBrowseContainer from "@/components/containers/products-browse/categoriesBrowseContainer";
 import { useEffect, useState } from "react";
 

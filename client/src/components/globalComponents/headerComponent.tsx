@@ -10,6 +10,7 @@ import { reduxStore } from '@/data/redux/reduxStore';
 import { setSessionIsOpen } from '@/data/redux/sessionIsOpenStore';
 import { deleteCookie } from 'cookies-next';
 import { useRouter } from "next/navigation";
+import { handlePostRequests } from '@/functions/handlers/handleGenericRequests';
 
 
 
@@ -17,7 +18,6 @@ export default function HeaderComponent(ToggleDarkMode: any, isDarkMode: any) {
 
     // set state for the session is open value
     const [isSessionOpenState, setIsSessionOpenState] = React.useState(reduxStore.getState().sessionIsOpen.value);
-    // const [shouldRefresh, setShouldRefresh] = React.useState(false);
 
     const router = useRouter();
 
@@ -32,15 +32,14 @@ export default function HeaderComponent(ToggleDarkMode: any, isDarkMode: any) {
         }
     },[]);
 
-    // console.log("isSessionOpenState: ", isSessionOpenState);
-
-    const handleLogout =  (
+    const handleLogout = async (
         e: React.MouseEvent<HTMLAnchorElement, MouseEvent>
     ) => {
         e.preventDefault();
         reduxStore.dispatch(setSessionIsOpen(false));
         
-        
+        // make a logout request to the server
+        handlePostRequests("/user/logout", {})
 
         // redirect to home page
         router.push("/login");
@@ -48,7 +47,6 @@ export default function HeaderComponent(ToggleDarkMode: any, isDarkMode: any) {
     
     return (
         <header className={'w-full'} >
-            {/* <p className='hidden'>{shouldRefresh}</p> */}
             {/* this is large screen version */}
 
             <div id="desktop-header-wrapper" className='hidden phone:block'>

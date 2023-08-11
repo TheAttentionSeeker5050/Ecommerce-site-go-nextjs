@@ -340,7 +340,7 @@ func GoogleAuthController(c *gin.Context, db *gorm.DB) {
 	}
 
 	// add the client domain name to a variable from environment variables
-	var domainName string = os.Getenv("CLIENT_ORIGIN_URL")
+	var domainName string = os.Getenv("COOKIE_DOMAIN")
 
 	// set cookies
 	c.SetCookie("access_token", access_token, tokenExpirationHours*60*60, "/", domainName, false, true)
@@ -378,10 +378,12 @@ func LogoutController(c *gin.Context, db *gorm.DB) {
 		return
 	}
 
+	cookieDomain := os.Getenv("COOKIE_DOMAIN")
+
 	// delete the refresh token from the cookie
-	c.SetCookie("refresh_token", "", -1, "/", os.Getenv("CLIENT_ORIGIN_URL"), false, true)
-	c.SetCookie("access_token", "", -1, "/", os.Getenv("CLIENT_ORIGIN_URL"), false, true)
-	c.SetCookie("logged_in", "", -1, "/", os.Getenv("CLIENT_ORIGIN_URL"), false, true)
+	c.SetCookie("refresh_token", "", -1, "/", cookieDomain, false, true)
+	c.SetCookie("access_token", "", -1, "/", cookieDomain, false, true)
+	c.SetCookie("logged_in", "", -1, "/", cookieDomain, false, true)
 
 	// return the response
 	c.JSON(http.StatusOK, gin.H{
