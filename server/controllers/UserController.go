@@ -158,8 +158,8 @@ func ChangeEmailController(
 	email := c.GetString("email")
 	userID := c.GetString("id")
 	// if the email is empty return an error
-	if email == "" {
-		c.JSON(http.StatusBadRequest, gin.H{
+	if email == "" || userID == "" {
+		c.JSON(http.StatusUnauthorized, gin.H{ // status unauthorized
 			"error": "Bad Request: No email found in token",
 		})
 		// c.Abort()
@@ -172,7 +172,7 @@ func ChangeEmailController(
 
 	// check for errors
 	if err != nil {
-		c.JSON(http.StatusNotFound, gin.H{
+		c.JSON(http.StatusNotFound, gin.H{ // should this be forbidden?
 			// "error": err.Error(), // I have coded these errors messages so they are safe to return to the client
 			"error": "Somethign went wrong while getting the user from the database",
 		})
@@ -239,7 +239,7 @@ func ChangeEmailController(
 
 	// check for errors
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{
+		c.JSON(http.StatusForbidden, gin.H{ // this goes for status unauthorized
 			"error": "Failed to create access token",
 		})
 

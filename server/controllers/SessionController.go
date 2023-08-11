@@ -357,10 +357,10 @@ func LogoutController(c *gin.Context, db *gorm.DB) {
 	refreshToken, err := c.Cookie("refresh_token")
 
 	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{
-			"message": "Failed to get refresh token from cookie!",
+		c.JSON(http.StatusUnauthorized, gin.H{
+			"error": "Failed to get refresh token from cookie",
 			// display error message if debug mode is true using conditional operator
-			"error": utils.ReturnErrorMessageOnDevMode(err),
+			"error-type": utils.ReturnErrorMessageOnDevMode(err),
 		})
 		return
 	}
@@ -371,9 +371,9 @@ func LogoutController(c *gin.Context, db *gorm.DB) {
 
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
-			"message": "Failed to delete refresh token from database!",
+			"error": "Failed to delete the session from the database",
 			// display error message if debug mode is true using conditional operator
-			"error": utils.ReturnErrorMessageOnDevMode(err),
+			"error-type": utils.ReturnErrorMessageOnDevMode(err),
 		})
 		return
 	}

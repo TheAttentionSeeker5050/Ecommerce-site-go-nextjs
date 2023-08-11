@@ -14,7 +14,7 @@ func TokenAuthMiddleware() gin.HandlerFunc {
 		refreshToken, err := c.Cookie("access_token")
 		// check for errors
 		if err != nil {
-			c.JSON(http.StatusBadRequest, gin.H{
+			c.JSON(http.StatusUnauthorized, gin.H{ // status unauthorized
 				"error": "Bad Request: No access token found",
 			})
 			c.Abort()
@@ -23,7 +23,7 @@ func TokenAuthMiddleware() gin.HandlerFunc {
 
 		// verify if the refresh token from cookies is empty
 		if refreshToken == "" {
-			c.JSON(http.StatusBadRequest, gin.H{
+			c.JSON(http.StatusUnauthorized, gin.H{ // status unauthorized
 				"error": "Middleware error: Access token is empty",
 			})
 			c.Abort()
@@ -40,7 +40,7 @@ func TokenAuthMiddleware() gin.HandlerFunc {
 			c.Next()
 			return
 		} else {
-			c.JSON(http.StatusUnauthorized, gin.H{
+			c.JSON(http.StatusForbidden, gin.H{
 				// "error": "Unauthorized: Invalid refresh token",
 				"error": err.Error(),
 			})
