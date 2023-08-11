@@ -5,9 +5,9 @@ import axios from 'axios';
 import dotenv from 'dotenv';
 
 // import validator functions
-import { validateEmail } from '@/api/validators/validateEmail';
-import { validateInputText } from '@/api/validators/validateInputText';
-import { formatPhone, validatePhone } from '@/api/validators/validatePhone';
+import { validateEmail } from '@/functions/validators/validateEmail';
+import { validateInputText } from '@/functions/validators/validateInputText';
+import { formatPhone, validatePhone } from '@/functions/validators/validatePhone';
 import { error } from 'console';
 import { validatePassword } from '../validators/validatePassword';
 import { getCorsOrigin, getServerRequestURL } from '@/utils/routeUtils';

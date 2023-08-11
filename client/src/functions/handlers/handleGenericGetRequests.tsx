@@ -8,7 +8,20 @@ export const handleGetRequests = async (
     // get the server request url
     const url = getServerRequestURL(getRequestRoute);
 
-    const response = await fetch(url)
+    const corsOrigin = getCorsOrigin();
+
+    const response = await fetch(url,
+        {
+            method: "GET",
+            mode: "cors",
+            credentials: "include",
+            headers: {
+                "Content-Type": "application/json",
+                "Access-Control-Allow-Origin": corsOrigin,
+                'Accept': 'application/json',
+            },
+        }
+    )
 
 
     if (!response.ok) {

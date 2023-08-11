@@ -32,7 +32,7 @@ export default function HeaderComponent(ToggleDarkMode: any, isDarkMode: any) {
                         Log In
                     </Link>
                     <Link href={"/logout"} id="desktop-header-logout" className='my-auto'>
-                        Log In
+                        Logout
                     </Link>
                     <div id='desktop-header-cart' className='my-auto'>
                         <ShoppingCartWidgetComponent />

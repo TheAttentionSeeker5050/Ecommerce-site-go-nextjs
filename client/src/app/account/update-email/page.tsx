@@ -1,6 +1,6 @@
 "use client";
-import { handleChangeEmail } from "@/api/handlers/editAccountDataRequests";
-import { validateEmail } from "@/api/validators/validateEmail";
+import { handleChangeEmail } from "@/functions/handlers/editAccountDataRequests";
+import { validateEmail } from "@/functions/validators/validateEmail";
 import { SubmitButtonPrimary } from "@/components/buttons/buttonPrimary";
 import { useState } from "react";
 

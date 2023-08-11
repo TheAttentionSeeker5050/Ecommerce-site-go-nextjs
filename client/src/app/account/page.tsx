@@ -1,4 +1,5 @@
 "use client";
+import { handleGetRequests } from "@/functions/handlers/handleGenericGetRequests";
 import { useEffect, useState } from "react";
 
 export default function AccountMainPage() {
@@ -10,10 +11,18 @@ export default function AccountMainPage() {
 
     // some state of the fetched account data
     const [isLoading, setIsLoading] = useState<boolean>(true);
-    const [error, setError] = useState<string>("some error");
+    const [error, setError] = useState<string>();
 
     useEffect(() => {
-        // fetch account data
+        // fetch account data using our generic function
+        handleGetRequests("/user/account")
+        .then((data) => {
+            console.log(data);
+        })
+        .catch((error) => {
+            console.log(error);
+        });
+
         // for the moment we will just set some dummy data
         setFirstName("John");
         setLastName("Doe");

@@ -1,6 +1,6 @@
 "use client";
 
-import { getProductsRequest } from "@/api/handlers/handleGetProductsRequests";
+import { getProductsRequest } from "@/functions/handlers/handleGetProductsRequests";
 import ProductBrowseContainer from "@/components/containers/products-browse/productBrowseContainer";
 // import ProductFilterContainer from "@/components/containers/products-browse/productFilterContainer";
 import { styleConstants } from "@/styles/constants/styleConstants";
