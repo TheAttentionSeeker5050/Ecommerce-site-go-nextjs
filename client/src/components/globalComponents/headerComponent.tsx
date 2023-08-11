@@ -3,11 +3,33 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBars, faLocationDot, faPaw, faUser } from '@fortawesome/free-solid-svg-icons';
 import {faMagnifyingGlass} from '@fortawesome/free-solid-svg-icons';
-import React from 'react';
+import React, { useEffect } from 'react';
 import ShoppingCartWidgetComponent from './shoppingCartWidgetComponent';
 import Link from 'next/link';
+import { reduxStore } from '@/data/redux/reduxStore';
+
+
 
 export default function HeaderComponent(ToggleDarkMode: any, isDarkMode: any) {
+
+    // set state for the session is open value
+    const [isSessionOpenState, setIsSessionOpenState] = React.useState(reduxStore.getState().sessionIsOpen.value);
+
+    useEffect(() => {
+
+        const subscribeSession = reduxStore.subscribe(() => {
+            setIsSessionOpenState(reduxStore.getState().sessionIsOpen.value);
+        });
+
+        return () => {
+            subscribeSession();
+        }
+    },[]);
+    
+
+    
+
+    
     return (
         <header className={'w-full'} >
             {/* this is large screen version */}
@@ -25,15 +47,19 @@ export default function HeaderComponent(ToggleDarkMode: any, isDarkMode: any) {
                             </button>
                         </form>
                     </div>
+                    {isSessionOpenState === true ?
                     <Link href={"/account"} id='desktop-header-account' className='my-auto'>
                         <FontAwesomeIcon icon={faUser} />
                     </Link>
-                    <Link href={"/login"} id="desktop-header-login" className='my-auto'>
-                        Log In
-                    </Link>
+                    : null}
+                    {isSessionOpenState === true ?
                     <Link href={"/logout"} id="desktop-header-logout" className='my-auto'>
                         Logout
-                    </Link>
+                    </Link>:null}
+                    {isSessionOpenState === false ?
+                    <Link href={"/login"} id="desktop-header-login" className='my-auto'>
+                        Log In
+                    </Link>:null}   
                     <div id='desktop-header-cart' className='my-auto'>
                         <ShoppingCartWidgetComponent />
                     </div>
