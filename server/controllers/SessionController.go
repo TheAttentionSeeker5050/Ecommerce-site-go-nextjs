@@ -340,7 +340,7 @@ func GoogleAuthController(c *gin.Context, db *gorm.DB) {
 	}
 
 	// add the client domain name to a variable from environment variables
-	var domainName string = os.Getenv("CLIENT_ORIGIN_URL")
+	var domainName string = os.Getenv("COOKIE_DOMAIN")
 
 	// set cookies
 	c.SetCookie("access_token", access_token, tokenExpirationHours*60*60, "/", domainName, false, true)
@@ -357,10 +357,10 @@ func LogoutController(c *gin.Context, db *gorm.DB) {
 	refreshToken, err := c.Cookie("refresh_token")
 
 	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{
-			"message": "Failed to get refresh token from cookie!",
+		c.JSON(http.StatusUnauthorized, gin.H{
+			"error": "Failed to get refresh token from cookie",
 			// display error message if debug mode is true using conditional operator
-			"error": utils.ReturnErrorMessageOnDevMode(err),
+			"error-type": utils.ReturnErrorMessageOnDevMode(err),
 		})
 		return
 	}
@@ -371,17 +371,19 @@ func LogoutController(c *gin.Context, db *gorm.DB) {
 
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
-			"message": "Failed to delete refresh token from database!",
+			"error": "Failed to delete the session from the database",
 			// display error message if debug mode is true using conditional operator
-			"error": utils.ReturnErrorMessageOnDevMode(err),
+			"error-type": utils.ReturnErrorMessageOnDevMode(err),
 		})
 		return
 	}
 
+	cookieDomain := os.Getenv("COOKIE_DOMAIN")
+
 	// delete the refresh token from the cookie
-	c.SetCookie("refresh_token", "", -1, "/", os.Getenv("CLIENT_ORIGIN_URL"), false, true)
-	c.SetCookie("access_token", "", -1, "/", os.Getenv("CLIENT_ORIGIN_URL"), false, true)
-	c.SetCookie("logged_in", "", -1, "/", os.Getenv("CLIENT_ORIGIN_URL"), false, true)
+	c.SetCookie("refresh_token", "", -1, "/", cookieDomain, false, true)
+	c.SetCookie("access_token", "", -1, "/", cookieDomain, false, true)
+	c.SetCookie("logged_in", "", -1, "/", cookieDomain, false, true)
 
 	// return the response
 	c.JSON(http.StatusOK, gin.H{

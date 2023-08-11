@@ -1,5 +1,5 @@
 "use client"
-import { getProductByIdRequest } from "@/api/handlers/handleGetProductsRequests";
+import { getProductByIdRequest } from "@/functions/handlers/handleGetProductsRequests";
 import IndividualProductPageContainer from "@/components/containers/selected-product/selectedProductContainer";
 import { reduxStore } from "@/data/redux/reduxStore";
 import { useEffect, useState } from "react";

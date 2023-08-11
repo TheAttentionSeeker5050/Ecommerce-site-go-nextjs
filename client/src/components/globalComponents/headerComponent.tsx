@@ -3,14 +3,52 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBars, faLocationDot, faPaw, faUser } from '@fortawesome/free-solid-svg-icons';
 import {faMagnifyingGlass} from '@fortawesome/free-solid-svg-icons';
-import React from 'react';
+import React, { useEffect } from 'react';
 import ShoppingCartWidgetComponent from './shoppingCartWidgetComponent';
 import Link from 'next/link';
+import { reduxStore } from '@/data/redux/reduxStore';
+import { setSessionIsOpen } from '@/data/redux/sessionIsOpenStore';
+import { deleteCookie } from 'cookies-next';
+import { useRouter } from "next/navigation";
+import { handlePostRequests } from '@/functions/handlers/handleGenericRequests';
+
+
 
 export default function HeaderComponent(ToggleDarkMode: any, isDarkMode: any) {
+
+    // set state for the session is open value
+    const [isSessionOpenState, setIsSessionOpenState] = React.useState(reduxStore.getState().sessionIsOpen.value);
+
+    const router = useRouter();
+
+    useEffect(() => {
+
+        const subscribeSession = reduxStore.subscribe(() => {
+            setIsSessionOpenState(reduxStore.getState().sessionIsOpen.value);
+        });
+
+        return () => {
+            subscribeSession();
+        }
+    },[]);
+
+    const handleLogout = async (
+        e: React.MouseEvent<HTMLAnchorElement, MouseEvent>
+    ) => {
+        e.preventDefault();
+        reduxStore.dispatch(setSessionIsOpen(false));
+        
+        // make a logout request to the server
+        handlePostRequests("/user/logout", {})
+
+        // redirect to home page
+        router.push("/login");
+    }
+    
     return (
         <header className={'w-full'} >
             {/* this is large screen version */}
+
             <div id="desktop-header-wrapper" className='hidden phone:block'>
                 <div id="desktop-header-top" className='flex flex-row flex-wrap justify-center gap-5'>
                     <Link href={"/"} id="desktop-header-logo" className='text-2xl dark:text-brand-light text-brand-vivid font-bold text-center my-3'>
@@ -25,12 +63,19 @@ export default function HeaderComponent(ToggleDarkMode: any, isDarkMode: any) {
                             </button>
                         </form>
                     </div>
-                    <Link href={"#"} id='desktop-header-account' className='my-auto'>
+                    {isSessionOpenState === true ?
+                    <Link href={"/account"} id='desktop-header-account' className='my-auto'>
                         <FontAwesomeIcon icon={faUser} />
                     </Link>
+                    : null}
+                    {isSessionOpenState === true ?
+                    <Link href={"#"} onClick={handleLogout}  id="desktop-header-logout" className='my-auto'>
+                        Logout
+                    </Link>:null}
+                    {isSessionOpenState === false ?
                     <Link href={"/login"} id="desktop-header-login" className='my-auto'>
                         Log In
-                    </Link>
+                    </Link>:null}   
                     <div id='desktop-header-cart' className='my-auto'>
                         <ShoppingCartWidgetComponent />
                     </div>

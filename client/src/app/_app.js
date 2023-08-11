@@ -8,14 +8,18 @@ config.autoAddCss = false;
 import Layout from '../components/Layout'
 import Provider from '../components/Provider'
 
+import {reduxStore, persistor} from "@/data/redux/reduxStore"
+
 export default function App({ Component, pageProps }) {
   
   return (
     <>
-      <Provider store={store}>
-        <Layout>
-          <Component {...pageProps} />
-        </Layout>
+      <Provider store={reduxStore}>
+        <PersistGate loading={null} persistor={persistor}>
+          <Layout>
+            <Component {...pageProps} />
+          </Layout>
+        </PersistGate>
       </Provider>
     </>
   )

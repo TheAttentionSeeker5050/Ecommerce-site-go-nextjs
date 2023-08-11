@@ -25,15 +25,11 @@ export const productFilterSlice = createSlice({
             state.value.minRating = action.payload;
         },
         changeProductFeatureSelected: (state, action) => {
-            // state.value.features[action.payload.feature.index].options[action.payload.option.index].selected = action.payload.selected;
             state.value.features[action.payload.featureIndex].options[action.payload.optionIndex].selected = !state.value.features[action.payload.featureIndex].options[action.payload.optionIndex].selected;
         },
     },
 });
 
 export const { setProductFilter, resetProductFilter, changePriceMin, changePriceMax, changeMinRating, changeProductFeatureSelected } = productFilterSlice.actions;
-
-// // other code selectors can use the imported RootState type
-// export const selectProductFilter = (state:RootState) => state.productFilter.value;
 
 export default productFilterSlice.reducer;
