@@ -15,13 +15,14 @@ export default async function LoginSuccessPage() {
     const router = useRouter();
 
     const [isError, setIsError] = useState(false);
-    const [shouldRefresh, setShouldRefresh] = useState(false);
+    // const [shouldRefresh, setShouldRefresh] = useState(false);
 
     // send another request to the server to validate the token
     useEffect(() => {
         // make a fetch request to the server to validate the token
         handleGetRequests("/user/account/validate-token")
         .then((data) => {
+            console.log(data);
             // if the token is valid, redirect to home page
             if (data.must_restore_session == true) {
                 // change the state of the redux store session var
@@ -44,9 +45,9 @@ export default async function LoginSuccessPage() {
             } else {
                 router.push("/");
             }
-        }, 2000);
+        }, 1000);
 
-        setShouldRefresh(!shouldRefresh);
+        // setShouldRefresh(!shouldRefresh);
     }, []);
 
 
@@ -55,7 +56,7 @@ export default async function LoginSuccessPage() {
         <div>
 
             {/* make a hidden paragraph */}
-            <p className='hidden'>{shouldRefresh}</p>
+            {/* <p className='hidden'>{shouldRefresh}</p> */}
             <div className='flex flex-col justify-evenly w-screen h-96 bg-background-light  dark:bg-background-dark'>
                 <h1 className='text-3xl font-bold text-center text-brand-vivid dark:text-brand-electric'>Redirecting...</h1>
                 {/* make the same h2 title but red */}
