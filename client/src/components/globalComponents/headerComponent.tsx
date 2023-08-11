@@ -7,6 +7,9 @@ import React, { useEffect } from 'react';
 import ShoppingCartWidgetComponent from './shoppingCartWidgetComponent';
 import Link from 'next/link';
 import { reduxStore } from '@/data/redux/reduxStore';
+import { setSessionIsOpen } from '@/data/redux/sessionIsOpenStore';
+import { deleteCookie } from 'cookies-next';
+import { useRouter } from "next/navigation";
 
 
 
@@ -14,6 +17,8 @@ export default function HeaderComponent(ToggleDarkMode: any, isDarkMode: any) {
 
     // set state for the session is open value
     const [isSessionOpenState, setIsSessionOpenState] = React.useState(reduxStore.getState().sessionIsOpen.value);
+
+    const router = useRouter();
 
     useEffect(() => {
 
@@ -25,10 +30,23 @@ export default function HeaderComponent(ToggleDarkMode: any, isDarkMode: any) {
             subscribeSession();
         }
     },[]);
-    
 
-    
+    const handleLogout = (
+        e: React.MouseEvent<HTMLAnchorElement, MouseEvent>
+    ) => {
+        e.preventDefault();
+        reduxStore.dispatch(setSessionIsOpen(true));
+        
+        // delete the cookies
+        deleteCookie("refresh_token");
+        deleteCookie("access_token");
+        deleteCookie("logged_in");
+        
+        alert("You have been logged out");
 
+        // redirect to home page
+        router.push("/");
+    }
     
     return (
         <header className={'w-full'} >
@@ -53,7 +71,7 @@ export default function HeaderComponent(ToggleDarkMode: any, isDarkMode: any) {
                     </Link>
                     : null}
                     {isSessionOpenState === true ?
-                    <Link href={"/logout"} id="desktop-header-logout" className='my-auto'>
+                    <Link href={"#"} onClick={handleLogout} id="desktop-header-logout" className='my-auto'>
                         Logout
                     </Link>:null}
                     {isSessionOpenState === false ?
