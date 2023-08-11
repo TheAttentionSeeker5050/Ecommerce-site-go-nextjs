@@ -303,3 +303,13 @@ func ChangePasswordController(
 	})
 }
 
+func ValidateUserController(
+	c *gin.Context,
+	db *gorm.DB,
+) {
+
+	// a dummy response for now
+	c.JSON(http.StatusOK, gin.H{
+		"message": "Successfully validated user",
+	})
+}

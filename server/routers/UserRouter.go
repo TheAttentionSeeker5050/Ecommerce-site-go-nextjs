@@ -45,5 +45,9 @@ func UserRouter(
 		controllers.GetAccountController(c, db)
 	})
 
+	accountGroup.GET("/validate-token", func(c *gin.Context) {
+		controllers.ValidateUserController(c, db)
+	})
+
 	return userRouter
 }
