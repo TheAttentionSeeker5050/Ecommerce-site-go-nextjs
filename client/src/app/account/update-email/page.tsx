@@ -3,6 +3,8 @@ import { handleChangeEmail } from "@/functions/handlers/editAccountDataRequests"
 import { validateEmail } from "@/functions/validators/validateEmail";
 import { SubmitButtonPrimary } from "@/components/buttons/buttonPrimary";
 import { useState } from "react";
+import { setSessionIsOpen } from "@/data/redux/sessionIsOpenStore";
+import { reduxStore } from "@/data/redux/reduxStore";
 
 export default function AccountUpdateEmailPage() {
 
@@ -28,9 +30,7 @@ export default function AccountUpdateEmailPage() {
         if (!emailIsValid) {
             setErrorMessages((errorMessages) => [...errorMessages, emailErrorMessage]);
             return;
-        } else {
-            console.log("email is valid according to the validator");
-        }
+        } 
 
 
         // if the email is valid, send the email request to the backend using a handler function
@@ -43,8 +43,11 @@ export default function AccountUpdateEmailPage() {
                 } else {
                     // if the email change was not successful, display the error message
                     setErrorMessages((errorMessages) => [...errorMessages, data.error]);
+                    if (data.must_restore_session == true) {
+                        reduxStore.dispatch(setSessionIsOpen(false));
+                    }
                 }
-                console.log(data);
+                
             })
             .catch((error) => {
                 // if the email change was not successful, display the error message
@@ -98,7 +101,7 @@ export default function AccountUpdateEmailPage() {
                 <input type="text" id="email" name="email" className="p-1 px-2 text-black rounded-md border-2 border-gray-dark dark:border-white" autoComplete="email" placeholder={oldEmail}
                 onChange={handleEmailInputChange} 
                 />
-                <SubmitButtonPrimary text="Register" />
+                <SubmitButtonPrimary text="Save" />
             </form>
 
 
