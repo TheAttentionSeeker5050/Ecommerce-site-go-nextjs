@@ -15,6 +15,7 @@ export default async function LoginSuccessPage() {
     const router = useRouter();
 
     const [isError, setIsError] = useState(false);
+    const [shouldRefresh, setShouldRefresh] = useState(false);
 
     // send another request to the server to validate the token
     useEffect(() => {
@@ -44,13 +45,17 @@ export default async function LoginSuccessPage() {
                 router.push("/");
             }
         }, 2000);
+
+        setShouldRefresh(!shouldRefresh);
     }, []);
 
 
 
     return (
         <div>
-            
+
+            {/* make a hidden paragraph */}
+            <p className='hidden'>{shouldRefresh}</p>
             <div className='flex flex-col justify-evenly w-screen h-96 bg-background-light  dark:bg-background-dark'>
                 <h1 className='text-3xl font-bold text-center text-brand-vivid dark:text-brand-electric'>Redirecting...</h1>
                 {/* make the same h2 title but red */}

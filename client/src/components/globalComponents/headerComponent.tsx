@@ -17,6 +17,7 @@ export default function HeaderComponent(ToggleDarkMode: any, isDarkMode: any) {
 
     // set state for the session is open value
     const [isSessionOpenState, setIsSessionOpenState] = React.useState(reduxStore.getState().sessionIsOpen.value);
+    const [shouldRefresh, setShouldRefresh] = React.useState(false);
 
     const router = useRouter();
 
@@ -31,26 +32,28 @@ export default function HeaderComponent(ToggleDarkMode: any, isDarkMode: any) {
         }
     },[]);
 
-    const handleLogout = (
+    console.log("isSessionOpenState: ", isSessionOpenState);
+
+    const handleLogout =  (
         e: React.MouseEvent<HTMLAnchorElement, MouseEvent>
     ) => {
         e.preventDefault();
-        reduxStore.dispatch(setSessionIsOpen(true));
+        reduxStore.dispatch(setSessionIsOpen(false));
         
         // delete the cookies
         deleteCookie("refresh_token");
         deleteCookie("access_token");
         deleteCookie("logged_in");
-        
-        alert("You have been logged out");
 
         // redirect to home page
-        router.push("/");
+        router.push("/login");
     }
     
     return (
         <header className={'w-full'} >
+            <p className='hidden'>{shouldRefresh}</p>
             {/* this is large screen version */}
+
             <div id="desktop-header-wrapper" className='hidden phone:block'>
                 <div id="desktop-header-top" className='flex flex-row flex-wrap justify-center gap-5'>
                     <Link href={"/"} id="desktop-header-logo" className='text-2xl dark:text-brand-light text-brand-vivid font-bold text-center my-3'>
@@ -71,7 +74,7 @@ export default function HeaderComponent(ToggleDarkMode: any, isDarkMode: any) {
                     </Link>
                     : null}
                     {isSessionOpenState === true ?
-                    <Link href={"#"} onClick={handleLogout} id="desktop-header-logout" className='my-auto'>
+                    <Link href={"#"} onClick={handleLogout}  id="desktop-header-logout" className='my-auto'>
                         Logout
                     </Link>:null}
                     {isSessionOpenState === false ?
