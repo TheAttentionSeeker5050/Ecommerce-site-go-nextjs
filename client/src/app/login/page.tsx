@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 
 
-import { handleLogin } from "@/api/handlers/handleLogin";
+import { handleLogin } from "@/functions/handlers/handleLogin";
 
 
 // icons

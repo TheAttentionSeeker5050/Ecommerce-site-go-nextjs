@@ -154,13 +154,20 @@ func ChangeEmailController(
 ) {
 
 
-	// get the user email from the claim
-	email := c.GetString("email")
+	// get the user id from the token claims
 	userID := c.GetString("id")
+	
 	// if the email is empty return an error
-	if email == "" || userID == "" {
+	if userID == "" {
+		// delete cookies
+		c.SetCookie("access_token", "", -1, "/", os.Getenv("COOKIE_DOMAIN"), false, true)
+		c.SetCookie("refresh_token", "", -1, "/", os.Getenv("COOKIE_DOMAIN"), false, true)
+		c.SetCookie("logged_in", "", -1, "/", os.Getenv("COOKIE_DOMAIN"), false, true)
+
+		// return error response
 		c.JSON(http.StatusUnauthorized, gin.H{ // status unauthorized
 			"error": "Bad Request: No email found in token",
+			"must_restore_session": true,
 		})
 		// c.Abort()
 		return
@@ -239,8 +246,16 @@ func ChangeEmailController(
 
 	// check for errors
 	if err != nil {
+
+		// delete cookies
+		c.SetCookie("access_token", "", -1, "/", os.Getenv("COOKIE_DOMAIN"), false, true)
+		c.SetCookie("refresh_token", "", -1, "/", os.Getenv("COOKIE_DOMAIN"), false, true)
+		c.SetCookie("logged_in", "", -1, "/", os.Getenv("COOKIE_DOMAIN"), false, true)
+
+		// return error response
 		c.JSON(http.StatusForbidden, gin.H{ // this goes for status unauthorized
 			"error": "Failed to create access token",
+			"must_restore_session": true,
 		})
 
 		// c.Abort()
@@ -264,11 +279,10 @@ func ChangeEmailController(
 	}
 
 	// update the refresh token from the cookie
-	c.SetCookie("refresh_token", refreshToken, 6*60*60, "/", os.Getenv("CLIENT_ORIGIN_URL"), false, true)
-	c.SetCookie("access_token", accessToken, 6*60*60, "/", os.Getenv("CLIENT_ORIGIN_URL"), false, true)
-	c.SetCookie("logged_in", "true", 6*60*60, "/", os.Getenv("CLIENT_ORIGIN_URL"), false, true)
+	c.SetCookie("refresh_token", refreshToken, 6*60*60, "/", os.Getenv("COOKIE_DOMAIN"), false, true)
+	c.SetCookie("access_token", accessToken, 6*60*60, "/", os.Getenv("COOKIE_DOMAIN"), false, true)
+	c.SetCookie("logged_in", "true", 6*60*60, "/", os.Getenv("COOKIE_DOMAIN"), false, true)
 	
-
 	// return success REST response
 	c.JSON(http.StatusOK, gin.H{
 		"message":          "Successfully changed email",

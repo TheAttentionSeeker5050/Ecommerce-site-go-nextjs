@@ -20,7 +20,7 @@ export default function AccountMainPage() {
             console.log(data);
         })
         .catch((error) => {
-            console.log(error);
+            console.log(error.status);
         });
 
         // for the moment we will just set some dummy data

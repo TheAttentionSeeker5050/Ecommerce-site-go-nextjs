@@ -24,9 +24,9 @@ export const handleGetRequests = async (
     )
 
 
-    if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-    }
+    // if (!response.ok) {
+    //     throw new Error(`HTTP error! status: ${response.status}`);
+    // }
     
     // get the response data
     const responseData = await response.json();
