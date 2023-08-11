@@ -8,6 +8,7 @@ export default function AccountMainPage() {
     const [lastName, setLastName] = useState<string>();
     const [email, setEmail] = useState<string>();
     const [photoUrl, setPhotoUrl] = useState<string>();
+    const [emailNeedsUpdate, setEmailNeedsUpdate] = useState<boolean>(false);
 
     // some state of the fetched account data
     const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -17,18 +18,24 @@ export default function AccountMainPage() {
         // fetch account data using our generic function
         handleGetRequests("/user/account")
         .then((data) => {
-            console.log(data);
+            if (data.error) {
+                setError(data.error);
+                // next here we need to have our open session shut down, in case that it is some kind of authentication error
+                // we the server already deleted cookies, but we will to delete the redux store data on open session
+            } else {
+                // set the state variables
+                setFirstName(data.first_name);
+                setLastName(data.last_name);
+                setEmail(data.email);
+                setEmailNeedsUpdate(data.email_needs_update);
+                setPhotoUrl("https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50"); // we will use gravatar for now
+                setIsLoading(false);
+
+            }
         })
         .catch((error) => {
             console.log(error.status);
         });
-
-        // for the moment we will just set some dummy data
-        setFirstName("John");
-        setLastName("Doe");
-        setEmail("johndoe@email.com");
-        setPhotoUrl("https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50");
-        setIsLoading(false);
 
     }, []);
 

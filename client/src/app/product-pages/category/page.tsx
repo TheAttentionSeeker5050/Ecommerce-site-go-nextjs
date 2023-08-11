@@ -16,9 +16,13 @@ export default function ProductCategoriesPage() {
         // get the data for the product categories
         handleGetRequests("/products/categories/product-types")
         .then((data) => {
-            // change the state of the product categories
-            setProductCategories(data.productCategoryList);
-            setIsLoading(false);
+            if (data.error) {
+                setIsError(true);
+            } else {
+                // change the state of the product categories
+                setProductCategories(data.productCategoryList);
+                setIsLoading(false);
+            }
         })
         .catch((error) => {
             setIsError(true);
