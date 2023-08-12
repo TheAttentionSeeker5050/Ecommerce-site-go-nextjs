@@ -60,7 +60,7 @@ export default function LoginPage() {
                     redirectToSuccessPage()
                 }
             }).catch((error) => {
-                console.log("An error happened on hook:\n",error);
+                setErrorMessages((errorMessages) => [...errorMessages, `Something happened while trying to login`]);
         });
     };
     

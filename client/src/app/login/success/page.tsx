@@ -21,9 +21,8 @@ export default async function LoginSuccessPage() {
         // make a fetch request to the server to validate the token
         handleGetRequests("/user/account/validate-token")
         .then((data) => {
-            console.log(data);
             // if the token is valid, redirect to home page
-            if (data.must_restore_session == true) {
+            if (data.must_restore_session == true || data.error) {
                 // change the state of the redux store session var
                 reduxStore.dispatch(setSessionIsOpen(false));
 
