@@ -161,7 +161,7 @@ export default function HeaderComponent(ToggleDarkMode: any, isDarkMode: any) {
                 </div>
             </div>
             {/* here we will display the mobile header wrapper */}
-            <div id="mobile-header-wrapper" className='grid phone:hidden grid-cols-8 grid-rows-2 p-3 '>
+            <div id="mobile-header-wrapper" className='grid phone:hidden grid-cols-9 grid-rows-2 p-2 '>
                 <div id='mobile-header-menu' className='col-start-1 col-span-1 row-start-1 row-span-1 text-center my-auto'>
                     <FontAwesomeIcon icon={faBars} className='relative' onClick={handleMobileProductMenuDropdown}/>
                     
@@ -177,7 +177,11 @@ export default function HeaderComponent(ToggleDarkMode: any, isDarkMode: any) {
                     
                 </div>
                 <div id='mobile-authenticated-user-menu' className='col-start-2 col-span-1 row-start-1 row-span-1 text-center my-auto'>
-                    <Link href={"#"}  id='mobile-menu-account' className='relative  text-center my-auto'  ><FontAwesomeIcon onClick={handleMobileAccountMenuDropdown} icon={faUser} /></Link>
+                    {
+                        isSessionOpenState === true ?
+                        <Link href={"#"}  id='mobile-menu-account' className='relative  text-center my-auto'  ><FontAwesomeIcon onClick={handleMobileAccountMenuDropdown} icon={faUser} /></Link>
+                        : null
+                    }
                     {
                         isSessionOpenState === true ?
 

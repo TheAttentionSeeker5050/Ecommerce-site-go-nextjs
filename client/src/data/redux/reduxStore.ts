@@ -4,6 +4,7 @@ import storage from "redux-persist/lib/storage";
 
 import productFilterSlice  from "./productFilterStore";
 import sessionIsOpenSlice from "./sessionIsOpenStore";
+import shoppingCartSlice from "./shoppingCartStore";
 
 
 const persistConfig = {
@@ -17,6 +18,7 @@ const persistedReducer = persistReducer(persistConfig,
         // add reducers here
         productFilter: productFilterSlice,
         sessionIsOpen: sessionIsOpenSlice,
+        shoppingCart: shoppingCartSlice,
     })
 );
 
