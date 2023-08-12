@@ -106,10 +106,15 @@ export default function HeaderComponent(ToggleDarkMode: any, isDarkMode: any) {
         e: React.MouseEvent<HTMLDivElement, MouseEvent>
     ) => {
         // get the mobile menu dropdown
-        const mobileMenuDropdown = document.getElementById("mobile-header-menu-dropdown");
+        const productMenuDropdown = document.getElementById("mobile-header-menu-dropdown");
         // hide the menu dropdown
-        mobileMenuDropdown?.classList.remove("block");
-        mobileMenuDropdown?.classList.add("hidden");
+        productMenuDropdown?.classList.remove("block");
+        productMenuDropdown?.classList.add("hidden");
+
+        const accountMenuDropdown = document.getElementById("mobile-menu-account-trigger-btn");
+        // hide the menu dropdown
+        accountMenuDropdown?.classList.remove("block");
+        accountMenuDropdown?.classList.add("hidden");
         setProductDropdownIsOpen(false);
         setAccountDropdownIsOpen(false);
     }
