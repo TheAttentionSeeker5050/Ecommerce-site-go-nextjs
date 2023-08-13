@@ -19,7 +19,7 @@ func NewShoppingCartRepository(db *gorm.DB) *ShoppingCartRepository {
 
 // get a list of products in shopping cart per user id
 func (shoppingCartRepo *ShoppingCartRepository) GetAllProductsInShoppingCart(
-	userID int,
+	userID string,
 ) ([]*models.ShoppingCartItem, error) {
 	// create a list of products
 	shoppingCartItems := []*models.ShoppingCartItem{}
@@ -38,7 +38,7 @@ func (shoppingCartRepo *ShoppingCartRepository) GetAllProductsInShoppingCart(
 
 // update all items in shopping cart per user id
 func (shoppingCartRepo *ShoppingCartRepository) UpdateAllItemsInShoppingCart(
-	userID int,
+	userID string,
 	shoppingCartItems []*models.ShoppingCartItem,
 ) error {
 	// update the shopping cart items belonging to the user and make sure that the ones not in the list are deleted
@@ -62,7 +62,7 @@ func (shoppingCartRepo *ShoppingCartRepository) UpdateAllItemsInShoppingCart(
 
 // add a single item to the shopping cart
 func (shoppingCartRepo *ShoppingCartRepository) AddSingleItemToShoppingCart(
-	userID int,
+	userID string,
 	shoppingCartItem *models.ShoppingCartItem,
 ) error {
 	// create the shopping cart item
@@ -77,7 +77,7 @@ func (shoppingCartRepo *ShoppingCartRepository) AddSingleItemToShoppingCart(
 
 // delete a single item from the shopping cart
 func (shoppingCartRepo *ShoppingCartRepository) DeleteSingleItemFromShoppingCart(
-	userID int,
+	userID string,
 	shoppingCartItemID int,
 ) error {
 	// delete the shopping cart item
@@ -92,7 +92,7 @@ func (shoppingCartRepo *ShoppingCartRepository) DeleteSingleItemFromShoppingCart
 
 // update a single item in the shopping cart
 func (shoppingCartRepo *ShoppingCartRepository) UpdateSingleItemInShoppingCart(
-	userID int,
+	userID string,
 	shoppingCartItemID int,
 	shoppingCartItem *models.ShoppingCartItem,
 ) error {
