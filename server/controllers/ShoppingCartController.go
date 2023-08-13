@@ -10,7 +10,7 @@ import (
 )
 
 // create a new shopping cart return structure, it will be { productId:int, productPrice:float, productName:string, quantity:int }
-type NewShoppingCartItem struct {
+type ShoppingCartItemsReturnStruct struct {
 	ProductID int `json:"productId"`
 	ProductPrice float64 `json:"productPrice"`
 	ProductName string `json:"productName"`
@@ -33,10 +33,30 @@ func GetShoppingCartItemsController(
 
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
-			"message": "Failed to get shopping cart items",
-			"error": err.Error(),
+			"error": "Failed to get shopping cart items",
 		})
 		return
+	}
+
+	// declare a new list of our NewShoppingCartItemsReturnStruct
+	shoppingCartItemsReturnStruct := []*ShoppingCartItemsReturnStruct{}
+
+	// call the product repository
+	productRepo := repositories.NewProductRepository(db)
+
+	// now loop through the shopping cart items and add them to the list
+	for _, shoppingCartItem := range shoppingCartItems {
+		// get the product from the database using the repository
+		product, _ := productRepo.GetSingleProductByID(shoppingCartItem.ProductID)
+
+		// append the shopping cart item to the list 
+		shoppingCartItemsReturnStruct = append(shoppingCartItemsReturnStruct, &ShoppingCartItemsReturnStruct{
+			ProductID: shoppingCartItem.ProductID,
+			ProductPrice: product.Price,
+			ProductName: product.Name,
+			Quantity: shoppingCartItem.Quantity,
+		})
+
 	}
 
 	
@@ -44,7 +64,7 @@ func GetShoppingCartItemsController(
 	// return a response
 	c.JSON(http.StatusOK, gin.H{
 		"message": "Successfully got shopping cart",
-		"shoppingCartItems": shoppingCartItems,
+		"shoppingCartItems": shoppingCartItemsReturnStruct,
 	})
 }
 
@@ -63,8 +83,7 @@ func UpdateShoppingCartItemsController(
 	err := c.BindJSON(&shoppingCartItems)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
-			"message": "Failed to bind request body",
-			"error": err.Error(),
+			"error": "Failed to bind request body",
 		})
 		return
 	}
@@ -83,7 +102,7 @@ func UpdateShoppingCartItemsController(
 
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
-			"message": "Failed to update shopping cart items",
+			"error": "Failed to update shopping cart items",
 		})
 		return
 	}

@@ -60,6 +60,8 @@ func (shoppingCartRepo *ShoppingCartRepository) UpdateAllItemsInShoppingCart(
 
 }
 
+// get a single product by product id
+
 // add a single item to the shopping cart
 func (shoppingCartRepo *ShoppingCartRepository) AddSingleItemToShoppingCart(
 	userID string,

@@ -5,9 +5,9 @@ package models
 // define the model struct
 type ShoppingCartItem struct {
 	ID       uint    `gorm:"primary_key; auto_increment" json:"id"`
-	UserID   int  `gorm:"size:255;not null" json:"user_id"`
+	UserID   int  `gorm:"not null" json:"user_id"`
 	User     User    
-	ProductID int  `gorm:"size:255;not null" json:"product_id"`
+	ProductID int  `gorm:"not null" json:"product_id"`
 	Product  Product 
-	Quantity uint    `gorm:"not null;" json:"quantity"`
+	Quantity int    `gorm:"not null;" json:"quantity"`
 }
