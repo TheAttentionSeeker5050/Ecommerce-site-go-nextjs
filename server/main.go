@@ -69,6 +69,8 @@ func main() {
 	routers.ProductCategoryRouter(productRoutes, db)
 	routers.ProductRouter(productRoutes, db)
 
+	routers.ShoppingCartRouter(v1Routes, db)
+	
 	// define the user router
 	routers.UserRouter(v1Routes, db)
 	routers.SessionRouter(v1Routes, db)
