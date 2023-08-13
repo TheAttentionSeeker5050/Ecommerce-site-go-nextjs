@@ -1,7 +1,7 @@
 "use client";
 import { ButtonWithActionPrimary } from "@/components/buttons/buttonPrimary";
 import { reduxStore } from "@/data/redux/reduxStore";
-import { addItemToShoppingCart } from "@/data/redux/shoppingCartStore";
+import { addItemToShoppingCart, removeAllUnitsOfItemFromShoppingCart } from "@/data/redux/shoppingCartStore";
 import {formatCurrency} from "@/utils/stringFormatTools";
 import Image from "next/image";
 import { useState } from "react";
@@ -20,7 +20,6 @@ export default function IndividualProductPageContainer(
 
     const handleAddToCart = () => {
         // add the product to the cart
-        // alert(`Added ${quantity} of ${product_data.name} to cart!`);
 
         // prepare the payload for the item
         const itemPayload = {
@@ -31,8 +30,7 @@ export default function IndividualProductPageContainer(
         // add the items to the cart store on redux
         reduxStore.dispatch(addItemToShoppingCart(itemPayload));
 
-        console.log(reduxStore.getState().shoppingCart.value.items);
-        console.log(reduxStore.getState().shoppingCart.value.totalItems);
+        // we will later implement a fetching to the server to add the item to the cart
     }
 
     const handleDeleteItemFromCart = (
@@ -40,7 +38,19 @@ export default function IndividualProductPageContainer(
     ) => {
         // delete the item from the cart
 
+        // prepare the payload for the item
+        const itemPayload = {
+            productId: product_data.id.toString(),
+            quantity: productQuantity,
+        }
+
+        // use the reducers to delete the item from the cart
+        reduxStore.dispatch(removeAllUnitsOfItemFromShoppingCart(itemPayload));
+
+        
     }
+
+    
     return ( 
         <div id="p-content" className="max-w-4xl my-8 flex flex-col gap-5 mx-auto">
             <div id="upper-prod-container" className="tablet:grid-rows-4 tablet:grid tablet:grid-cols-3 px-4 flex flex-col gap-3">
