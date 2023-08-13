@@ -7,7 +7,7 @@ export default function ShoppingCartPage() {
 
     // use subscribe to get the state of the cart
     const [cart, setCart] = useState([]);
-    const [isLoading, setIsLoading] = useState(false);
+    const [isLoading, setIsLoading] = useState(false); // it has to be true at first but I am not fetching from the server yet
     const [isError, setIsError] = useState(false);
 
     useEffect(() => {
@@ -18,7 +18,6 @@ export default function ShoppingCartPage() {
         const subscribeShoppingCart = reduxStore.subscribe(() => {
             // get the redux state of the shopping cart and set it to the cart state
             setCart(reduxStore.getState().shoppingCart.value.items);
-            // setIsLoading(false);
         });
         return () => {
             subscribeShoppingCart();

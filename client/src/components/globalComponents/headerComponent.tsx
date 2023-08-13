@@ -195,7 +195,7 @@ export default function HeaderComponent(ToggleDarkMode: any, isDarkMode: any) {
                     : <Link href={"/login"} id='mobile-header-account' className=' text-center my-auto'>Login</Link>
                     }
                 </div>
-                <div id='mobile-header-company-logo' className='col-start-3 col-span-4 row-auto text-2xl dark:text-brand-light text-brand-vivid font-bold text-center my-3'>Pet Shop X</div>
+                <Link id='mobile-header-company-logo' href='/' className='col-start-3 col-span-4 row-auto text-2xl dark:text-brand-light text-brand-vivid font-bold text-center my-3'>Pet Shop X</Link>
                 <div id='mobile-header-location' className='col-auto row-auto text-center my-auto'><FontAwesomeIcon icon={faLocationDot} /></div>
                 <div id='mobile-header-cart' className='col-auto row-auto mx-auto my-auto'>
                     <ShoppingCartWidgetComponent />
