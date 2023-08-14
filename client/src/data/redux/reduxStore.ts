@@ -7,14 +7,16 @@ import sessionIsOpenSlice from "@/data/redux/sessionIsOpenStore";
 import shoppingCartSlice from "@/data/redux/shoppingCartStore";
 
 // import the thunk middleware
-import thunkMiddleware from "redux-thunk";
 import { fetchShoppingCart, updateShoppingCart } from "@/data/redux/api/cartAPIHandlers";
 
 
 const persistConfig = {
     key: "reduxPersistStore",
     storage,
-    whitelist: ["sessionIsOpen"],
+    whitelist: [
+        "sessionIsOpen",
+        // "shoppingCart",
+    ],
 };
 
 const persistedReducer = persistReducer(persistConfig, 
@@ -42,6 +44,7 @@ export const reduxStore = configureStore({
     }),
 });
 
+reduxStore.dispatch(fetchShoppingCart());
 export const persistor = persistStore(reduxStore);
 
 

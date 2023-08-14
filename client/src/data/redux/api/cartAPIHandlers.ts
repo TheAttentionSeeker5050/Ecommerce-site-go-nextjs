@@ -1,7 +1,7 @@
 // here we will create a fetch cart items api handler for our thunk middleware
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { RootState } from "@/data/redux/reduxStore";
-import { setShoppingCart } from "../shoppingCartStore";
+import { setShoppingCart } from "@/data/redux/shoppingCartStore";
 import { reduxStore } from "../reduxStore";
 import { getCorsOrigin, getServerRequestURL } from "@/utils/routeUtils";
 
@@ -30,22 +30,13 @@ export const fetchShoppingCart = createAsyncThunk("shoppingCart/fetchShoppingCar
 
 
         // declare a payload variable of structure {productId: string, quantity: number}
-        let payload: [{productId: string, quantity: number}] = [{productId: "", quantity: 0}];
+        const payload = data.shoppingCartItems.map((item:any) => ({
+          productId: item.productId.toString(),
+          quantity: item.quantity,
+        }));
 
-        // prepare the payload as a list of items
-        data.shoppingCartItems.forEach((item: any) => {
-            payload.push({
-                productId: item.productId,
-                quantity: item.quantity,
-            });
-        });
+        dispatch(setShoppingCart(payload));
 
-        // if the state items array not empty, delete the initial empty item
-        if (payload.length > 1) {
-            payload.shift();
-        }
-
-        dispatch(setShoppingCart({ items: payload }));
     } catch (error) {
         console.error("Error fetching shopping cart:", error);
     }
@@ -76,14 +67,13 @@ export const updateShoppingCart = createAsyncThunk(
             });
         });
 
-        console.log("payload", payload);
 
         // if the state items array not empty, delete the initial empty item
         if (payload.length > 1) {
             payload.shift();
         }
 
-        console.log("payload", payload);
+        // console.log("payload", payload);
 
         const response = await fetch(url, {
           method: "POST",

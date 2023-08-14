@@ -7,15 +7,15 @@ const shoppingCartSlice = createSlice({
     initialState: {
         value: {
             totalItems: 0,
-            // declare type of array
-            items: [],
+            // dispatch from the database
+            items: []
             // items will have the following structure: {productId: string, quantity: number}
         }
     },
     reducers: {
         setShoppingCart: (state, action) => {
-            state.value.items = action.payload.items;
-            state.value.totalItems = action.payload.items.reduce(({total, item}:any) => total + item.quantity, 0);
+            state.value.items = action.payload;
+            state.value.totalItems = action.payload.reduce((total:number, item:any) => total + item.quantity, 0);
         },
         addItemToShoppingCart: (state: any, action: { payload: {productId:string, quantity:number} }) => {
             

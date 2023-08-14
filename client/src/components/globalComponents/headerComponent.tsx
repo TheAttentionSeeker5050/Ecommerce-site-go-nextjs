@@ -10,6 +10,7 @@ import { reduxStore } from '@/data/redux/reduxStore';
 import { setSessionIsOpen } from '@/data/redux/sessionIsOpenStore';
 import { useRouter } from "next/navigation";
 import { handlePostRequests } from '@/functions/handlers/handleGenericRequests';
+import { fetchShoppingCart } from '@/data/redux/api/cartAPIHandlers';
 
 
 
@@ -22,6 +23,8 @@ export default function HeaderComponent(ToggleDarkMode: any, isDarkMode: any) {
 
     const router = useRouter();
 
+    
+    
     useEffect(() => {
 
         const subscribeSession = reduxStore.subscribe(() => {
@@ -31,6 +34,7 @@ export default function HeaderComponent(ToggleDarkMode: any, isDarkMode: any) {
         return () => {
             subscribeSession();
         }
+
     },[]);
 
     const handleLogout = async (
