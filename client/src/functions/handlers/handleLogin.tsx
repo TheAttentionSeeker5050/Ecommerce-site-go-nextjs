@@ -1,5 +1,5 @@
-import { validateEmail } from "@/api/validators/validateEmail";
-import { validatePassword } from "@/api/validators/validatePassword";
+import { validateEmail } from "@/functions/validators/validateEmail";
+import { validatePassword } from "@/functions/validators/validatePassword";
 import { getCorsOrigin, getServerRequestURL } from "@/utils/routeUtils";
 import { get } from "http";
 

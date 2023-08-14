@@ -1,10 +1,9 @@
 'use client';
-import axios from "axios";
 
 
 import React, {useState} from "react";
 
-import { handleRegister } from "@/api/handlers/handleRegister";
+import { handleRegister } from "@/functions/handlers/handleRegister";
 import Link from "next/link";
 import { SubmitButtonPrimary } from "@/components/buttons/buttonPrimary";
 

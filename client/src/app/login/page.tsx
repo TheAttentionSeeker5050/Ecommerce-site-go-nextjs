@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 
 
-import { handleLogin } from "@/api/handlers/handleLogin";
+import { handleLogin } from "@/functions/handlers/handleLogin";
 
 
 // icons
@@ -60,7 +60,7 @@ export default function LoginPage() {
                     redirectToSuccessPage()
                 }
             }).catch((error) => {
-                console.log("An error happened on hook:\n",error);
+                setErrorMessages((errorMessages) => [...errorMessages, `Something happened while trying to login`]);
         });
     };
     
