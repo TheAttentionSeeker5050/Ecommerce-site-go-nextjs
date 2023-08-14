@@ -1,5 +1,6 @@
 "use client";
 import { ButtonWithActionPrimary } from "@/components/buttons/buttonPrimary";
+import { updateShoppingCart } from "@/data/redux/api/cartAPIHandlers";
 import { reduxStore } from "@/data/redux/reduxStore";
 import { addItemToShoppingCart, removeAllUnitsOfItemFromShoppingCart } from "@/data/redux/shoppingCartStore";
 import {formatCurrency} from "@/utils/stringFormatTools";
@@ -34,12 +35,14 @@ export default function IndividualProductPageContainer(
         // add a message to the user
         setAddToCartMessage(`${productQuantity} units of ${product_data.name} were added to cart`);
 
+        // update the data on the server using thunk
+        reduxStore.dispatch(updateShoppingCart());
+        
         // make the message disappear after 3 seconds
         setTimeout(() => {
             setAddToCartMessage("");
         }, 3000);
 
-        // we will later implement a fetching to the server to add the item to the cart
     }
 
     const handleDeleteItemFromCart = (
@@ -58,6 +61,9 @@ export default function IndividualProductPageContainer(
 
         // add a message to the user
         setAddToCartMessage("Item deleted from cart");
+
+        // update the data on the server using thunk
+        reduxStore.dispatch(updateShoppingCart());
 
         // make the message disappear after 3 seconds
         setTimeout(() => {

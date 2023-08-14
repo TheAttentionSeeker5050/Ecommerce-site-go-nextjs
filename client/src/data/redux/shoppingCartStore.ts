@@ -16,7 +16,6 @@ const shoppingCartSlice = createSlice({
         setShoppingCart: (state, action) => {
             state.value.items = action.payload.items;
             state.value.totalItems = action.payload.items.reduce(({total, item}:any) => total + item.quantity, 0);
-            
         },
         addItemToShoppingCart: (state: any, action: { payload: {productId:string, quantity:number} }) => {
             
