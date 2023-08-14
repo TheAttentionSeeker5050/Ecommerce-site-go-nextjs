@@ -15,12 +15,11 @@ export const fetchShoppingCart = createAsyncThunk("shoppingCart/fetchShoppingCar
 
         const response = await fetch(url,{
             method: "GET",
-            mode: "no-cors",
+            mode: "cors",
+            credentials: "include",
             headers: {
                 'Content-Type': 'application/json',
-                // 'Accept': 'application/json',
                 'Access-Control-Allow-Origin': corsOrigin,
-                "Origin": corsOrigin,
             },
         }); // Replace with your API endpoint
 
@@ -33,12 +32,10 @@ export const fetchShoppingCart = createAsyncThunk("shoppingCart/fetchShoppingCar
         // declare a payload variable of structure {productId: string, quantity: number}
         let payload: [{productId: string, quantity: number}] = [{productId: "", quantity: 0}];
 
-
-
         // prepare the payload as a list of items
         data.shoppingCartItems.forEach((item: any) => {
             payload.push({
-                productId: item.product._id,
+                productId: item.productId,
                 quantity: item.quantity,
             });
         });
@@ -71,27 +68,31 @@ export const updateShoppingCart = createAsyncThunk(
         // prepare the payload for the request
         // the api server accepts the following structure for the request body:
         // [{product_id: string, quantity: number}]
-        let payload: [{product_id: string, quantity: number}] = [{product_id: "", quantity: 0}];
+        let payload: [{product_id: number, quantity: number}] = [{product_id: 0, quantity: 0}];
         state.shoppingCart.value.items.forEach((item: { productId: string; quantity: number; }) => {
             payload.push({
-                product_id: item.productId,
+                product_id: parseInt(item.productId),
                 quantity: item.quantity,
             });
         });
+
+        console.log("payload", payload);
 
         // if the state items array not empty, delete the initial empty item
         if (payload.length > 1) {
             payload.shift();
         }
 
+        console.log("payload", payload);
+
         const response = await fetch(url, {
           method: "POST",
-          mode: "no-cors",
+          // mode: "no-cors",
+          mode: "cors",
+          credentials: "include",
           headers: {
             'Content-Type': 'application/json',
-            // 'Accept': 'application/json',
             'Access-Control-Allow-Origin': corsOrigin,
-            "Origin": corsOrigin,
           },
           body: JSON.stringify(payload),
         });
