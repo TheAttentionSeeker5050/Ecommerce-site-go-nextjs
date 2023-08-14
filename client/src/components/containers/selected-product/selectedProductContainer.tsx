@@ -13,6 +13,7 @@ export default function IndividualProductPageContainer(
 
     // the state variables for the product containet
     const [productQuantity, setProductQuantity] = useState<number>(1);
+    const [addToCartMessage, setAddToCartMessage] = useState<string>("");
 
     const handleChangeQuantity = (e: React.ChangeEvent<HTMLSelectElement>) => {
         setProductQuantity(parseInt(e.target.value));
@@ -30,6 +31,14 @@ export default function IndividualProductPageContainer(
         // add the items to the cart store on redux
         reduxStore.dispatch(addItemToShoppingCart(itemPayload));
 
+        // add a message to the user
+        setAddToCartMessage(`${productQuantity} units of ${product_data.name} were added to cart`);
+
+        // make the message disappear after 3 seconds
+        setTimeout(() => {
+            setAddToCartMessage("");
+        }, 3000);
+
         // we will later implement a fetching to the server to add the item to the cart
     }
 
@@ -46,6 +55,14 @@ export default function IndividualProductPageContainer(
 
         // use the reducers to delete the item from the cart
         reduxStore.dispatch(removeAllUnitsOfItemFromShoppingCart(itemPayload));
+
+        // add a message to the user
+        setAddToCartMessage("Item deleted from cart");
+
+        // make the message disappear after 3 seconds
+        setTimeout(() => {
+            setAddToCartMessage("");
+        }, 3000);
 
         
     }
@@ -83,6 +100,7 @@ export default function IndividualProductPageContainer(
                     <ButtonWithActionPrimary onClick={handleAddToCart} text="Add to cart" />
                     {/* delete from cart button */}
                     <button className="p-2 rounded-full border-2 border-white bg-red-500 text-white" onClick={handleDeleteItemFromCart}>Delete from cart</button>
+                    <p className="text-center text-sm text-red-500">{addToCartMessage}</p>
             </div>
             </div>
             <div id="productDescription" className="px-4">
