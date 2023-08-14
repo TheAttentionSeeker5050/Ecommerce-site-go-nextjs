@@ -1,5 +1,6 @@
 "use client"
 
+import { fetchShoppingCart } from "@/data/redux/api/cartAPIHandlers";
 import { reduxStore } from "@/data/redux/reduxStore";
 import { setSessionIsOpen } from "@/data/redux/sessionIsOpenStore";
 import { handleGetRequests } from "@/functions/handlers/handleGenericRequests";
@@ -31,6 +32,8 @@ export default async function LoginSuccessPage() {
             } else {
                 // change the state of the redux store session var
                 reduxStore.dispatch(setSessionIsOpen(true));
+                // fetch the cart items
+                reduxStore.dispatch(fetchShoppingCart());
             }
         })
         .catch((error) => {
