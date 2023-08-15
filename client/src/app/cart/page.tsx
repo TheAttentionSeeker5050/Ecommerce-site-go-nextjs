@@ -1,10 +1,11 @@
 "use client";
 
 import { ButtonWithActionPrimary } from "@/components/buttons/buttonPrimary";
-import { fetchShoppingCart } from "@/data/redux/api/cartAPIHandlers";
+import { fetchShoppingCart, updateShoppingCart } from "@/data/redux/api/cartAPIHandlers";
 import { reduxStore } from "@/data/redux/reduxStore";
 import { setShoppingCart } from "@/data/redux/shoppingCartStore";
 import { getCorsOrigin, getServerRequestURL } from "@/utils/routeUtils";
+import { formatCurrency } from "@/utils/stringFormatTools";
 import { useEffect, useState } from "react";
 
 export default function ShoppingCartPage() {
@@ -90,12 +91,31 @@ export default function ShoppingCartPage() {
                 } 
             }
             });
-            
-        
-
         // set the cart state
         setCart(newCart as any);
-        
+    }
+
+    const handleDeleteCartItem = async (productId: string) => {
+        // delete the item from the cart local state
+        const newCart = cart.filter((item:any) => item.productId != productId);
+        setCart(newCart as any);
+    }
+
+    const handleGoToCheckout = async () => {
+
+        // dispatch the cart state to the redux store
+        const payload = cart.map((item:any) => ({
+            productId: item.productId.toString(),
+            quantity: item.quantity,
+        }));
+
+        reduxStore.dispatch(setShoppingCart(payload));
+
+        // dispatch the payload to the server
+        await reduxStore.dispatch(updateShoppingCart());
+
+        // some alert
+        alert("Go to checkout page");
     }
 
     return (
@@ -111,17 +131,22 @@ export default function ShoppingCartPage() {
                     <div className="max-w-lg flex p-4 gap-4 flex-col mx-auto border-brand-vivid border-t-2">
                         {cart.map((item:any) => {
                             return (
-                                <div className="grid grid-rows-3 gap-2 grid-cols-6 m-2 border-brand-vivid border-b-2"  key={item.productId}>
-                                    <p className="text-md font-bold col-start-1 col-span-4 row-start-1 row-span-1 ">
-                                        {item.productName}
+                                <div className="grid grid-rows-2 gap-2 grid-cols-6 m-2 border-brand-vivid border-b-2"  key={item.productId}>
+                                    <div className=" col-start-1 col-span-4 row-start-1 row-span-1 ">
+                                        <p className="text-md font-bold">
+                                            {item.productName}
+                                        </p>
+                                        <p>
+                                            Item Id: {item.productId}
+                                        </p>
+                                    </div>
+                                    <button className="text-md col-start-1 col-span-2  row-start-2 row-span-1 mr-auto text-white rounded-full px-4 py-1.5 my-2 bg-danger " onClick={() => handleDeleteCartItem(item.productId)}> 
+                                        Delete
+                                    </button>
+                                    <p className="text-xl text-brand-vivid text-right col-start-6 col-span-2 row-start-1 row-span-1 my-auto">
+                                        {formatCurrency(item.productPrice*item.quantity)}
                                     </p>
-                                    <p className="text-sm col-start-1 col-span-2 row-start-2 row-span-1">
-                                        Item Id: {item.productId}
-                                    </p>
-                                    <p className="text-xl text-brand-vivid text-right col-start-6 col-span-2 row-start-1 row-span-1">
-                                        ${item.productPrice}
-                                    </p>
-                                    <p className="text-md text-right col-start-5 col-span-3 row-start-2 row-span-2 flex flex-row gap-3 justify-end">
+                                    <p className="text-md text-right col-start-5 col-span-3 row-start-2 row-span-1 flex flex-row gap-3 justify-end">
                                         Quantity: 
                                         {/* add an input box here */}
                                         <input className="w-16 h-6 border-2 border-black rounded-lg p-3" type="number" value={item.quantity} onChange={(event) => handleGetCartItemQuantity(event, item.productId)}/>
@@ -131,10 +156,9 @@ export default function ShoppingCartPage() {
                         })}
 
                         <ButtonWithActionPrimary
-                            text="Update Cart"
+                            text="Checkout"
                             onClick={() => {
-                                // fetch the cart items
-                                alert("Made Purchase");
+                                handleGoToCheckout();
                             }}
                         />
                     </div>
