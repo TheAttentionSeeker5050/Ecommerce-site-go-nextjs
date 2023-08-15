@@ -109,6 +109,10 @@ func (promoRepo *PromoRepository) GetAllPromoProducts(promoID int) ([]*models.Pr
 		// append the product to the list
 		products = append(products, product)
 	}
+
+	// return the products
+	return products, nil
+	
 }
 
 // get a single promo

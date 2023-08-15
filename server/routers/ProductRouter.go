@@ -52,5 +52,14 @@ func ProductRouter(
 		)
 	})
 
+	productCategoryRouter.GET("/random/:number", func(c *gin.Context) {
+		// we will use our controller here, also add url query parameters (later)
+		controllers.GetRandomProducts(
+			c,
+			db,
+		)
+	})
+		
+
 	return productCategoryRouter
 }

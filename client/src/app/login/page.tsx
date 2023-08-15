@@ -120,7 +120,7 @@ export default function LoginPage() {
                 <label htmlFor="password">Password</label>
                 <input type="password" className="p-1 px-2 text-black rounded-md border-2 border-gray-dark dark:border-white" id="password" name="password" onChange={handleChange} />
             
-                <a href="">Forgot Password?</a>
+                <Link href="">Forgot Password?</Link>
             
                 {/* <input type="submit" value="Login" className="bg-primary text-white py-2 px-4 m-2 rounded-full" /> */}
                 <SubmitButtonPrimary text="Login" />
@@ -138,10 +138,10 @@ export default function LoginPage() {
                     <FontAwesomeIcon icon={faGithub} className="mx-2" />
                 </Link>
                 {/* make a login with google button */}
-                <a href={googleOAuthPath} className=" py-2 px-8 m-2 bg-gray text-black rounded-full">
+                <Link href={googleOAuthPath} className=" py-2 px-8 m-2 bg-gray text-black rounded-full">
                     Sign in with Google
                     <FontAwesomeIcon icon={faGoogle} className="mx-2" />
-                </a>
+                </Link>
             </div>
 
         </div>

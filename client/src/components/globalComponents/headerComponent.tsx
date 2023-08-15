@@ -154,9 +154,9 @@ export default function HeaderComponent(ToggleDarkMode: any, isDarkMode: any) {
                     <Link href={"/login"} id="desktop-header-login" className='my-auto'>
                         Log In
                     </Link>:null}   
-                    <Link href={"/cart"} id='desktop-header-cart-link' className='my-auto'>
+                    <div  id='desktop-header-cart-link' className='my-auto'>
                         <ShoppingCartWidgetComponent />
-                    </Link>
+                    </div>
                 </div>
                 <div id="desktop-header-bottom" className='flex flex-row flex-wrap justify-center gap-5 bg-brand-vivid  dark:bg-background-light dark:text-black  text-white my-3 py-2'>
                     <Link href={"/product-pages/category"}>Shop By Category</Link>

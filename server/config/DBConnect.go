@@ -39,10 +39,10 @@ func ConnectDB() (*gorm.DB, error) {
 		&models.ProductPetType{},
 		&models.Metadata{},
 		&models.Product{},
-		// &models.Wishlist{},
-		// &models.ProductUnit{},
 		&models.OnSalePromo{},
 		&models.OnSalePromoItem{},
+		// &models.Wishlist{},
+		// &models.ProductUnit{},
 		// &models.Order{},
 		// &models.OrderItem{},
 	)

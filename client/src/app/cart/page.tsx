@@ -6,6 +6,7 @@ import { reduxStore } from "@/data/redux/reduxStore";
 import { setShoppingCart } from "@/data/redux/shoppingCartStore";
 import { getCorsOrigin, getServerRequestURL } from "@/utils/routeUtils";
 import { formatCurrency } from "@/utils/stringFormatTools";
+import Link from "next/link";
 import { useEffect, useState } from "react";
 
 export default function ShoppingCartPage() {
@@ -133,12 +134,17 @@ export default function ShoppingCartPage() {
                             return (
                                 <div className="grid grid-rows-2 gap-2 grid-cols-6 m-2 border-brand-vivid border-b-2"  key={item.productId}>
                                     <div className=" col-start-1 col-span-4 row-start-1 row-span-1 ">
-                                        <p className="text-md font-bold">
-                                            {item.productName}
-                                        </p>
-                                        <p>
-                                            Item Id: {item.productId}
-                                        </p>
+                                        <Link href={`/product-pages/product/${item.productId}`}>
+                                            <p className="text-md font-bold">
+                                                {item.productName}
+                                            </p>
+                                        </Link  >
+                                            
+                                        <Link href={`/product-pages/product/${item.productId}`}>
+                                            <p>
+                                                Item Id: {item.productId}
+                                            </p>
+                                        </Link>
                                     </div>
                                     <button className="text-md col-start-1 col-span-2  row-start-2 row-span-1 mr-auto text-white rounded-full px-4 py-1.5 my-2 bg-danger " onClick={() => handleDeleteCartItem(item.productId)}> 
                                         Delete
