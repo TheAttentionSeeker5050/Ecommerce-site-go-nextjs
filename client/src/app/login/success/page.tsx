@@ -57,7 +57,7 @@ export default async function LoginSuccessPage() {
             {/* make a hidden paragraph */}
             <div className='flex flex-col justify-evenly w-screen h-96 bg-background-light  dark:bg-background-dark'>
                 <h1 className='text-3xl font-bold text-center text-brand-vivid dark:text-brand-electric'>Redirecting...</h1>
-                {/* make the same h2 title but red */}
+                
                 
             </div>
         </div>

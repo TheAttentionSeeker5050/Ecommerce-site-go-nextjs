@@ -3,7 +3,6 @@
 import { getProductsRequest } from "@/functions/handlers/handleGetProductsRequests";
 // import CategoriesBrowseContainer from "@/components/containers/products-browse/categoriesBrowseContainer";
 import ProductBrowseContainer from "@/components/containers/products-browse/productBrowseContainer";
-// import ProductFilterContainer from "@/components/containers/products-browse/productFilterContainer";
 import { getProductFeaturesFromQueryString } from "@/utils/urlSearchFilters";
 import { useEffect, useState } from "react";
 
@@ -69,7 +68,6 @@ export default function ProductBrowseListingByPetTypePage({params}: { params: {p
                 :
                 <div className="flex flex-row gap-2 flex-wrap justify-evenly">
                     
-                    {/* <ProductFilterContainer sortedBy={sortedBy} ascending={ascending} pagination={pagination} /> */}
                     <ProductBrowseContainer sortedBy={sortedBy} sortOrder={sortOrder} limit={limit} offset={offset} products={products} setSortedBy={setSortedBy} setSortOrder={setSortOrder} setLimit={setLimit} setOffset={setOffset} router={router} />
                 </div>
         }

@@ -47,6 +47,8 @@ export default function AccountMainPage() {
 
     return (
         <div id="p-content" className="py-4">
+            <h1 className="text-4xl font-bold text-center py-3">Account</h1>
+
             {error ? 
             <p className="text-center text-2xl">{error}</p>
             : 
@@ -54,7 +56,6 @@ export default function AccountMainPage() {
                 ? <p className="text-center text-3xl">Loading...</p>
                 :
                     <div id="profile-wrapper" className="">
-                        <h1 className="text-4xl font-bold text-center py-3">Account</h1>
                         <div className="flex flex-col items-center">
                             <img className="rounded-full w-32 h-32" src={photoUrl} alt="Profile picture" />
                             <h2 className="text-2xl font-bold">{firstName} {lastName}</h2>

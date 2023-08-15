@@ -155,3 +155,28 @@ func GetProductById(
 		product,
 	)
 }
+
+// get random products
+func GetRandomProducts(
+	c *gin.Context,
+	db *gorm.DB,
+) {
+
+	// get number of product from params
+	numberOfProducts, err := strconv.Atoi(c.Param("number"))
+	if err != nil || numberOfProducts < 1 || numberOfProducts > 30 {
+		numberOfProducts = 20
+	}
+
+	// create a new product repository
+	productRepo := repositories.NewProductRepository(db)
+
+	// get the product
+	products, err := productRepo.GetRandomProducts(numberOfProducts)
+
+	// return the product
+	c.JSON(
+		http.StatusOK,
+		products,
+	)
+}

@@ -12,17 +12,17 @@ export default function TrendingProductsContainer(
                 {productsArray.map((productData) => {
                     return (
                         <Link href={productData.productLink}>
-                        <div className="w-32 mx-auto p-2 dark:hover:shadow-white hover:shadow-lg hover:shadow-zinc-500 ">
-                            <Image width={120} height={120} alt={productData.productName} className="w-28 rounded-md mx-auto" src={
-                                productData.productImageSrc
-                            } />
-                            <p className="text-md text-center">
-                                {productData.productName}
-                            </p>
-                            <p className="text-md text-center font-bold">
-                                ${productData.price}
-                            </p>
-                        </div>
+                            <div className="w-32 mx-auto p-2 dark:hover:shadow-white hover:shadow-lg hover:shadow-zinc-500 ">
+                                <Image width={120} height={120} alt={productData.productName} className="w-28 rounded-md mx-auto" src={
+                                    productData.productImageSrc
+                                } />
+                                <p className="text-md text-center">
+                                    {productData.productName}
+                                </p>
+                                <p className="text-md text-center font-bold">
+                                    ${productData.price}
+                                </p>
+                            </div>
                         </Link>
                     )}
                 )}

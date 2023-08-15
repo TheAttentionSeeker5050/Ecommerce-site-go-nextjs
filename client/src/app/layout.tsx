@@ -47,11 +47,15 @@ export default function RootLayout({
      
       {/* create a maintenance mode page component, conditional to environment variable MAINTENANCE_MODE */}
       { process.env.MAINTENANCE_MODE == 'true' ?
-        <MaintenanceModePage /> : 
+        <body>
+          <MaintenanceModePage /> 
+
+        </body>
+        : 
+        <body className='dark:bg-background-dark w-full   bg-background-light dark:text-white p-0'>
       
 
 
-        <body className='dark:bg-background-dark w-full   bg-background-light dark:text-white p-0'>
           <PageDisclaimerComponent ToggleDarkMode={ToggleDarkMode} isDarkMode={isDarkMode} />
 
           <HeaderComponent ToggleDarkMode={ToggleDarkMode} isDarkMode={isDarkMode}
