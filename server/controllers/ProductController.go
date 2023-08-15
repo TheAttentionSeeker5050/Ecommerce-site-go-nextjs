@@ -164,13 +164,8 @@ func GetRandomProducts(
 
 	// get number of product from params
 	numberOfProducts, err := strconv.Atoi(c.Param("number"))
-	if err != nil {
-		c.JSON(
-			http.StatusBadRequest,
-			gin.H{
-				"error": "Invalid params",
-			},
-		)
+	if err != nil || numberOfProducts < 1 || numberOfProducts > 30 {
+		numberOfProducts = 20
 	}
 
 	// create a new product repository
