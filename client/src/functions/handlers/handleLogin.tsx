@@ -55,7 +55,7 @@ export const handleLogin = async (
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Accept': 'application/json',
+                    // 'Accept': 'application/json',
                     'Access-Control-Allow-Origin': controlOrigin,
                 },
                 body: JSON.stringify(loginData),

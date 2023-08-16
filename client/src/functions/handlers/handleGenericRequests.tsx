@@ -18,7 +18,7 @@ export const handleGetRequests = async (
             headers: {
                 "Content-Type": "application/json",
                 "Access-Control-Allow-Origin": corsOrigin,
-                'Accept': 'application/json',
+                // 'Accept': 'application/json',
             },
         }
     )

@@ -1,6 +1,6 @@
 // api handler for getting products requests
 
-import { getServerRequestURL } from "@/utils/routeUtils";
+import { getCorsOrigin, getServerRequestURL } from "@/utils/routeUtils";
 
 export async function getProductsRequest(
     {filters, limit, offset, sortedBy, sortOrder, category, petType}: {filters?: string[], limit?: number, offset?: number, sortedBy?: string, sortOrder?: string, category?: string, petType?: string}
@@ -69,9 +69,19 @@ export async function getProductsRequest(
 
     // add query search parameters to the query string if they are provided
     // using filters object array and other handler function params
+    
+    // create a control origin header based on environment type
+    let controlOrigin = getCorsOrigin();
 
     // make the request
-    const response = await fetch(queryString);
+    const response = await fetch(queryString, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                "Access-Control-Allow-Origin": controlOrigin,
+            },
+        }
+        );
     
     // get the data
     const data = await response.json();

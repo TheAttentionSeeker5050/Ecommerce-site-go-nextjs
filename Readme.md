@@ -4,38 +4,34 @@ This project is an e-commerce application built with Next.js and Golang Gin.
 
 ## Description
 
-The e-commerce project is a full-stack application that allows users to browse and purchase products online. The front-end is developed using Next.js, a popular React framework for server-side rendering and building user interfaces. The back-end is powered by Golang Gin, a lightweight web framework for building APIs and handling business logic.
+The e-commerce project allows users to browse and purchase products online. The front-end is developed using Next.js, a popular React framework for server-side rendering and building user interfaces. The back-end is powered by Golang Gin, a lightweight web framework for building APIs and handling business logic. This ecommerce should sell pet supplies.
 
 ## Features
-
-- User authentication and registration
-- Product browsing and searching
-- Shopping cart functionality
-- Checkout and payment integration
-- Order management
-- Admin panel for managing products, orders, and users
+- The user can register or authenticate either using local account credentials or one of our allowed OAuth 2.0 Providers (Github and Google) 
+- User can browse products by different search methods. On the current version products can be searched by functional category (food, collars, beddings, feeders, etc.), and by pet type (It is a pet shop, so the products can be categorized by the kind of pet they should be used on)
+- Products can also be sorted. On current version they can be sorted by price (ascending and descending) and the search results are paginated.
+- Users can add products to the shopping cart. The products are stored by default on a redux store. For authenticated users with an open session, the shopping cart can automatically update to and from the database. This will work also for a hard reload of the page (f5), meaning they will still get their shopping cart info. 
+- Checkout and payment integration is still not implemented in current version.
+- Order management still not implemented in current version.
 
 ## Folder Structure
 
-The e-commerce project consists of a client-side application built with Next.js and a server-side application built with Golang Gin. The client folder contains all the front-end code, including the public assets and source code. The server folder contains the back-end code, organized into various subdirectories.
+The e-commerce project consists of a client-side application built with Next.js and a server-side application built with Golang Gin. They run on separate containers composed using docker compose. The folders are arranged in the following way:
 
 
 - client
     - public/
     - (client configuration files)
     - src/
-        - pages/
+        - app/ 
         - components/
-        - api/
+        - functions/
             - handlers/
-            - middlewares/
             - validators/
-        - routes/
+        - data/
+            - redux/
+                - our redux store reducers and thunks
         - utils/
-        - types/
-            - index.ts
-        - App.tsx
-        - index.tsx
 
     
     
@@ -58,17 +54,14 @@ The e-commerce project consists of a client-side application built with Next.js 
 The client folder contains the client-side application developed with Next.js. This folder structure follows the conventions of Next.js applications and can be customized based on your specific requirements. It includes the public folder for static assets and the src folder for source code files. Explanation of the updated project structure:
 
 - src: This is the root directory for your source code.
-- pages: This directory contains the page components for your application. Each .tsx file within this directory represents a page in your Next.js application. You can create additional pages as needed.
-- components: This directory is for reusable UI components that are used across multiple pages or sections of your application.
-- api: This directory contains the API-related files and components.
+- pages: This directory contains the app route components for your application. Each page.tsx file within this directory represents a route in your Next.js application. You can create additional pages as needed.
+- components: This directory is for reusable UI components and wrappers that are used across multiple pages or sections of your application.
+- functions: This directory contains the API-related files and components.
     - handlers: This directory contains the request handlers for different API routes. You can have separate handler files for different entities or resource types (e.g., userHandler.ts, productHandler.ts, etc.).
-    - middlewares: This directory contains the middleware functions for handling common tasks such as authentication, input validation, error handling, etc.
     - validators: This directory contains the validation functions or modules for input validation. You can have separate validator files for different entities or resource types (e.g., userValidator.ts, productValidator.ts, etc.).
-- routes: This directory contains the route configuration files for mapping URLs to their respective handlers. The index.ts file can serve as the main entry point for defining and exporting the routes.
+- data: mainly to store redux stuff
 - utils: This directory can be used to store utility functions or helper modules that are used throughout your application.
-- types: This directory can be used to define TypeScript type declarations for your application. The index.ts file can serve as a central place to export all your custom type definitions.
-- App.tsx: This is the main component that serves as the entry point for your Next.js application. It typically includes the layout structure and wraps around the pages.
-- index.tsx: This is the file responsible for rendering the Next.js application and mounting it into the HTML document.
+
 
 
 ### Server
