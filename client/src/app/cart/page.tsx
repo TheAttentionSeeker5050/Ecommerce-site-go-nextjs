@@ -155,7 +155,7 @@ export default function ShoppingCartPage() {
                                     <p className="text-md text-right col-start-5 col-span-3 row-start-2 row-span-1 flex flex-row gap-3 justify-end">
                                         Quantity: 
                                         {/* add an input box here */}
-                                        <input className="w-16 h-6 border-2 border-black rounded-lg p-3" type="number" value={item.quantity} onChange={(event) => handleGetCartItemQuantity(event, item.productId)}/>
+                                        <input className="w-16 h-6 border-2 border-black dark:text-black dark:border-white rounded-lg p-3" type="number" value={item.quantity} onChange={(event) => handleGetCartItemQuantity(event, item.productId)}/>
                                     </p>
                                 </div>
                             )
