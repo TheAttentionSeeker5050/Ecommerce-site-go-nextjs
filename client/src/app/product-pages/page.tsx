@@ -67,7 +67,6 @@ export default function ProductQuickBrowsePage() {
                 <div className="text-center">Loading...</div>
                 :
                 <div className="flex flex-row gap-2 flex-wrap justify-evenly">
-                    {/* <ProductFilterContainer sortedBy={sortedBy} ascending={ascending} pagination={pagination} /> */}
                     <ProductBrowseContainer sortedBy={sortedBy} sortOrder={sortOrder} limit={limit} offset={offset} products={products} setSortedBy={setSortedBy} setSortOrder={setSortOrder} setLimit={setLimit} setOffset={setOffset} router={router} />
                 </div>
             }

@@ -24,6 +24,7 @@ type ProductUnit struct {
 	gorm.Model
 	ID        uint64  `gorm:"primaryKey; autoIncrement" json:"id"`
 	ProductID Product `gorm:"foreignkey:ID; not null; onDelete:CASCADE" json:"product_id"`
+	UnitStatus string  `gorm:"size:255; default:available not null" json:"unit_status"`
 }
 
 type ProductCategory struct {

@@ -31,6 +31,7 @@ func ConnectDB() (*gorm.DB, error) {
 
 	// run the migrations
 	db.AutoMigrate(
+		&models.ShoppingCartItem{},
 		&models.Address{},
 		&models.User{},
 		&models.UserSession{},
@@ -38,11 +39,10 @@ func ConnectDB() (*gorm.DB, error) {
 		&models.ProductPetType{},
 		&models.Metadata{},
 		&models.Product{},
+		&models.OnSalePromo{},
+		&models.OnSalePromoItem{},
 		// &models.Wishlist{},
 		// &models.ProductUnit{},
-		// &models.ShoppingCartItem{},
-		// &models.OnSalePromo{},
-		// &models.OnSalePromoItem{},
 		// &models.Order{},
 		// &models.OrderItem{},
 	)

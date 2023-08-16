@@ -65,6 +65,23 @@ func (productRepo *ProductRepository) GetSingleProductByID(id int) (*models.Prod
 	return product, nil
 }
 
+// get random products
+func (productRepo *ProductRepository) GetRandomProducts(limit int) ([]*models.Product, error) {
+	// create a list of products
+	products := []*models.Product{}
+
+	// get the products
+	result := productRepo.DB.Order("rand()").Limit(limit).Find(&products)
+
+	// check for errors
+	if result.Error != nil {
+		return nil, result.Error
+	}
+
+	// return the products
+	return products, nil
+}
+
 // get products by category
 func (productRepo *ProductRepository) GetProductsByCategory(
 	categoryName string,

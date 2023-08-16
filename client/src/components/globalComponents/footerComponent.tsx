@@ -13,10 +13,8 @@ export default function FooterComponent(
             <div className='container-lg flex flex-wrap  py-6 gap-3 justify-evenly '>
                 <div>
                     <p className='font-semibold text-lg'>Our Store</p>
-                    {/* have a fake address here */}
                     <p>1234 Fake Street</p>
                     <p>City, State 12345</p>
-                    {/* fake phone number */}
                     <p>123-456-7890</p>
                 </div>
                 <div>

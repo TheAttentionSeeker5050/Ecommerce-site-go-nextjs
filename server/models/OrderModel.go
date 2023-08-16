@@ -13,14 +13,16 @@ type Order struct {
 	Taxes               float32     `json:"taxes"`
 	ExpectedArrivalDate string      `json:"expected_arrival_date"`
 	ArrivalDate         string      `json:"arrival_date"`
-	OrderItems          []OrderItem `gorm:"foreignkey:ID; not null; onDelete:CASCADE" json:"order_items"`
+	OrderItems          []OrderItem `json:"order_items"`
 }
 
 // the order item model struct
 type OrderItem struct {
 	ID        uint    `gorm:"primaryKey; auto_increment" json:"id"`
-	ProductID Product `gorm:"foreignkey:ID; not null; onDelete:CASCADE" json:"product_id"`
-	Quantity  uint    `json:"quantity"`
+	ProductID int	`json:"product_id"`
+	Product Product 
+	OrderID int	`json:"order_id"`
+	Quantity  int    `json:"quantity"`
 	UnitPrice float32 `json:"unit_price"`
 	Discount  float32 `json:"discount"`
 	// OrderID   Order   `gorm:"foreignkey:ID; not null; onDelete:CASCADE" json:"order_id"`

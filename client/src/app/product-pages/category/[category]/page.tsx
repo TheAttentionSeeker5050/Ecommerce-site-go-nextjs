@@ -2,7 +2,6 @@
 import { getProductsRequest } from "@/functions/handlers/handleGetProductsRequests";
 // import CategoriesBrowseContainer from "@/components/containers/products-browse/categoriesBrowseContainer";
 import ProductBrowseContainer from "@/components/containers/products-browse/productBrowseContainer";
-// import ProductFilterContainer from "@/components/containers/products-browse/productFilterContainer";
 import { getProductFeaturesFromQueryString } from "@/utils/urlSearchFilters";
 import { useEffect, useState } from "react";
 
