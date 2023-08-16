@@ -149,7 +149,7 @@ export default function ShoppingCartPage() {
                                     <button className="text-md col-start-1 col-span-2  row-start-2 row-span-1 mr-auto text-white rounded-full px-4 py-1.5 my-2 bg-danger " onClick={() => handleDeleteCartItem(item.productId)}> 
                                         Delete
                                     </button>
-                                    <p className="text-xl text-brand-vivid text-right col-start-6 col-span-2 row-start-1 row-span-1 my-auto">
+                                    <p className="text-xl text-brand-electric text-right col-start-6 col-span-2 row-start-1 row-span-1 my-auto">
                                         {formatCurrency(item.productPrice*item.quantity)}
                                     </p>
                                     <p className="text-md text-right col-start-5 col-span-3 row-start-2 row-span-1 flex flex-row gap-3 justify-end">
