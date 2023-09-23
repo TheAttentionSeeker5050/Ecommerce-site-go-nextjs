@@ -7,6 +7,7 @@ import (
 	"workspace/models"
 	"workspace/repositories"
 	"strconv"
+	"fmt"
 )
 
 // create a new shopping cart return structure, it will be { productId:int, productPrice:float, productName:string, quantity:int }
@@ -31,7 +32,10 @@ func GetShoppingCartItemsController(
 	shoppingCartRepo := repositories.NewShoppingCartRepository(db)
 	shoppingCartItems, err := shoppingCartRepo.GetAllProductsInShoppingCart(userID)
 
+	fmt.Println("shoppingCartItems: ", shoppingCartItems)
+	
 	if err != nil {
+		fmt.Println("error on retrieving shopping cart items: ", err)
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"error": "Failed to get shopping cart items",
 		})

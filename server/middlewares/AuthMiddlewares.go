@@ -4,6 +4,7 @@ import (
 	"net/http"
 	"workspace/utils"
 	"os"
+	"fmt"
 
 	"github.com/gin-gonic/gin"
 )
@@ -29,20 +30,28 @@ func TokenAuthMiddleware() gin.HandlerFunc {
 			return
 		}
 
+		// log
+		fmt.Println("Access token: ", accessToken)
+
 		// validate the refresh token
 		tokenUserClaims, err := utils.ValidateJWT(accessToken)
 		// check for errors if no errors then the token is valid return success middleware
 		if err == nil && tokenUserClaims.Email != "" && tokenUserClaims.ID != "" {
 			// set the token email and user id in claims to the context
+			// log
+			fmt.Println("Access token validated successfully")
 			c.Set("email", tokenUserClaims.Email)
 			c.Set("id", tokenUserClaims.ID)
 			c.Next()
+			fmt.Println("email: ", c.GetString("email"))
 			return
 		} else {
 			// delete cookies
 			c.SetCookie("access_token", "", -1, "/", os.Getenv("COOKIE_DOMAIN"), false, true)
 			c.SetCookie("refresh_token", "", -1, "/", os.Getenv("COOKIE_DOMAIN"), false, true)
 			c.SetCookie("logged_in", "", -1, "/", os.Getenv("COOKIE_DOMAIN"), false, true)
+
+			fmt.Println("Access token validation failed: ", err.Error())
 
 			// return error response
 			c.JSON(http.StatusForbidden, gin.H{

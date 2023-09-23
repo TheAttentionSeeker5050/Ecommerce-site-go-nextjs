@@ -1,4 +1,14 @@
+version: '3'
 services:
+  nginx:
+    image: nginx:latest
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx.local.conf:/etc/nginx/nginx.conf  # Updated here
+    depends_on:
+      - server
+      - client
   server:
     build:
       context: ./server
@@ -6,7 +16,8 @@ services:
     ports:
       - 8081:8080
     depends_on: 
-      - db
+      db:
+        condition: service_healthy
     env_file:
       - server/.env
       - server/production.env
@@ -23,6 +34,10 @@ services:
       - 3307:3306
     volumes:
       - ./dbdata:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      timeout: 20s
+      retries: 10
   client:
     build:
       context: ./client

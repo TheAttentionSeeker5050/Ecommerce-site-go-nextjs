@@ -15,12 +15,14 @@ RUN rm -rf node_modules
 # Install dependencies
 RUN npm install
 
+# # Run in dev mode
+# RUN npm run dev
 
-# Build the Next.js application
-RUN npm run build
+# # Build the Next.js application
+# RUN npm run build
 
-# Remove development dependencies
-RUN npm prune --production
+# # Remove development dependencies
+# RUN npm prune --production
 
 # # # Use a smaller base image for the production image
 # FROM node:18.15.0-alpine

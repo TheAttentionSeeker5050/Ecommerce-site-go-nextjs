@@ -4,9 +4,9 @@ require('dotenv').config();
 const nextConfig = {
   reactStrictMode: true,
   env: {
-    API_URL:'http://127.0.0.1:8081/v1',
+    API_URL:'http://server.e-commerce.local/v1',
     API_URL_REMOTE:'https://ecommerce-x.alligatorcode.pro/api/v1',
-    CLIENT_URL:'http://127.0.0.1:3001',
+    CLIENT_URL:'http://client.e-commerce.local',
     CLIENT_URL_REMOTE:'https://ecommerce-x.alligatorcode.pro',
     API_USER_SUBDIR:'user',
     MAINTENANCE_MODE: 'false',
@@ -19,7 +19,7 @@ const nextConfig = {
     // MAINTENANCE_MODE: 'true',
   },
   images: {
-    domains: ['localhost', 'currentdevelopment.local', 'ecommerce-x.alligatorcode.pro', "cdn.pixabay.com", "imagedelivery.net"],
+    domains: ['localhost', 'currentdevelopment.local', 'e-commerce.local', "server.e-commerce.local",'ecommerce-x.alligatorcode.pro', "cdn.pixabay.com", "imagedelivery.net"],
   },
   experimental: {
     serverActions: true,
