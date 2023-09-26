@@ -4,6 +4,7 @@ import (
 	"net/http"
 	"workspace/utils"
 	"os"
+	"fmt"
 
 	"github.com/gin-gonic/gin"
 )
@@ -13,6 +14,9 @@ func TokenAuthMiddleware() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		// first get the refresh_token from the cookies
 		accessToken, err := c.Cookie("access_token")
+
+		fmt.Println("Access token on Auth Middleware: ", accessToken)
+
 		// check for errors
 		if err != nil || accessToken == "" {
 			// delete cookies
