@@ -14,8 +14,10 @@ import (
 func main() {
 	// define the type of environment
 	environmentString := os.Getenv("ENVIRONMENT")
+	
 	// check for errors
 	if environmentString == "" {
+		fmt.Println("Environment string is empty, defaulting to development")
 		environmentString = "development"
 	}
 

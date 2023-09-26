@@ -19,6 +19,9 @@ RUN go mod download
 ENV ENV_TYPE=development
 # ENV ENV_TYPE=production
 
+# set environment variable ENVIRONMENT
+ENV ENVIRONMENT=development
+
 # Build the Go application to make executable binary
 RUN go build -o myWebServer
 

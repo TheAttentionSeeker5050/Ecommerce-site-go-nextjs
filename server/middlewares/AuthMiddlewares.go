@@ -17,12 +17,16 @@ func TokenAuthMiddleware() gin.HandlerFunc {
 
 		fmt.Println("Access token on Auth Middleware: ", accessToken)
 
+		
+
 		// check for errors
-		if err != nil || accessToken == "" {
+		if err != nil || accessToken == ""  {
+			fmt.Println("Error on Auth Middleware: ", err)
+
 			// delete cookies
-			c.SetCookie("access_token", "", -1, "/", os.Getenv("COOKIE_DOMAIN"), false, true)
-			c.SetCookie("refresh_token", "", -1, "/", os.Getenv("COOKIE_DOMAIN"), false, true)
-			c.SetCookie("logged_in", "", -1, "/", os.Getenv("COOKIE_DOMAIN"), false, true)
+			c.SetCookie("access_token", "", -1, "/", os.Getenv("COOKIE_DOMAIN"), false, false)
+			c.SetCookie("refresh_token", "", -1, "/", os.Getenv("COOKIE_DOMAIN"), false, false)
+			c.SetCookie("logged_in", "", -1, "/", os.Getenv("COOKIE_DOMAIN"), false, false)
 
 			// return error response
 			c.JSON(http.StatusUnauthorized, gin.H{ // status unauthorized
