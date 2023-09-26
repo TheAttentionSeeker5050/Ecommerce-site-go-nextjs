@@ -4,6 +4,7 @@ import (
 	"net/http"
 	"workspace/utils"
 	"os"
+	"fmt"
 
 	"github.com/gin-gonic/gin"
 )
@@ -13,12 +14,19 @@ func TokenAuthMiddleware() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		// first get the refresh_token from the cookies
 		accessToken, err := c.Cookie("access_token")
+
+		fmt.Println("Access token on Auth Middleware: ", accessToken)
+
+		
+
 		// check for errors
-		if err != nil || accessToken == "" {
+		if err != nil || accessToken == ""  {
+			fmt.Println("Error on Auth Middleware: ", err)
+
 			// delete cookies
-			c.SetCookie("access_token", "", -1, "/", os.Getenv("COOKIE_DOMAIN"), false, true)
-			c.SetCookie("refresh_token", "", -1, "/", os.Getenv("COOKIE_DOMAIN"), false, true)
-			c.SetCookie("logged_in", "", -1, "/", os.Getenv("COOKIE_DOMAIN"), false, true)
+			c.SetCookie("access_token", "", -1, "/", os.Getenv("COOKIE_DOMAIN"), false, false)
+			c.SetCookie("refresh_token", "", -1, "/", os.Getenv("COOKIE_DOMAIN"), false, false)
+			c.SetCookie("logged_in", "", -1, "/", os.Getenv("COOKIE_DOMAIN"), false, false)
 
 			// return error response
 			c.JSON(http.StatusUnauthorized, gin.H{ // status unauthorized

@@ -134,10 +134,17 @@ func LoginController(
 		accessToken,
 	)
 
+	fmt.Println("Environment type: ", os.Getenv("ENV_TYPE"))
+
+	// depending of production or development mode, set the cookie params
+	var isSecureCookie bool = utils.GetSecureCookie(os.Getenv("ENV_TYPE") == "production")
+	var isHttpOnlyCookie bool = utils.GetHttpOnlyCookie(os.Getenv("ENV_TYPE") == "production")
+
 	// delete the refresh token from the cookie
-	c.SetCookie("refresh_token", refreshToken, 6*60*60, "/", os.Getenv("CLIENT_ORIGIN_URL"), false, true)
-	c.SetCookie("access_token", accessToken, 6*60*60, "/", os.Getenv("CLIENT_ORIGIN_URL"), false, true)
-	c.SetCookie("logged_in", "true", 6*60*60, "/", os.Getenv("CLIENT_ORIGIN_URL"), false, true)
+	c.SetCookie("refresh_token", refreshToken, 6*60*60, "/", os.Getenv("COOKIE_DOMAIN"), isSecureCookie, isHttpOnlyCookie)
+	c.SetCookie("access_token", accessToken, 6*60*60, "/", os.Getenv("COOKIE_DOMAIN"), isSecureCookie, isHttpOnlyCookie)
+	c.SetCookie("logged_in", "true", 6*60*60, "/", os.Getenv("COOKIE_DOMAIN"), isSecureCookie, isHttpOnlyCookie)
+
 
 	c.JSON(http.StatusOK, gin.H{
 		"message":      "Successfully logged in",
@@ -145,7 +152,7 @@ func LoginController(
 		"refreshToken": refreshToken,
 		"provider":     "local",
 	})
-	return
+	// return
 }
 
 func ChangeEmailController(
