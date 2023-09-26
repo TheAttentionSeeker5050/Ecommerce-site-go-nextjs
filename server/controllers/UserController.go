@@ -135,9 +135,9 @@ func LoginController(
 	)
 
 	// delete the refresh token from the cookie
-	c.SetCookie("refresh_token", refreshToken, 6*60*60, "/", os.Getenv("CLIENT_ORIGIN_URL"), false, true)
-	c.SetCookie("access_token", accessToken, 6*60*60, "/", os.Getenv("CLIENT_ORIGIN_URL"), false, true)
-	c.SetCookie("logged_in", "true", 6*60*60, "/", os.Getenv("CLIENT_ORIGIN_URL"), false, true)
+	c.SetCookie("refresh_token", refreshToken, 6*60*60, "/", os.Getenv("COOKIE_DOMAIN"), false, false)
+	c.SetCookie("access_token", accessToken, 6*60*60, "/", os.Getenv("COOKIE_DOMAIN"), false, false)
+	c.SetCookie("logged_in", "true", 6*60*60, "/", os.Getenv("COOKIE_DOMAIN"), false, false)
 
 	c.JSON(http.StatusOK, gin.H{
 		"message":      "Successfully logged in",
