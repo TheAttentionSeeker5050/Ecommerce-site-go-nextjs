@@ -13,3 +13,9 @@ client/Dockerfile
 /server/*.pem
 /server/*.pem.pub
 /server/*.pub
+production.yml
+
+Dockerfile.*
+Dockerfile
+
+*.pem
