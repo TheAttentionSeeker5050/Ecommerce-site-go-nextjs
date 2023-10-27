@@ -6,7 +6,7 @@ services:
       context: ./server
       dockerfile: Dockerfile.prod
     labels:
-      - "traefik.http.routers.ecommerce-server.rule=Host(`server-ecommerce-x.alligatorcode.pro/api`)"
+      - "traefik.http.routers.ecommerce-server.rule=Host(`ecommerce-x.alligatorcode.pro/api`)"
       - "traefik.http.routers.ecommerce-server.entrypoints=websecure"
       - "traefik.http.routers.ecommerce-server.tls.certresolver=myresolver"
     depends_on: 
