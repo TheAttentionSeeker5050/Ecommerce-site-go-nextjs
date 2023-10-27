@@ -1,10 +1,15 @@
+version: '3'
+
 services:
   server:
     build:
       context: ./server
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.prod
+    container_name: server_ecommerce_x
+    networks:
+      - main_network
     ports:
-      - 8081:8080
+      - 8082:8080
     depends_on: 
       db:
         condition: service_healthy
@@ -12,30 +17,41 @@ services:
       - server/.env
       - server/production.env
       - server/development.env
-  db:
-    image: mysql:8.0
-    restart: always
-    environment:
-      - MYSQL_ROOT_PASSWORD=mysecurepassword
-      - MYSQL_DATABASE=ecommerce_db
-      - MYSQL_USER=nicolas
-      - MYSQL_PASSWORD=mysecurepassword
-    ports:
-      - 3307:3306
-    volumes:
-      - ./dbdata:/var/lib/mysql
-    healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
-      timeout: 20s
-      retries: 10
+    db:
+      image: mysql:8.0
+      restart: always
+      container_name: db_ecommerce_x
+      environment:
+        - MYSQL_ROOT_PASSWORD=mysecurepassword
+        - MYSQL_DATABASE=ecommerce_db
+        - MYSQL_USER=nicolas
+        - MYSQL_PASSWORD=mysecurepassword
+      ports:
+        - 3307:3306
+      volumes:
+        - ./dbdata:/var/lib/mysql
+      healthcheck:
+        test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+        timeout: 20s
+        retries: 10
+      networks:
+        - main_network
+
   client:
     build:
       context: ./client
-      dockerfile: Dockerfile
-    restart: always
+      dockerfile: Dockerfile.prod
+    container_name: client_ecommerce_x
+    networks:
+      - main_network
     ports:
       - 3001:3000
     depends_on:
-      - server
+      - server_ecommerce_x
+
+networks:
+  main_network:
+    external: true
+
 volumes:
   dbdata:
