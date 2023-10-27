@@ -6,11 +6,11 @@ services:
       context: ./server
       dockerfile: Dockerfile.prod
     labels:
-      - "traefik.http.routers.ecommerce-server.rule=Host(`ecommerce-x.alligatorcode.pro/api`)"
+      - "traefik.http.routers.ecommerce-server.rule=Host(`ecommerce-x-server.alligatorcode.pro`)"
       - "traefik.http.routers.ecommerce-server.entrypoints=websecure"
       - "traefik.http.routers.ecommerce-server.tls.certresolver=myresolver"
     depends_on: 
-      db:
+      ecommerce-db:
         condition: service_healthy
     networks:
       - traefik_main_network
@@ -18,7 +18,7 @@ services:
       - server/.env
       - server/production.env
 
-  db:
+  ecommerce-db:
     image: mysql:8.0
     restart: always
     environment:
