@@ -28,7 +28,7 @@ RUN go build -o myWebServer
 # Set environment variables
 # this will come handy later
 
-EXPOSE 8081
+# EXPOSE 8081
 
 # Run the Go application
 CMD ["./myWebServer"]

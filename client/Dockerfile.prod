@@ -38,7 +38,7 @@ ENV NODE_ENV=production
 # ENV NODE_ENV=development
 
 # Expose the desired port
-EXPOSE 3001
+# EXPOSE 3001
 
 # Start the Next.js application
 CMD ["npm", "start"]
