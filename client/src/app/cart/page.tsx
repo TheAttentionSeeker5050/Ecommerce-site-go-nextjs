@@ -34,11 +34,11 @@ export default function ShoppingCartPage() {
 
             const response = await fetch(url,{
                 method: "GET",
-                mode: "cors",
+                // mode: "cors",
                 credentials: "include",
                 headers: {
                     'Content-Type': 'application/json',
-                    'Access-Control-Allow-Origin': corsOrigin,
+                    // 'Access-Control-Allow-Origin': corsOrigin,
                 },
             }); // Replace with your API endpoint
 

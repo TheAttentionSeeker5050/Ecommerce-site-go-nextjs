@@ -78,7 +78,7 @@ export async function getProductsRequest(
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
-                "Access-Control-Allow-Origin": controlOrigin,
+                // "Access-Control-Allow-Origin": controlOrigin,
             },
         }
         );

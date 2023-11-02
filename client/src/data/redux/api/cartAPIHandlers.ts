@@ -15,11 +15,11 @@ export const fetchShoppingCart = createAsyncThunk("shoppingCart/fetchShoppingCar
 
         const response = await fetch(url,{
             method: "GET",
-            mode: "cors",
+            // mode: "cors",
             credentials: "include",
             headers: {
-                'Content-Type': 'application/json',
-                'Access-Control-Allow-Origin': corsOrigin,
+                "Content-Type": "application/json",
+                // 'Access-Control-Allow-Origin': corsOrigin,
             },
         }); // Replace with your API endpoint
 
@@ -30,12 +30,12 @@ export const fetchShoppingCart = createAsyncThunk("shoppingCart/fetchShoppingCar
 
 
         // declare a payload variable of structure {productId: string, quantity: number}
-        const payload = data.shoppingCartItems.map((item:any) => ({
+        const payload = await data.shoppingCartItems.map((item:any) => ({
           productId: item.productId.toString(),
           quantity: item.quantity,
         }));
 
-        dispatch(setShoppingCart(payload));
+        await dispatch(setShoppingCart(payload));
 
     } catch (error) {
         console.error("Error fetching shopping cart:", error);
@@ -78,11 +78,11 @@ export const updateShoppingCart = createAsyncThunk(
         const response = await fetch(url, {
           method: "POST",
           // mode: "no-cors",
-          mode: "cors",
+          // mode: "cors",
           credentials: "include",
           headers: {
             'Content-Type': 'application/json',
-            'Access-Control-Allow-Origin': corsOrigin,
+            // 'Access-Control-Allow-Origin': corsOrigin,
           },
           body: JSON.stringify(payload),
         });

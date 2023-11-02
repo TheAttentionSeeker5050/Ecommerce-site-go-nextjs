@@ -13,12 +13,10 @@ export const handleGetRequests = async (
     const response = await fetch(url,
         {
             method: "GET",
-            mode: "cors",
             credentials: "include",
             headers: {
                 "Content-Type": "application/json",
-                "Access-Control-Allow-Origin": corsOrigin,
-                // 'Accept': 'application/json',
+                // "Access-Control-Allow-Origin": corsOrigin,
             },
         }
     )
@@ -48,12 +46,12 @@ export const handlePostRequests = async (
     const response = await fetch(url,
         {
             method: "POST",
-            mode: "cors",
+            // mode: "cors",
             credentials: "include",
             headers: {
                 "Content-Type": "application/json",
-                "Access-Control-Allow-Origin": corsOrigin,
-                'Accept': 'application/json',
+                // "Access-Control-Allow-Origin": corsOrigin,
+                // 'Accept': 'application/json',
             },
             body: requestBody ? JSON.stringify(requestBody) : null,
         }

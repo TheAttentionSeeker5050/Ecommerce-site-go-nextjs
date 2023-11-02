@@ -5,8 +5,10 @@ const nextConfig = {
   reactStrictMode: true,
   env: {
     API_URL:'http://server.e-commerce.local/v1',
-    API_URL_REMOTE:'https://ecommerce-x.alligatorcode.pro/api/v1',
+    API_URL_REMOTE:'https://ecommerce-x-server.alligatorcode.pro/v1',
+    // API_URL_REMOTE:'http://64.225.57.224:8082/v1',
     CLIENT_URL:'http://client.e-commerce.local',
+    // CLIENT_URL_REMOTE:'http://64.225.57.224:3001',
     CLIENT_URL_REMOTE:'https://ecommerce-x.alligatorcode.pro',
     API_USER_SUBDIR:'user',
     MAINTENANCE_MODE: 'false',

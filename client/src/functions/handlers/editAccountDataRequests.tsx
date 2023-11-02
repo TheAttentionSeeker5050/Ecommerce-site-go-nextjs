@@ -17,11 +17,11 @@ export const handleChangeEmail = async (
     // make the request using the token in cookies
     const response = await fetch(url, {
         method: "POST",
-        mode: "cors",
+        // mode: "cors",
         credentials: "include",
         headers: {
             "Content-Type": "application/json",
-            "Access-Control-Allow-Origin": corsOrigin,
+            // "Access-Control-Allow-Origin": corsOrigin,
         },
         body: JSON.stringify({
             email: newEmail,
