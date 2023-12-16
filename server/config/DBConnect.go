@@ -41,8 +41,8 @@ func ConnectDB() (*gorm.DB, error) {
 		&models.Product{},
 		&models.OnSalePromo{},
 		&models.OnSalePromoItem{},
-		// &models.Wishlist{},
-		// &models.ProductUnit{},
+		&models.Wishlist{},
+		&models.ProductUnit{},
 		// &models.Order{},
 		// &models.OrderItem{},
 	)

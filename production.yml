@@ -7,31 +7,31 @@ services:
       dockerfile: Dockerfile.prod
     ports:
       - 8082:8080
-    depends_on: 
+    # depends_on: 
       # - db
-      db:
-        condition: service_healthy
+      # db:
+      #   condition: service_healthy
     env_file:
       - server/.env
       - server/production.env
       # - server/development.env
-  db:
-    image: mysql:8.0
-    restart: always
-    environment:
-      - MYSQL_ROOT_PASSWORD=mysecurepassword
-      - MYSQL_DATABASE=ecommerce_db
-      - MYSQL_USER=nicolas
-      - MYSQL_PASSWORD=mysecurepassword
-    ports:
-      - 3307:3306
-    volumes:
-      - ./dbdata:/var/lib/mysql
-    healthcheck:
-      test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
-      interval: 5s
-      timeout: 5s
-      retries: 20
+  # db:
+  #   image: mysql:8.0
+  #   restart: always
+  #   environment:
+  #     - MYSQL_ROOT_PASSWORD=mysecurepassword
+  #     - MYSQL_DATABASE=ecommerce_db
+  #     - MYSQL_USER=nicolas
+  #     - MYSQL_PASSWORD=mysecurepassword
+  #   ports:
+  #     - 3307:3306
+  #   volumes:
+  #     - ./dbdata:/var/lib/mysql
+  #   healthcheck:
+  #     test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
+  #     interval: 5s
+  #     timeout: 5s
+  #     retries: 20
 
   client:
     build:
